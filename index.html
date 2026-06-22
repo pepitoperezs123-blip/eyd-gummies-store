@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E&amp;D — Energía y Bienestar</title>
+  <meta name="description" content="E&D Gomitas de Energía y Bienestar. Fórmula funcional con extractos botánicos y vitaminas. Edición Femme y Homme." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --dark: #0e0e0e;
+      --dark-2: #1a1a1a;
+      --dark-3: #242424;
+      --text: #e8e2d9;
+      --text-muted: #9e9589;
+      --femme: #c97a8e;
+      --homme: #4a7fa5;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Utility ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    .serif { font-family: 'Cormorant Garamond', serif; }
+    .gold { color: var(--gold); }
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+    .divider {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+    }
+    .divider.left { margin-left: 0; }
+    section { padding: 6rem 0; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(14,14,14,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+    }
+    .nav-logo span { font-style: italic; font-weight: 300; font-size: 0.9rem; color: var(--text-muted); display: block; line-height: 1; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 1px; background: var(--text); transition: 0.3s; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: radial-gradient(ellipse at 60% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+                  linear-gradient(180deg, #0e0e0e 0%, #121212 100%);
+      position: relative; overflow: hidden;
+      padding-top: 80px;
+    }
+    #hero::before {
+      content: 'E&D';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30vw;
+      font-weight: 300;
+      color: rgba(201,168,76,0.04);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-content .tag { margin-bottom: 2rem; }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 3rem;
+      line-height: 1.9;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 1rem;
+    }
+    .btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 600;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-badge {
+      position: absolute; bottom: 3rem; right: 3rem;
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .hero-badge strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    /* ── About ── */
+    #nosotros { background: var(--dark-2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+    }
+    .about-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-hexagon {
+      width: 300px; height: 300px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03));
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      color: var(--gold);
+      animation: morphBlob 8s ease-in-out infinite;
+    }
+    @keyframes morphBlob {
+      0%,100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+      50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+    }
+
+    /* ── Productos ── */
+    #productos { background: var(--dark); }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.2;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .product-card {
+      background: var(--dark-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .product-card:hover { transform: translateY(-4px); }
+    .product-card.femme { border-top: 3px solid var(--femme); }
+    .product-card.homme { border-top: 3px solid var(--homme); }
+    .product-card.femme:hover { border-color: var(--femme); }
+    .product-card.homme:hover { border-color: var(--homme); }
+    .product-edition {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .femme .product-edition { color: var(--femme); }
+    .homme .product-edition { color: var(--homme); }
+    .product-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .product-presentation {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .product-price-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .product-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 1.5rem;
+      margin-top: 1.5rem;
+      line-height: 1.8;
+    }
+    .product-bg {
+      position: absolute;
+      right: -20px; bottom: -20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 9rem;
+      font-weight: 600;
+      opacity: 0.03;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .order-btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .femme .order-btn:hover { border-color: var(--femme); color: var(--femme); }
+    .homme .order-btn:hover { border-color: var(--homme); color: var(--homme); }
+
+    /* ── Ingredientes ── */
+    #ingredientes { background: var(--dark-2); }
+    .ingredients-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .ingredients-intro h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+    .ingredients-intro p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .ingredient-item {
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: 1.5rem;
+      background: rgba(201,168,76,0.02);
+      transition: border-color 0.3s;
+    }
+    .ingredient-item:hover { border-color: rgba(201,168,76,0.3); }
+    .ingredient-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .ingredient-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--gold-light);
+      margin-bottom: 0.4rem;
+    }
+    .ingredient-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Vitaminas ── */
+    #vitaminas { background: var(--dark); }
+    .vitamins-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid rgba(201,168,76,0.15);
+    }
+    .vitamin-cell {
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border-right: 1px solid rgba(201,168,76,0.15);
+      transition: background 0.3s;
+    }
+    .vitamin-cell:last-child { border-right: none; }
+    .vitamin-cell:hover { background: rgba(201,168,76,0.04); }
+    .vitamin-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .vitamin-name {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .vitamin-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Advertencias ── */
+    #advertencias { background: var(--dark-2); }
+    .warnings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .warning-item {
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--dark-3);
+    }
+    .warning-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .warning-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      margin-bottom: 0.6rem;
+    }
+    .warning-text { font-size: 0.78rem; color: var(--text-muted); line-height: 1.8; }
+
+    /* ── Contacto ── */
+    #contacto { background: var(--dark); }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .contact-inner p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 1.2rem 2.5rem;
+      color: var(--gold);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      transition: all 0.3s;
+    }
+    .contact-email:hover {
+      background: rgba(201,168,76,0.05);
+      border-color: var(--gold);
+    }
+    .contact-location {
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark-3);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 3rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .footer-tagline {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .footer-links h4 {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 0.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ── Modales legales ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--dark-2);
+      border: 1px solid rgba(201,168,76,0.2);
+      max-width: 760px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 3rem;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--gold); }
+    .modal h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .modal .divider { margin: 1rem 0; }
+    .modal-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--gold-light);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .modal-body p, .modal-body li {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 0.5rem;
+    }
+    .modal-body ul { padding-left: 1.2rem; }
+    .modal-body li { margin-bottom: 0.4rem; }
+
+    /* ── Cookie Banner ── */
+    #cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--dark-3);
+      border-top: 1px solid rgba(201,168,76,0.2);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      z-index: 200;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      transform: translateY(0);
+      transition: transform 0.4s;
+    }
+    #cookie-banner.hidden { transform: translateY(110%); }
+    #cookie-banner a { color: var(--gold); text-decoration: underline; cursor: pointer; }
+    .cookie-actions { display: flex; gap: 1rem; flex-shrink: 0; }
+    .cookie-btn {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 0.6rem 1.4rem;
+      cursor: pointer;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.2s;
+    }
+    .cookie-accept { background: var(--gold); color: var(--dark); font-weight: 600; }
+    .cookie-accept:hover { background: var(--gold-light); }
+    .cookie-reject { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+    .cookie-reject:hover { border-color: var(--text-muted); color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .about-grid, .ingredients-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { display: none; }
+      .products-grid { grid-template-columns: 1fr; }
+      .vitamins-strip { grid-template-columns: 1fr 1fr; }
+      .vitamin-cell:nth-child(2) { border-right: none; }
+      .vitamin-cell { border-bottom: 1px solid rgba(201,168,76,0.15); }
+      .vitamin-cell:nth-child(3), .vitamin-cell:nth-child(4) { border-bottom: none; }
+      .warnings-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 650px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .ingredients-grid { grid-template-columns: 1fr; }
+      .vitamins-strip { grid-template-columns: 1fr 1fr; }
+      .footer-inner { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .modal { padding: 2rem 1.5rem; }
+    }
+
+    /* ── Scroll animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      E&amp;D
+      <span>Energía &amp; Bienestar</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#ingredientes">Ingredientes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu" style="display:none; position:fixed; inset:0; top:64px; background:rgba(14,14,14,0.98); z-index:99; padding:3rem 2rem; flex-direction:column; gap:2rem; backdrop-filter:blur(10px);">
+    <a href="#nosotros" onclick="toggleMenu()" style="font-size:1.8rem; font-family:'Cormorant Garamond',serif; color:var(--text);">Nosotros</a>
+    <a href="#productos" onclick="toggleMenu()" style="font-size:1.8rem; font-family:'Cormorant Garamond',serif; color:var(--text);">Productos</a>
+    <a href="#ingredientes" onclick="toggleMenu()" style="font-size:1.8rem; font-family:'Cormorant Garamond',serif; color:var(--text);">Ingredientes</a>
+    <a href="#contacto" onclick="toggleMenu()" style="font-size:1.8rem; font-family:'Cormorant Garamond',serif; color:var(--text);">Contacto</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content reveal">
+        <div class="tag">Alimento Funcional · Medellín, Colombia</div>
+        <h1 class="hero-title">
+          Energía &amp;<br><em>Bienestar</em><br>en cada goma.
+        </h1>
+        <p class="hero-sub">
+          Una formulación premium de extractos botánicos y vitaminas esenciales,<br>
+          diseñada para complementar tu bienestar desde adentro.
+        </p>
+        <div class="hero-cta">
+          <a href="#productos" class="btn btn-primary">Ver productos</a>
+          <a href="#ingredientes" class="btn btn-outline">Conocer fórmula</a>
+        </div>
+      </div>
+      <div class="hero-badge reveal">
+        <strong>60</strong>
+        gomitas por frasco
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="tag">Nuestra marca</div>
+          <h2>Ciencia botánica<br>con propósito</h2>
+          <div class="divider left"></div>
+          <p>
+            E&amp;D nace de la convicción de que el bienestar cotidiano puede ser
+            simple, placentero y efectivo. Combinamos ingredientes botánicos
+            cuidadosamente seleccionados con micronutrientes esenciales en
+            una presentación práctica y deliciosa.
+          </p>
+          <p>
+            Nuestras gomitas son un <strong>alimento funcional</strong> —no un medicamento—
+            formulado para integrarse naturalmente a tu rutina diaria como complemento
+            nutricional de calidad.
+          </p>
+          <p>
+            Disponibles en dos ediciones con la misma formulación técnica:
+            <span style="color:var(--femme)">Femme</span> y <span style="color:var(--homme)">Homme</span>,
+            diferenciadas por su identidad visual.
+          </p>
+        </div>
+        <div class="about-visual reveal">
+          <div class="about-hexagon">E&amp;D</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section id="productos">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="tag">Nuestras ediciones</div>
+        <h2>Elige tu E&amp;D</h2>
+        <div class="divider"></div>
+        <p style="font-size:0.82rem;color:var(--text-muted);max-width:500px;margin:0 auto;line-height:1.9;">
+          Ambas ediciones comparten la misma formulación técnica premium.<br>La diferencia es estética: elige la que mejor represente tu identidad.
+        </p>
+      </div>
+      <div class="products-grid">
+        <!-- FEMME -->
+        <div class="product-card femme reveal">
+          <div class="product-edition">Edición</div>
+          <h3>E&amp;D Femme</h3>
+          <div class="product-presentation">Frasco · 60 gomitas masticables</div>
+          <div class="product-price">$120.000</div>
+          <div class="product-price-label">COP · precio por unidad</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.8;">
+            Diseño pensado para quienes prefieren una identidad más delicada.
+            Misma fórmula de activos botánicos y vitaminas del complejo B.
+          </p>
+          <a href="#contacto" class="order-btn">Hacer pedido</a>
+          <div class="product-bg">F</div>
+        </div>
+        <!-- HOMME -->
+        <div class="product-card homme reveal">
+          <div class="product-edition">Edición</div>
+          <h3>E&amp;D Homme</h3>
+          <div class="product-presentation">Frasco · 60 gomitas masticables</div>
+          <div class="product-price">$120.000</div>
+          <div class="product-price-label">COP · precio por unidad</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.8;">
+            Diseño con una identidad más robusta y directa.
+            Idéntica composición funcional con activos botánicos premium.
+          </p>
+          <a href="#contacto" class="order-btn">Hacer pedido</a>
+          <div class="product-bg">H</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INGREDIENTES -->
+  <section id="ingredientes">
+    <div class="container">
+      <div class="ingredients-layout">
+        <div class="ingredients-intro reveal">
+          <div class="tag">Fórmula</div>
+          <h2>Activos botánicos seleccionados</h2>
+          <div class="divider left"></div>
+          <p>
+            Cada gomita E&amp;D está formulada sobre una base de gelatina y pectina,
+            enriquecida con un complejo de extractos botánicos de origen natural.
+            El sistema de endulzado utiliza polioles (Sorbitol y Maltitol) como
+            alternativa al azúcar convencional.
+          </p>
+          <br/>
+          <p>
+            Sin azúcar añadida. Con conservantes aprobados para garantizar
+            la calidad del producto durante su vida útil.
+          </p>
+        </div>
+        <div class="ingredients-grid reveal">
+          <div class="ingredient-item">
+            <div class="ingredient-icon">🫐</div>
+            <div class="ingredient-name">Arándanos &amp; Açaí</div>
+            <div class="ingredient-desc">Extractos ricos en antocianinas y polifenoles de acción antioxidante.</div>
+          </div>
+          <div class="ingredient-item">
+            <div class="ingredient-icon">🌿</div>
+            <div class="ingredient-name">Maca</div>
+            <div class="ingredient-desc">Raíz andina tradicional asociada a la vitalidad y el equilibrio energético.</div>
+          </div>
+          <div class="ingredient-item">
+            <div class="ingredient-icon">🍄</div>
+            <div class="ingredient-name">Melena de León</div>
+            <div class="ingredient-desc">Hongo funcional con investigación emergente en soporte cognitivo y nervioso.</div>
+          </div>
+          <div class="ingredient-item">
+            <div class="ingredient-icon">🍵</div>
+            <div class="ingredient-name">Té Verde</div>
+            <div class="ingredient-desc">Fuente natural de catequinas y L-teanina, ampliamente estudiadas por sus propiedades antioxidantes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VITAMINAS -->
+  <section id="vitaminas">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="tag">Micronutrientes</div>
+        <h2>Complejo vitamínico</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="vitamins-strip reveal">
+        <div class="vitamin-cell">
+          <div class="vitamin-letter">C</div>
+          <div class="vitamin-name">Ácido Ascórbico</div>
+          <div class="vitamin-desc">Soporte inmunológico y síntesis de colágeno.</div>
+        </div>
+        <div class="vitamin-cell">
+          <div class="vitamin-letter">B6</div>
+          <div class="vitamin-name">Piridoxina</div>
+          <div class="vitamin-desc">Función neurológica y metabolismo de proteínas.</div>
+        </div>
+        <div class="vitamin-cell">
+          <div class="vitamin-letter">B9</div>
+          <div class="vitamin-name">Ácido Fólico</div>
+          <div class="vitamin-desc">Formación celular y síntesis de ADN.</div>
+        </div>
+        <div class="vitamin-cell">
+          <div class="vitamin-letter">B12</div>
+          <div class="vitamin-name">Cobalamina</div>
+          <div class="vitamin-desc">Energía, sistema nervioso y formación de glóbulos rojos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVERTENCIAS -->
+  <section id="advertencias">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="tag">Información importante</div>
+        <h2>Consumo responsable</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="warnings-grid">
+        <div class="warning-item reveal">
+          <div class="warning-icon">⚠️</div>
+          <div class="warning-title">Población objetivo</div>
+          <div class="warning-text">No apto para menores de 4 años, mujeres embarazadas o en periodo de lactancia.</div>
+        </div>
+        <div class="warning-item reveal">
+          <div class="warning-icon">🩺</div>
+          <div class="warning-title">Consulta médica</div>
+          <div class="warning-text">Personas con condiciones médicas diagnosticadas o bajo tratamiento deben consultar a su médico antes de consumir.</div>
+        </div>
+        <div class="warning-item reveal">
+          <div class="warning-icon">📦</div>
+          <div class="warning-title">Almacenamiento</div>
+          <div class="warning-text">Conservar en lugar fresco y seco, lejos de la luz solar directa y fuera del alcance de los niños.</div>
+        </div>
+        <div class="warning-item reveal">
+          <div class="warning-icon">🔒</div>
+          <div class="warning-title">Sello de seguridad</div>
+          <div class="warning-text">No consumir si el sello de seguridad del envase se encuentra roto o presenta signos de manipulación.</div>
+        </div>
+        <div class="warning-item reveal">
+          <div class="warning-icon">🍬</div>
+          <div class="warning-title">Efectos laxantes</div>
+          <div class="warning-text">El consumo excesivo puede tener efectos laxantes debido al contenido de edulcorantes (polioles: Sorbitol y Maltitol).</div>
+        </div>
+        <div class="warning-item reveal">
+          <div class="warning-icon">🥗</div>
+          <div class="warning-title">Naturaleza del producto</div>
+          <div class="warning-text">Este producto es un alimento funcional. No sustituye una dieta equilibrada ni un tratamiento médico recetado.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contact-inner reveal">
+        <div class="tag">Pedidos &amp; Consultas</div>
+        <h2>¿Listo para tu primera experiencia E&amp;D?</h2>
+        <p>
+          Escríbenos al correo para realizar tu pedido o resolver cualquier duda
+          sobre nuestros productos, ingredientes o tiempos de entrega.
+        </p>
+        <a href="mailto:edenergiaybienestar@gmail.com" class="contact-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          edenergiaybienestar@gmail.com
+        </a>
+        <div class="contact-location">
+          📍 Medellín, Colombia &nbsp;·&nbsp; Envíos a todo el país
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">E&amp;D</div>
+          <div class="footer-tagline">Energía &amp; Bienestar · Medellín, Colombia</div>
+        </div>
+        <div class="footer-links">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#ingredientes">Ingredientes</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a onclick="openModal('modal-terminos')">Términos y Condiciones</a></li>
+            <li><a onclick="openModal('modal-privacidad')">Política de Datos</a></li>
+            <li><a onclick="openModal('modal-cookies')">Política de Cookies</a></li>
+            <li><a onclick="openModal('modal-cambios')">Políticas de Cambios</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 E&amp;D — Energía y Bienestar. Todos los derechos reservados.</span>
+        <span>Medellín, Colombia</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MODALES LEGALES ── -->
+
+  <!-- TÉRMINOS -->
+  <div class="modal-overlay" id="modal-terminos" onclick="closeOnOverlay(event, 'modal-terminos')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-terminos')">✕</button>
+      <h2>Términos y Condiciones</h2>
+      <div class="divider left"></div>
+      <div class="modal-body">
+        <p>Los presentes Términos y Condiciones regulan el acceso y uso del sitio web de E&D, marca dedicada a la comercialización de alimentos funcionales en formato de gomitas. Al realizar una compra en este sitio, el usuario acepta de manera íntegra y sin reservas las disposiciones aquí descritas.</p>
+        <h3>1. Identificación del Producto</h3>
+        <p>El producto comercializado bajo la marca E&D consiste en gomitas de "Energía y Bienestar". Se ofrece en dos presentaciones comerciales: E&D Femme y E&D Homme, las cuales comparten la misma formulación técnica y precio de venta. Este producto está clasificado legalmente como un alimento funcional y no como un medicamento o suplemento dietario.</p>
+        <h3>2. Precios y Variaciones</h3>
+        <p><strong>Precio:</strong> El valor unitario por envase de 60 gomitas es de $120.000 COP.<br>
+        <strong>Variaciones:</strong> El cliente puede elegir entre la versión Femme u Homme según su preferencia, entendiendo que el contenido nutricional e ingredientes son idénticos.</p>
+        <h3>3. Propiedad Intelectual</h3>
+        <p>Todo el contenido, diseños, logotipos (marca E&D) e imágenes de producto son propiedad exclusiva de la marca. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>
+        <h3>4. Responsabilidad y Advertencias de Consumo</h3>
+        <ul>
+          <li>El producto no sustituye una alimentación balanceada.</li>
+          <li>No se recomienda su consumo en menores de 4 años, mujeres embarazadas o en periodo de lactancia.</li>
+          <li>El consumo excesivo puede tener efectos laxantes debido a los edulcorantes (Sorbitol y Maltitol) presentes en la fórmula.</li>
+          <li>Cualquier efecto derivado del consumo es responsabilidad del usuario, quien debe consultar a su médico en caso de condiciones preexistentes.</li>
+        </ul>
+        <h3>5. Proceso de Compra y Envío</h3>
+        <p>El usuario es responsable de suministrar datos exactos para el despacho. Los tiempos de entrega serán informados al momento de finalizar la compra, sujetos a la disponibilidad logística.</p>
+        <h3>6. Derecho de Retracto (Ley 1480 de 2011)</h3>
+        <p>De acuerdo con el Estatuto del Consumidor en Colombia, el cliente tiene derecho a retractarse de la compra dentro de los cinco (5) días hábiles siguientes a la entrega. Para que el retracto sea efectivo, el producto debe ser devuelto en su empaque original, sellado y sin señales de uso.</p>
+        <h3>7. Tratamiento de Datos Personales</h3>
+        <p>Al aceptar estos términos, el usuario autoriza el tratamiento de sus datos personales para fines de procesamiento de pedidos y comunicaciones comerciales, en cumplimiento de la Ley 1581 de 2012 de Colombia.</p>
+        <h3>8. Ley Aplicable</h3>
+        <p>Estos términos se rigen por las leyes de la República de Colombia. Cualquier controversia será resuelta ante las autoridades competentes en territorio colombiano.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLÍTICA DE DATOS -->
+  <div class="modal-overlay" id="modal-privacidad" onclick="closeOnOverlay(event, 'modal-privacidad')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-privacidad')">✕</button>
+      <h2>Política de Tratamiento de Datos Personales</h2>
+      <div class="divider left"></div>
+      <div class="modal-body">
+        <p>En cumplimiento de la <strong>Ley 1581 de 2012</strong> y el Decreto 1377 de 2013, E&D informa a sus clientes, usuarios y proveedores sobre su Política de Tratamiento de Datos Personales.</p>
+        <h3>1. Responsable del Tratamiento</h3>
+        <p>El responsable del tratamiento de sus datos es <strong>E&D</strong>, con domicilio en Medellín, Colombia y correo electrónico de contacto: <a href="mailto:edenergiaybienestar@gmail.com" style="color:var(--gold)">edenergiaybienestar@gmail.com</a>.</p>
+        <h3>2. Finalidad de la Recolección de Datos</h3>
+        <p>Los datos personales que solicitamos (nombre, identificación, dirección de envío, teléfono y correo electrónico) serán utilizados para:</p>
+        <ul>
+          <li>Procesar y gestionar las compras realizadas en la tienda virtual.</li>
+          <li>Coordinar la logística de entrega de los productos (E&D Femme / Homme).</li>
+          <li>Prestar servicio al cliente, gestionar cambios y devoluciones.</li>
+          <li>Enviar información comercial, promociones y novedades (previa autorización).</li>
+          <li>Cumplir con obligaciones legales y contables (facturación electrónica).</li>
+        </ul>
+        <h3>3. Derechos de los Titulares</h3>
+        <ul>
+          <li><strong>Conocer:</strong> Solicitar información sobre qué datos tenemos almacenados.</li>
+          <li><strong>Actualizar y Rectificar:</strong> Pedir la corrección de datos parciales, inexactos o incompletos.</li>
+          <li><strong>Suprimir:</strong> Solicitar la eliminación de sus datos de nuestras bases de datos.</li>
+          <li><strong>Revocar:</strong> Retirar la autorización otorgada para el tratamiento en cualquier momento.</li>
+        </ul>
+        <h3>4. Seguridad de la Información</h3>
+        <p>E&D adopta medidas técnicas y administrativas de seguridad para evitar el acceso no autorizado, la adulteración o pérdida de la información personal. No vendemos ni cedemos bases de datos a terceros sin consentimiento expreso.</p>
+        <h3>5. Ejercicio de Derechos (Habeas Data)</h3>
+        <p>Para ejercer sus derechos, envíe una comunicación escrita a <a href="mailto:edenergiaybienestar@gmail.com" style="color:var(--gold)">edenergiaybienestar@gmail.com</a> indicando su nombre completo, documento de identidad y el motivo de su solicitud. E&D dará respuesta en un plazo máximo de quince (15) días hábiles.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLÍTICA DE COOKIES -->
+  <div class="modal-overlay" id="modal-cookies" onclick="closeOnOverlay(event, 'modal-cookies')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-cookies')">✕</button>
+      <h2>Política de Cookies</h2>
+      <div class="divider left"></div>
+      <div class="modal-body">
+        <p>En el sitio web de E&D, utilizamos cookies y tecnologías similares para garantizar el funcionamiento técnico de nuestra tienda virtual, comprender cómo interactúan los visitantes con nuestro contenido y mejorar la experiencia de compra.</p>
+        <h3>1. ¿Qué son las cookies?</h3>
+        <p>Las cookies son pequeños archivos de texto que se descargan en tu dispositivo al acceder a nuestra página web. Permiten que el sitio "recuerde" tus acciones o preferencias durante un periodo de tiempo.</p>
+        <h3>2. Tipos de Cookies que utilizamos</h3>
+        <ul>
+          <li><strong>Cookies Técnicas y Esenciales:</strong> Necesarias para el funcionamiento básico del sitio, como la navegación y el acceso al carrito de compras.</li>
+          <li><strong>Cookies de Rendimiento y Análisis:</strong> Nos permiten medir el desempeño de nuestra tienda y conocer qué productos son más populares.</li>
+          <li><strong>Cookies de Marketing:</strong> Se utilizan para rastrear visitantes y mostrar anuncios relevantes.</li>
+        </ul>
+        <h3>3. Consentimiento y Control</h3>
+        <p>Al navegar por nuestro sitio web, el usuario acepta el uso de cookies. No obstante, puede configurar su navegador para avisar antes de aceptar, rechazar o eliminar cookies. Tenga en cuenta que deshabilitar cookies puede afectar la funcionalidad de la tienda virtual.</p>
+        <h3>4. Actualizaciones</h3>
+        <p>E&D se reserva el derecho de modificar esta Política de Cookies para adaptarla a cambios legislativos o técnicos en la plataforma.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLÍTICA DE CAMBIOS -->
+  <div class="modal-overlay" id="modal-cambios" onclick="closeOnOverlay(event, 'modal-cambios')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-cambios')">✕</button>
+      <h2>Políticas de Cambios</h2>
+      <div class="divider left"></div>
+      <div class="modal-body">
+        <p>En E&D, nos esforzamos por ofrecer productos de la más alta calidad. Debido a que nuestras gomitas son alimentos funcionales, las políticas de cambios se rigen por estrictas normas de bioseguridad e higiene.</p>
+        <h3>1. Condiciones para Solicitar un Cambio</h3>
+        <ul>
+          <li><strong>Producto Defectuoso o Dañado:</strong> Si el envase presenta rupturas, filtraciones o defectos de fabricación al momento de la recepción.</li>
+          <li><strong>Error en el Despacho:</strong> Si el producto recibido no coincide con la versión solicitada (ej. recibió Homme habiendo pedido Femme).</li>
+          <li><strong>Producto Vencido:</strong> Si la fecha de vencimiento ha caducado al momento de la entrega.</li>
+        </ul>
+        <h3>2. Requisitos Obligatorios</h3>
+        <ul>
+          <li>El producto debe mantener su <strong>sello de seguridad intacto</strong> y no presentar señales de haber sido abierto.</li>
+          <li>La solicitud debe realizarse dentro de los <strong>cinco (5) días hábiles</strong> posteriores a la entrega.</li>
+          <li>Presentar el comprobante de compra o factura electrónica.</li>
+        </ul>
+        <h3>3. Procedimiento de Solicitud</h3>
+        <p>El cliente debe contactar a nuestro canal oficial de atención (<a href="mailto:edenergiaybienestar@gmail.com" style="color:var(--gold)">edenergiaybienestar@gmail.com</a>) adjuntando:</p>
+        <ul>
+          <li>Nombre completo y número de pedido.</li>
+          <li>Fotografía clara del estado del producto y del lote/fecha de vencimiento.</li>
+          <li>Descripción breve del motivo del cambio.</li>
+        </ul>
+        <h3>4. Costos de Envío</h3>
+        <p>Si el cambio se debe a un error de E&D (producto defectuoso o error en despacho), asumiremos la totalidad de los costos de transporte. Si el cambio es por motivos personales, el cliente asumirá los costos de envío, siempre que el producto permanezca sellado.</p>
+        <h3>5. Excepciones — No se aceptan cambios si:</h3>
+        <ul>
+          <li>El sello de seguridad ha sido removido, roto o manipulado.</li>
+          <li>El producto presenta daños por mal almacenamiento o exposición indebida al calor/humedad.</li>
+          <li>Han pasado más de cinco (5) días hábiles desde la recepción del pedido.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner">
+    <span>
+      Usamos cookies para mejorar tu experiencia. Consulta nuestra
+      <a onclick="openModal('modal-cookies')">Política de Cookies</a>.
+    </span>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-reject" onclick="rejectCookies()">Rechazar</button>
+      <button class="cookie-btn cookie-accept" onclick="acceptCookies()">Aceptar</button>
+    </div>
+  </div>
+
+  <script>
+    // Nav scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.padding = window.scrollY > 50 ? '1rem 2rem' : '1.4rem 2rem';
+    });
+
+    // Mobile menu
+    function toggleMenu() {
+      const m = document.getElementById('mobile-menu');
+      m.style.display = m.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Modals
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeOnOverlay(e, id) {
+      if (e.target === e.currentTarget) closeModal(id);
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => {
+          m.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+
+    // Cookie banner
+    if (localStorage.getItem('eyd_cookies')) {
+      document.getElementById('cookie-banner').classList.add('hidden');
+    }
+    function acceptCookies() {
+      localStorage.setItem('eyd_cookies', 'accepted');
+      document.getElementById('cookie-banner').classList.add('hidden');
+    }
+    function rejectCookies() {
+      localStorage.setItem('eyd_cookies', 'rejected');
+      document.getElementById('cookie-banner').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
