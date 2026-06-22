@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Gracias por tu compra! — E&D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .result-view { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .result-view h1 { font-size: 2.2rem; margin: 18px 0 14px; }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="result-view">
+  <div class="wrap">
+    <p class="eyebrow">Pago confirmado</p>
+    <h1 class="display">Gracias por tu compra</h1>
+    <p class="muted" style="max-width: 440px; margin: 0 auto 30px;">Tu pedido fue recibido correctamente. Te enviaremos los detalles de envío a tu correo.</p>
+    <a href="catalogo.html" class="btn btn-gold">Seguir explorando</a>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="cart-root"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/layout.js"></script>
+<script>localStorage.removeItem("eyd_cart");</script>
+</body>
+</html>

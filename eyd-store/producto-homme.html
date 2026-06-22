@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E&D Homme — Energía y Bienestar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .product-view { padding: 64px 0 100px; }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .product-image {
+    background: radial-gradient(ellipse at 50% 40%, rgba(30,58,95,0.18), transparent 60%);
+    border: 1px solid rgba(201,162,75,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+  }
+  .product-image img { width: 70%; filter: drop-shadow(0 24px 50px rgba(0,0,0,0.55)); }
+  .product-info .line-label { color: var(--homme-light); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+  .product-info h1 { font-size: 2.6rem; margin-bottom: 10px; }
+  .product-info .tagline { color: var(--bone-dim); font-size: 1.05rem; margin-bottom: 24px; }
+  .product-info .price { font-family: var(--font-display); color: var(--gold-light); font-size: 1.8rem; margin-bottom: 26px; }
+  .product-info .desc { color: var(--bone-dim); margin-bottom: 30px; max-width: 480px; }
+  .benefits { margin-bottom: 34px; }
+  .benefits li { display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; font-size: 0.94rem; }
+  .benefits li::before { content: "—"; color: var(--homme-light); }
+  .qty-row { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+  .qty-box { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; }
+  .qty-box button { width: 38px; height: 40px; font-size: 1rem; }
+  .qty-box span { width: 36px; text-align: center; }
+  .product-actions { display: flex; gap: 14px; }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="product-view">
+  <div class="wrap">
+    <div class="product-grid">
+      <div class="product-image">
+        <img src="images/homme.png" alt="E&D Homme">
+      </div>
+      <div class="product-info">
+        <p class="line-label">Línea Hombre</p>
+        <h1 class="display">E&D Homme</h1>
+        <p class="tagline">Energía y bienestar, sin pausas.</p>
+        <p class="price" id="price"></p>
+        <p class="desc">60 gomitas con la misma fórmula E&D pensada para acompañar tu energía diaria y tu bienestar. Sabor frutos azules.</p>
+        <ul class="benefits">
+          <li>Apoya tu energía durante el día</li>
+          <li>Contribuye al bienestar general</li>
+          <li>60 gomitas por frasco · 1 mes de uso</li>
+          <li>Sabor frutos azules</li>
+        </ul>
+        <div class="qty-row">
+          <span class="eyebrow" style="color: var(--bone-dim); letter-spacing: 0.1em;">Cantidad</span>
+          <div class="qty-box">
+            <button onclick="changeQty(-1)" aria-label="Restar">−</button>
+            <span id="qtyDisplay">1</span>
+            <button onclick="changeQty(1)" aria-label="Sumar">+</button>
+          </div>
+        </div>
+        <div class="product-actions">
+          <button class="btn btn-gold" onclick="addCurrentToCart()">Añadir al carrito</button>
+          <a href="catalogo.html" class="btn btn-outline">Ver catálogo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="cart-root"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/layout.js"></script>
+<script>
+  let qty = 1;
+  document.getElementById("price").textContent = formatCOP(PRODUCTS.homme.price);
+  function changeQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById("qtyDisplay").textContent = qty;
+  }
+  function addCurrentToCart() {
+    addToCart("homme", qty);
+  }
+</script>
+</body>
+</html>

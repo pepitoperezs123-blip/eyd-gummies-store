@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E&D — Energía y Bienestar</title>
+<meta name="description" content="E&D: gomitas premium de energía y bienestar. Línea Femme y línea Homme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(139,58,82,0.18), transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(30,58,95,0.18), transparent 50%),
+      var(--black);
+  }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 40px; }
+  .hero h1 { font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 1.08; margin: 18px 0 22px; }
+  .hero h1 em { font-style: normal; color: var(--gold-light); }
+  .hero p.lead { font-size: 1.08rem; color: var(--bone-dim); max-width: 460px; margin-bottom: 34px; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-bottles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .hero-bottles img { width: 92%; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6)); }
+
+  .duo-section { padding: 90px 0; }
+  .duo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid rgba(201,162,75,0.18);
+  }
+  .duo-card {
+    padding: 56px 44px;
+    text-align: center;
+    position: relative;
+  }
+  .duo-card.femme { background: linear-gradient(180deg, rgba(139,58,82,0.12), transparent); border-right: 1px solid rgba(201,162,75,0.18); }
+  .duo-card.homme { background: linear-gradient(180deg, rgba(30,58,95,0.12), transparent); }
+  .duo-card img { width: 150px; margin: 0 auto 24px; }
+  .duo-card h3 { font-size: 1.6rem; margin-bottom: 6px; }
+  .duo-card .line-label { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; }
+  .duo-card.femme .line-label { color: var(--femme-light); }
+  .duo-card.homme .line-label { color: var(--homme-light); }
+  .duo-card p { color: var(--bone-dim); font-size: 0.94rem; margin-bottom: 28px; min-height: 48px; }
+
+  .feature-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; text-align: center; }
+  .feature-row .num { font-family: var(--font-display); color: var(--gold); font-size: 1rem; }
+  .feature-row h4 { font-size: 1.15rem; margin: 12px 0 10px; }
+  .feature-row p { color: var(--bone-dim); font-size: 0.92rem; }
+
+  @media (max-width: 860px) {
+    .hero .wrap { grid-template-columns: 1fr; text-align: center; }
+    .hero p.lead { margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
+    .duo-grid { grid-template-columns: 1fr; }
+    .duo-card.femme { border-right: none; border-bottom: 1px solid rgba(201,162,75,0.18); }
+    .feature-row { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Energía y bienestar · 60 gomitas</p>
+      <h1>Una receta. <br><em>Dos formas</em> de vivirla.</h1>
+      <p class="lead">E&D es una fórmula premium de gomitas pensada para tu energía diaria, presentada en dos líneas: Femme y Homme. Misma exclusividad, mismo bienestar.</p>
+      <div class="hero-actions">
+        <a href="catalogo.html" class="btn btn-gold">Ver catálogo</a>
+        <a href="#duo" class="btn btn-outline">Conocer las líneas</a>
+      </div>
+    </div>
+    <div class="hero-bottles">
+      <img src="images/femme.png" alt="E&D Femme" style="width:44%; margin-right:-4%;">
+      <img src="images/homme.png" alt="E&D Homme" style="width:44%; margin-left:-4%;">
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider">
+  <svg viewBox="0 0 140 28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 22 Q70 2 138 22" stroke="#c9a24b" stroke-width="1" fill="none"/>
+    <circle cx="70" cy="9" r="2.5" fill="#e8c77a"/>
+  </svg>
+</div>
+
+<section class="duo-section" id="duo">
+  <div class="wrap">
+    <div class="center" style="margin-bottom: 50px;">
+      <p class="eyebrow">Elige tu línea</p>
+      <h2 style="font-size: 2rem; margin-top: 10px;">Femme & Homme</h2>
+    </div>
+    <div class="duo-grid">
+      <div class="duo-card femme">
+        <img src="images/femme.png" alt="E&D Femme">
+        <p class="line-label">Línea Mujer</p>
+        <h3 class="display">E&D Femme</h3>
+        <p>Energía y bienestar a tu ritmo. Sabor frutos rojos.</p>
+        <a href="producto-femme.html" class="btn btn-outline">Ver producto</a>
+      </div>
+      <div class="duo-card homme">
+        <img src="images/homme.png" alt="E&D Homme">
+        <p class="line-label">Línea Hombre</p>
+        <h3 class="display">E&D Homme</h3>
+        <p>Energía y bienestar sin pausas. Sabor frutos azules.</p>
+        <a href="producto-homme.html" class="btn btn-outline">Ver producto</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="feature-row">
+      <div>
+        <p class="num">60</p>
+        <h4>Gomitas por frasco</h4>
+        <p>Un mes completo de bienestar en cada presentación.</p>
+      </div>
+      <div>
+        <p class="num">E&D</p>
+        <h4>Fórmula propia</h4>
+        <p>La misma receta de excelencia detrás de ambas líneas.</p>
+      </div>
+      <div>
+        <p class="num">+</p>
+        <h4>Energía diaria</h4>
+        <p>Pensadas para acompañar tu rutina sin interrumpirla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="cart-root"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/layout.js"></script>
+</body>
+</html>

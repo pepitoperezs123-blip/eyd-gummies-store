@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No se pudo procesar el pago — E&D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .result-view { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .result-view h1 { font-size: 2.2rem; margin: 18px 0 14px; }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="result-view">
+  <div class="wrap">
+    <p class="eyebrow">Pago no completado</p>
+    <h1 class="display">Algo salió mal</h1>
+    <p class="muted" style="max-width: 440px; margin: 0 auto 30px;">No te preocupes, no se realizó ningún cargo. Puedes intentarlo de nuevo cuando quieras.</p>
+    <a href="catalogo.html" class="btn btn-gold" onclick="setTimeout(openCart,300)">Volver al carrito</a>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="cart-root"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/layout.js"></script>
+</body>
+</html>

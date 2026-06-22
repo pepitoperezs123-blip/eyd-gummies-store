@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo — E&D Energía y Bienestar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .cat-hero { padding: 70px 0 20px; text-align: center; }
+  .cat-hero h1 { font-size: 2.4rem; margin-top: 10px; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 50px;
+  }
+  .product-card {
+    border: 1px solid rgba(201,162,75,0.18);
+    padding: 40px;
+    text-align: center;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .product-card:hover { border-color: rgba(201,162,75,0.5); transform: translateY(-4px); }
+  .product-card img { width: 180px; margin: 0 auto 26px; }
+  .product-card .line-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+  .product-card.femme .line-label { color: var(--femme-light); }
+  .product-card.homme .line-label { color: var(--homme-light); }
+  .product-card h3 { font-size: 1.5rem; margin-bottom: 8px; }
+  .product-card .price { font-family: var(--font-display); color: var(--gold-light); font-size: 1.3rem; margin: 14px 0 22px; }
+  .product-card .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 700px) {
+    .cat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="cat-hero">
+  <div class="wrap">
+    <p class="eyebrow">Catálogo</p>
+    <h1 class="display">Nuestras dos líneas</h1>
+    <p class="muted" style="max-width:500px; margin: 14px auto 0;">Misma fórmula E&D, pensada para tu energía y bienestar — elige la línea que va contigo.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="cat-grid">
+
+      <div class="product-card femme">
+        <img src="images/femme.png" alt="E&D Femme">
+        <p class="line-label">Línea Mujer</p>
+        <h3 class="display">E&D Femme</h3>
+        <p class="muted">60 gomitas · sabor frutos rojos</p>
+        <p class="price" id="priceFemme"></p>
+        <div class="actions">
+          <a href="producto-femme.html" class="btn btn-outline">Ver detalle</a>
+          <button class="btn btn-gold" onclick="addToCart('femme', 1)">Añadir al carrito</button>
+        </div>
+      </div>
+
+      <div class="product-card homme">
+        <img src="images/homme.png" alt="E&D Homme">
+        <p class="line-label">Línea Hombre</p>
+        <h3 class="display">E&D Homme</h3>
+        <p class="muted">60 gomitas · sabor frutos azules</p>
+        <p class="price" id="priceHomme"></p>
+        <div class="actions">
+          <a href="producto-homme.html" class="btn btn-outline">Ver detalle</a>
+          <button class="btn btn-gold" onclick="addToCart('homme', 1)">Añadir al carrito</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="cart-root"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/layout.js"></script>
+<script>
+  document.getElementById("priceFemme").textContent = formatCOP(PRODUCTS.femme.price);
+  document.getElementById("priceHomme").textContent = formatCOP(PRODUCTS.homme.price);
+</script>
+</body>
+</html>
