@@ -65,14 +65,21 @@
       border-bottom: 1px solid rgba(201,168,76,0.15);
       transition: padding 0.3s;
     }
-    .nav-logo {
+    .nav-logo img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
+      font-size: 1.3rem;
       font-weight: 600;
       letter-spacing: 0.05em;
       color: var(--gold);
+      line-height: 1.1;
     }
-    .nav-logo span { font-style: italic; font-weight: 300; font-size: 0.9rem; color: var(--text-muted); display: block; line-height: 1; }
+    .nav-logo-text span { font-style: italic; font-weight: 300; font-size: 0.75rem; color: var(--text-muted); display: block; }
     .nav-links { display: flex; gap: 2.2rem; list-style: none; }
     .nav-links a {
       font-size: 0.72rem;
@@ -151,9 +158,23 @@
       border: 1px solid rgba(255,255,255,0.2);
     }
     .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-product-img {
+      position: absolute;
+      right: 6%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(220px, 28vw, 400px);
+      filter: drop-shadow(0 0 60px rgba(201,168,76,0.18));
+      animation: floatImg 6s ease-in-out infinite;
+      z-index: 1;
+    }
+    @keyframes floatImg {
+      0%,100% { transform: translateY(-50%) translateY(0px); }
+      50% { transform: translateY(-50%) translateY(-14px); }
+    }
     .hero-badge {
-      position: absolute; bottom: 3rem; right: 3rem;
-      text-align: center;
+      position: absolute; bottom: 3rem; left: 2rem;
+      text-align: left;
       font-size: 0.65rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -230,7 +251,20 @@
       position: relative;
       overflow: hidden;
       transition: border-color 0.3s, transform 0.3s;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto;
+      column-gap: 1.5rem;
     }
+    .product-card-img {
+      grid-column: 2;
+      grid-row: 1 / 8;
+      width: 130px;
+      align-self: center;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+      transition: transform 0.4s;
+    }
+    .product-card:hover .product-card-img { transform: translateY(-6px) scale(1.04); }
     .product-card:hover { transform: translateY(-4px); }
     .product-card.femme { border-top: 3px solid var(--femme); }
     .product-card.homme { border-top: 3px solid var(--homme); }
@@ -634,10 +668,10 @@
 
   <!-- NAV -->
   <nav id="navbar">
-    <div class="nav-logo">
-      E&amp;D
-      <span>Energía &amp; Bienestar</span>
-    </div>
+    <a href="#hero" class="nav-logo" style="display:flex;align-items:center;gap:0.7rem;">
+      <img src="img/logo.png" alt="E&D Logo" />
+      <div class="nav-logo-text">E&amp;D <span>Energía &amp; Bienestar</span></div>
+    </a>
     <ul class="nav-links">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#productos">Productos</a></li>
@@ -674,6 +708,7 @@
           <a href="#ingredientes" class="btn btn-outline">Conocer fórmula</a>
         </div>
       </div>
+      <img src="img/homme.png" alt="E&D Homme" class="hero-product-img reveal" />
       <div class="hero-badge reveal">
         <strong>60</strong>
         gomitas por frasco
@@ -727,6 +762,7 @@
       <div class="products-grid">
         <!-- FEMME -->
         <div class="product-card femme reveal">
+          <img src="img/femme.png" alt="E&D Femme" class="product-card-img" />
           <div class="product-edition">Edición</div>
           <h3>E&amp;D Femme</h3>
           <div class="product-presentation">Frasco · 60 gomitas masticables</div>
@@ -741,6 +777,7 @@
         </div>
         <!-- HOMME -->
         <div class="product-card homme reveal">
+          <img src="img/homme.png" alt="E&D Homme" class="product-card-img" />
           <div class="product-edition">Edición</div>
           <h3>E&amp;D Homme</h3>
           <div class="product-presentation">Frasco · 60 gomitas masticables</div>
@@ -904,9 +941,12 @@
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <div>
-          <div class="footer-brand">E&amp;D</div>
-          <div class="footer-tagline">Energía &amp; Bienestar · Medellín, Colombia</div>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <img src="img/logo.png" alt="E&D Logo" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" />
+          <div>
+            <div class="footer-brand">E&amp;D</div>
+            <div class="footer-tagline">Energía &amp; Bienestar · Medellín, Colombia</div>
+          </div>
         </div>
         <div class="footer-links">
           <h4>Navegación</h4>
