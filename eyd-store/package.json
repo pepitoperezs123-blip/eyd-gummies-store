@@ -1,9 +1,0 @@
-{
-  "name": "eyd-store",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Sitio web E&D Energía y Bienestar — tienda con Mercado Pago",
-  "dependencies": {
-    "mercadopago": "^2.0.9"
-  }
-}

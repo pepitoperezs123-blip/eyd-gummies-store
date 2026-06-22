@@ -1,0 +1,9 @@
+# Tienda alternativa con Mercado Pago (no se despliega en Netlify)
+eyd-store/
+
+# Configuración local de Claude Code
+.claude/
+
+# Sistema
+Thumbs.db
+.DS_Store
