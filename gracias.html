@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estado del pago — E&amp;D</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="img/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --gold-light: #e8c97a;
+      --grad-gold: linear-gradient(135deg, #e8c97a 0%, #c9a84c 45%, #a8842f 100%);
+      --dark: #0a0a0a; --dark-2: #131313; --dark-3: #1c1c1c;
+      --text: #ece6dc; --text-muted: #9c948a; --line: rgba(201,168,76,0.14);
+      --ok: #6abf8a; --err: #d46a6a; --pend: #c9a84c;
+    }
+    body { font-family: 'Montserrat', sans-serif; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,0.08), transparent 60%), var(--dark); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
+    header { border-bottom: 1px solid var(--line); padding: 1.1rem 1.5rem; }
+    .logo { display: flex; align-items: center; gap: 0.7rem; max-width: 1000px; margin: 0 auto; }
+    .logo img { height: 42px; width: 42px; border-radius: 50%; object-fit: cover; }
+    .logo b { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold); font-weight: 600; }
+
+    .view { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem; }
+    .card { max-width: 520px; }
+    .icon { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 1.6rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--line); }
+    .icon svg { width: 40px; height: 40px; fill: none; stroke-width: 2; }
+    .icon.ok { border-color: var(--ok); } .icon.ok svg { stroke: var(--ok); }
+    .icon.err { border-color: var(--err); } .icon.err svg { stroke: var(--err); }
+    .icon.pend { border-color: var(--pend); } .icon.pend svg { stroke: var(--pend); }
+    .eyebrow { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 1rem; }
+    .msg { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.8rem; }
+    .ref { display: inline-block; font-size: 0.74rem; letter-spacing: 0.06em; color: var(--text-muted); background: var(--dark-2); border: 1px solid var(--line); border-radius: 4px; padding: 0.5rem 1rem; margin-bottom: 1.8rem; }
+    .ref b { color: var(--text); }
+    .actions { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+    .btn { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.95rem 2rem; border-radius: 3px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: all 0.25s; border: none; }
+    .btn-gold { background: var(--grad-gold); color: #1a1408; }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .spinner { width: 44px; height: 44px; border: 3px solid var(--line); border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 1.5rem; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo"><img src="img/logo.png" alt="E&D" /><b>E&amp;D</b></a>
+  </header>
+
+  <div class="view">
+    <div class="card">
+      <!-- Cargando -->
+      <div id="loadingState">
+        <div class="spinner"></div>
+        <p class="msg" id="loadingMsg">Verificando el estado de tu pago…</p>
+      </div>
+
+      <!-- Resultado -->
+      <div id="resultState" class="hidden">
+        <div class="icon" id="resIcon"></div>
+        <div class="eyebrow" id="resEyebrow"></div>
+        <h1 id="resTitle"></h1>
+        <p class="msg" id="resMsg"></p>
+        <div class="ref hidden" id="resRef"></div>
+        <div class="actions" id="resActions"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var LANG = "es";
+    try { LANG = (localStorage.getItem("eyd_lang") || "es").indexOf("en") === 0 ? "en" : "es"; } catch (e) {}
+
+    var STR = {
+      es: {
+        verifying: "Verificando el estado de tu pago…",
+        ref: "Referencia",
+        ok_eye: "Pago aprobado", ok_h: "¡Gracias por tu compra!",
+        ok_m: "Tu pago fue aprobado y tu pedido está confirmado. Te contactaremos al correo y WhatsApp registrados para coordinar el envío.",
+        pend_eye: "Pago pendiente", pend_h: "Tu pago está en proceso",
+        pend_m: "Tu transacción quedó pendiente de confirmación (común en pagos PSE). Apenas el banco confirme, recibirás la notificación. Puedes cerrar esta página con tranquilidad.",
+        err_eye: "Pago no completado", err_h: "El pago no se completó",
+        err_m: "La transacción fue rechazada o cancelada. No se realizó ningún cobro. Puedes intentarlo de nuevo.",
+        none_eye: "Pedido", none_h: "Gracias por tu interés",
+        none_m: "No encontramos los datos de una transacción. Si crees que es un error, escríbenos.",
+        home: "Volver al inicio", retry: "Reintentar pago", contact: "Contáctanos",
+      },
+      en: {
+        verifying: "Checking your payment status…",
+        ref: "Reference",
+        ok_eye: "Payment approved", ok_h: "Thank you for your purchase!",
+        ok_m: "Your payment was approved and your order is confirmed. We'll contact you via the email and WhatsApp you provided to arrange shipping.",
+        pend_eye: "Payment pending", pend_h: "Your payment is processing",
+        pend_m: "Your transaction is pending confirmation (common with PSE payments). As soon as the bank confirms, you'll be notified. You can safely close this page.",
+        err_eye: "Payment not completed", err_h: "The payment didn't go through",
+        err_m: "The transaction was declined or cancelled. No charge was made. You can try again.",
+        none_eye: "Order", none_h: "Thanks for your interest",
+        none_m: "We couldn't find transaction data. If you think this is an error, write to us.",
+        home: "Back to home", retry: "Retry payment", contact: "Contact us",
+      },
+    };
+    var S = STR[LANG] || STR.es;
+    document.getElementById("loadingMsg").textContent = S.verifying;
+
+    function params() {
+      var p = {}; var qs = location.search.replace(/^\?/, "").split("&");
+      qs.forEach(function (kv) {
+        if (!kv) return; var i = kv.indexOf("=");
+        p[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+      });
+      return p;
+    }
+
+    function actionsHtml(kind) {
+      var home = '<a href="index.html" class="btn btn-outline">' + S.home + "</a>";
+      var retry = '<a href="checkout.html" class="btn btn-gold">' + S.retry + "</a>";
+      var contact = '<a href="mailto:edenergiaybienestar@gmail.com" class="btn btn-outline">' + S.contact + "</a>";
+      if (kind === "ok") return '<a href="index.html" class="btn btn-gold">' + S.home + "</a>";
+      if (kind === "err") return retry + home;
+      if (kind === "pend") return home + contact;
+      return home + contact;
+    }
+
+    var ICONS = {
+      ok: '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',
+      err: '<svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+      pend: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    };
+
+    function show(kind, eyebrow, title, msg, reference) {
+      document.getElementById("loadingState").classList.add("hidden");
+      var r = document.getElementById("resultState");
+      r.classList.remove("hidden");
+      var icon = document.getElementById("resIcon");
+      icon.className = "icon " + (kind === "ok" ? "ok" : kind === "err" ? "err" : "pend");
+      icon.innerHTML = ICONS[kind === "ok" ? "ok" : kind === "err" ? "err" : "pend"];
+      document.getElementById("resEyebrow").textContent = eyebrow;
+      document.getElementById("resTitle").textContent = title;
+      document.getElementById("resMsg").textContent = msg;
+      if (reference) {
+        var ref = document.getElementById("resRef");
+        ref.innerHTML = S.ref + ": <b>" + reference + "</b>";
+        ref.classList.remove("hidden");
+      }
+      document.getElementById("resActions").innerHTML = actionsHtml(kind);
+      if (kind === "ok") { try { localStorage.removeItem("eyd_cart"); } catch (e) {} }
+    }
+
+    (function main() {
+      var p = params();
+      var id = p.id;
+      // Sin id de transacción → llegada directa, sin pago asociado.
+      if (!id) { show("none", S.none_eye, S.none_h, S.none_m, null); return; }
+
+      var base = p.env === "test" || p.env === "sandbox"
+        ? "https://sandbox.wompi.co/v1/transactions/"
+        : "https://production.wompi.co/v1/transactions/";
+
+      fetch(base + encodeURIComponent(id))
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          var d = (json && json.data) || {};
+          var status = d.status || "PENDING";
+          var reference = d.reference || "";
+          if (status === "APPROVED") show("ok", S.ok_eye, S.ok_h, S.ok_m, reference);
+          else if (status === "PENDING") show("pend", S.pend_eye, S.pend_h, S.pend_m, reference);
+          else show("err", S.err_eye, S.err_h, S.err_m, reference); // DECLINED / VOIDED / ERROR
+        })
+        .catch(function () {
+          // Si no se puede consultar, mostramos estado neutro (no afirmamos cobro).
+          show("pend", S.pend_eye, S.pend_h, S.pend_m, p.id);
+        });
+    })();
+  </script>
+</body>
+</html>
