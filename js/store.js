@@ -47,6 +47,7 @@ const EYD_STRINGS = {
     ship_left: function (a) { return "🚚 Te faltan " + a + " para envío gratis"; },
     placeholder: "Código de descuento", apply: "Aplicar",
     empty: "Tu carrito está vacío.",
+    line: "60 gomitas · 30 porciones", fl_uva: "Uva", fl_sandia: "Sandía Limón",
   },
   en: {
     subtotal: "Subtotal", total: "Total",
@@ -59,6 +60,7 @@ const EYD_STRINGS = {
     ship_left: function (a) { return "🚚 " + a + " away from free shipping"; },
     placeholder: "Discount code", apply: "Apply",
     empty: "Your cart is empty.",
+    line: "60 gummies · 30 servings", fl_uva: "Grape", fl_sandia: "Watermelon Lemon",
   },
 };
 function eydLang() {
@@ -66,6 +68,8 @@ function eydLang() {
   catch (e) { return "es"; }
 }
 function eydStr(k) { const d = EYD_STRINGS[eydLang()] || EYD_STRINGS.es; return d[k]; }
+function eydProdName(id) { return "E&D Gummies — " + eydStr(id === "uva" ? "fl_uva" : "fl_sandia"); }
+function eydProdLine() { return eydStr("line"); }
 
 // ── Carrito ──
 function eydGetCart() {
@@ -226,8 +230,8 @@ function eydRenderCart() {
       <div class="cart-item">
         <img src="${p.image}" alt="${p.name}" />
         <div class="cart-item-info">
-          <div class="ci-name">${p.name}</div>
-          <div class="ci-line">${p.line}</div>
+          <div class="ci-name">${eydProdName(item.id)}</div>
+          <div class="ci-line">${eydProdLine()}</div>
           <div class="ci-qty">
             <button onclick="updateQty('${p.id}', -1)" aria-label="−">−</button>
             <span>${item.qty}</span>

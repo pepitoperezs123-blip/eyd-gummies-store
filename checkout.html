@@ -266,8 +266,8 @@
         return `<div class="sum-item">
           <img src="${p.image}" alt="${p.name}" />
           <div>
-            <div class="n">${p.name}</div>
-            <div class="l">${p.line}</div>
+            <div class="n">${eydProdName(item.id)}</div>
+            <div class="l">${eydProdLine()}</div>
             <div class="q">x${item.qty}</div>
           </div>
           <div class="p">${eydFormatCOP(p.price * item.qty)}</div>
