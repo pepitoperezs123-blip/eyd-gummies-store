@@ -169,7 +169,7 @@
           </div>
           <div class="co-code-msg" id="coCodeMsg"></div>
           <div id="sumBreakdown"></div>
-          <div class="sum-line"><span data-i18n="sum_ship">Envío</span><span data-i18n="sum_ship_val">A coordinar</span></div>
+          <div class="sum-line"><span data-i18n="sum_ship">Envío</span><span id="sumShipVal">A coordinar</span></div>
           <div class="sum-total"><span class="lbl" data-i18n="sum_total">Total a pagar</span><span class="amt" id="sumTotal">$0</span></div>
 
           <div id="payNotice"></div>
@@ -206,7 +206,7 @@
         f_name: "Nombre completo *", f_email: "Correo electrónico *", f_phone: "Teléfono / WhatsApp *",
         f_doc: "Documento (cédula) *", f_addr: "Dirección de entrega *", f_city: "Ciudad *", f_dept: "Departamento *",
         f_notes: "Notas para la entrega (opcional)",
-        sum_h: "Tu pedido", sum_subtotal: "Subtotal", sum_ship: "Envío", sum_ship_val: "A coordinar", sum_total: "Total a pagar",
+        sum_h: "Tu pedido", sum_subtotal: "Subtotal", sum_ship: "Envío", sum_ship_val: "A coordinar", sum_free: "Gratis", sum_total: "Total a pagar",
         pay_btn: "Pagar con Wompi", methods_lbl: "Métodos disponibles", chip_card: "Tarjeta",
         secure: "Pago cifrado y seguro vía Wompi",
         err_fields: "Por favor completa todos los campos obligatorios.",
@@ -224,7 +224,7 @@
         f_name: "Full name *", f_email: "Email *", f_phone: "Phone / WhatsApp *",
         f_doc: "ID document *", f_addr: "Delivery address *", f_city: "City *", f_dept: "State / Department *",
         f_notes: "Delivery notes (optional)",
-        sum_h: "Your order", sum_subtotal: "Subtotal", sum_ship: "Shipping", sum_ship_val: "To coordinate", sum_total: "Total to pay",
+        sum_h: "Your order", sum_subtotal: "Subtotal", sum_ship: "Shipping", sum_ship_val: "To coordinate", sum_free: "Free", sum_total: "Total to pay",
         pay_btn: "Pay with Wompi", methods_lbl: "Available methods", chip_card: "Card",
         secure: "Encrypted, secure payment via Wompi",
         err_fields: "Please complete all required fields.",
@@ -286,6 +286,8 @@
         h += '<div class="sum-line sum-disc"><span>−' + Math.round(t2.codePct * 100) + "% " + t2.codeLabel + "</span><span>−" + eydFormatCOP(t2.codeDiscount) + "</span></div>";
       document.getElementById("sumBreakdown").innerHTML = h;
       document.getElementById("sumTotal").textContent = eydFormatCOP(t2.total);
+      const shipEl = document.getElementById("sumShipVal");
+      if (shipEl) shipEl.textContent = t2.freeShip ? t("sum_free") : t("sum_ship_val");
       const info = eydCodeInfo();
       const msg = document.getElementById("coCodeMsg");
       if (msg && info) { msg.textContent = "¡Código aplicado! " + Math.round(info.pct * 100) + "% de descuento"; msg.className = "co-code-msg ok"; }

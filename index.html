@@ -735,7 +735,8 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
 .cart-foot{padding:1.5rem 1.8rem;border-top:1px solid var(--border);background:var(--surface)}
 .cart-subtotal{display:flex;justify-content:space-between;align-items:baseline;
   font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:.4rem}
-.cart-ship-note{font-size:.72rem;color:var(--muted);margin-bottom:1.1rem}
+.cart-ship-note{font-size:.74rem;color:var(--muted);margin-bottom:1.1rem;text-align:center}
+.cart-ship-note.free{color:#3f9d5a;font-weight:700}
 .cart-checkout{display:block;text-align:center;background:var(--dark);color:var(--cream);
   padding:.9em 1.5em;border-radius:40px;font-size:.78rem;letter-spacing:.1em;
   text-transform:uppercase;font-weight:500;transition:background .3s,transform .25s}
@@ -846,7 +847,7 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 </defs></svg>
 
 <!-- ANNOUNCE -->
-<div class="announce" data-i18n-html="announce">Envío gratis en pedidos +$150.000 · <span>Colombia</span></div>
+<div class="announce" data-i18n-html="announce">Envío gratis en pedidos +$140.000 · <span>Colombia</span></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -1390,7 +1391,7 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
     </div>
     <div class="cart-code-msg" id="cartCodeMsg"></div>
     <div class="cart-breakdown" id="cartBreakdown"></div>
-    <p class="cart-ship-note" data-i18n="cart.ship">Envío coordinado tras la compra.</p>
+    <p class="cart-ship-note" id="cartShipNote"></p>
     <a href="checkout.html" class="cart-checkout" data-i18n="cart.checkout">Finalizar compra</a>
     <button class="cart-continue" onclick="closeCart()" data-i18n="cart.continue">Seguir comprando</button>
   </div>
@@ -1446,7 +1447,7 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 /* ── I18N ── */
 const I18N = {
   es: {
-    'announce': 'Envío gratis en pedidos +$150.000 · <span>Colombia</span>',
+    'announce': 'Envío gratis en pedidos +$140.000 · <span>Colombia</span>',
     'nav.producto':'Producto','nav.formula':'Fórmula','nav.beneficios':'Beneficios','nav.cta':'Comprar',
     'hero.tag':'E&D Gummies · Colombia',
     'hero.h1':'Tu ritual de<br><em>bienestar</em><br>diario',
@@ -1510,7 +1511,7 @@ const I18N = {
     'cookie.btn':'Aceptar',
   },
   en: {
-    'announce': 'Free shipping on orders +$150,000 · <span>Colombia</span>',
+    'announce': 'Free shipping on orders +$140,000 · <span>Colombia</span>',
     'nav.producto':'Product','nav.formula':'Formula','nav.beneficios':'Benefits','nav.cta':'Buy now',
     'hero.tag':'E&D Gummies · Colombia',
     'hero.h1':'Your daily<br><em>wellness</em><br>ritual',

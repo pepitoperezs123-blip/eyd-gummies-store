@@ -31,7 +31,8 @@ const EYD_CODES = {
   eyd:     { pct: 0.10, label: "código EYD" },
   alejo27: { pct: 0.50, label: "código especial" },
 };
-const EYD_QTY_PCT = 0.10; // descuento por llevar pares (2x)
+const EYD_QTY_PCT = 0.10;   // descuento por llevar pares (2x)
+const EYD_FREESHIP = 140000; // envío gratis desde este total (COP)
 
 // ── Carrito ──
 function eydGetCart() {
@@ -122,6 +123,8 @@ function eydTotals() {
     code: info ? info.code : "",
     codeLabel: info ? info.label : "",
     codePct: info ? info.pct : 0,
+    freeShip: total >= EYD_FREESHIP,
+    freeShipRemaining: Math.max(0, EYD_FREESHIP - total),
   };
 }
 
@@ -211,6 +214,19 @@ function eydRenderCart() {
   // Desglose de precios
   const bd = document.getElementById("cartBreakdown");
   if (bd) bd.innerHTML = eydBreakdownHTML();
+
+  // Envío gratis (umbral EYD_FREESHIP)
+  const ship = document.getElementById("cartShipNote");
+  if (ship) {
+    const tot = eydTotals();
+    if (tot.freeShip) {
+      ship.textContent = "🚚 ¡Tienes envío gratis!";
+      ship.className = "cart-ship-note free";
+    } else {
+      ship.textContent = "🚚 Te faltan " + eydFormatCOP(tot.freeShipRemaining) + " para envío gratis";
+      ship.className = "cart-ship-note";
+    }
+  }
 
   // Mensaje del código según estado aplicado
   const msgEl = document.getElementById("cartCodeMsg");
