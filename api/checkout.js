@@ -79,19 +79,21 @@ module.exports = async (req, res) => {
       qty += q;
     }
 
-    // Descuentos: el código tiene PRIORIDAD. Si no hay código válido y
-    // hay 2+ unidades, aplica 10% sobre los pares. No se acumulan.
+    // Descuentos ACUMULABLES: primero 10% por pares (2x), luego el código
+    // sobre el monto ya rebajado.
     const codeInfo = code ? EYD_CODES[String(code).trim().toLowerCase()] : null;
-    let discount = 0;
-    if (codeInfo) {
-      discount = Math.round(subtotal * codeInfo.pct);
-    } else if (qty >= 2) {
+    let qtyDiscount = 0;
+    if (qty >= 2) {
       const pairedUnits = Math.floor(qty / 2) * 2;
       const avgUnit = qty ? subtotal / qty : 0;
-      discount = Math.round(avgUnit * pairedUnits * EYD_QTY_PCT);
+      qtyDiscount = Math.round(avgUnit * pairedUnits * EYD_QTY_PCT);
+    }
+    let codeDiscount = 0;
+    if (codeInfo) {
+      codeDiscount = Math.round(codeInfo.pct * (subtotal - qtyDiscount));
     }
 
-    const totalCop = Math.max(0, subtotal - discount) + SHIPPING_COST;
+    const totalCop = Math.max(0, subtotal - qtyDiscount - codeDiscount) + SHIPPING_COST;
     const amountInCents = totalCop * 100; // Wompi trabaja en centavos
 
     // Referencia única e irrepetible por intento de pago.

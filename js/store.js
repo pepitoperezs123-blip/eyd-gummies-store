@@ -99,22 +99,23 @@ function eydApplyCode(raw) {
 function eydClearCode() { eydSetCode(""); }
 
 // ── Totales (subtotal, descuentos, total) ──
-// Regla: el código tiene PRIORIDAD. Si hay código, el descuento por
-// cantidad (2x) NO se aplica. No se acumulan.
+// Regla: los descuentos SE ACUMULAN. Primero el 10% por llevar pares (2x),
+// y luego el código se aplica sobre el monto ya rebajado.
 function eydTotals() {
   const subtotal = eydSubtotal();
   const qty = eydCartCount();
   const info = eydCodeInfo();
   let codeDiscount = 0, qtyDiscount = 0;
 
-  if (info) {
-    codeDiscount = Math.round(subtotal * info.pct);
-  } else if (qty >= 2) {
+  if (qty >= 2) {
     const pairedUnits = Math.floor(qty / 2) * 2;       // 3 → 2, 4 → 4
     const avgUnit = qty ? subtotal / qty : 0;
     qtyDiscount = Math.round(avgUnit * pairedUnits * EYD_QTY_PCT);
   }
-  const total = Math.max(0, subtotal - codeDiscount - qtyDiscount);
+  if (info) {
+    codeDiscount = Math.round(info.pct * (subtotal - qtyDiscount));
+  }
+  const total = Math.max(0, subtotal - qtyDiscount - codeDiscount);
   return {
     subtotal, qty, total,
     codeDiscount, qtyDiscount,
@@ -205,7 +206,7 @@ function eydRenderCart() {
 
   // Badge de promoción 2x (solo si no hay código aplicado)
   const promo = document.getElementById("cartPromo");
-  if (promo) promo.style.display = eydCodeInfo() ? "none" : "";
+  if (promo) promo.style.display = eydCartCount() >= 2 ? "none" : "";
 
   // Desglose de precios
   const bd = document.getElementById("cartBreakdown");
