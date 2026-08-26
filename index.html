@@ -693,9 +693,12 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
   [data-flavor="sandia"] .deco.d-sandia{opacity:.74}
 }
 /* product-section placements */
-.pd-1{top:9%;right:1.5%;width:130px}
-.pd-2{bottom:15%;left:1%;width:100px}
-@media(max-width:780px){.pd-1{width:90px}.pd-2{display:none}}
+.pd-1{top:8%;right:2%;width:118px}
+.pd-2{bottom:14%;left:1.5%;width:74px}
+@media(max-width:780px){
+  .pd-1{width:106px;top:1%;right:3%}
+  .pd-2{display:block;width:58px;bottom:auto;top:2%;left:3%}
+}
 @media(prefers-reduced-motion:reduce){
   .deco-float,.deco-float-b,.deco-float-c,.jar-wrap{animation:none}
   .deco{transition-duration:.01ms}
@@ -1047,42 +1050,14 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 <!-- PRODUCT -->
 <section class="product" id="producto">
   <div class="deco-layer" aria-hidden="true">
-    <div class="pd-1 deco-float"><svg class="deco d-uva s1" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M20 196 C20 150 46 128 60 100 C74 72 68 40 92 20" stroke="#3F7A48" stroke-width="4" stroke-linecap="round"/>
-  <path d="M60 100 C44 92 30 96 26 108 C23 118 32 126 40 122 C47 119 47 111 42 109" stroke="#3F7A48" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-  <path d="M74 62 C92 50 116 52 130 64 C118 84 96 92 80 84 C72 80 70 70 74 62Z" fill="#3F7A48" opacity=".9"/>
-  <path d="M52 130 C36 138 26 156 30 172 C50 168 62 152 60 138 C59 133 56 130 52 130Z" fill="#2F6B3C" opacity=".8"/>
-  <g fill="url(#gGrape)" opacity=".9">
-    <circle cx="106" cy="112" r="13"/><circle cx="128" cy="122" r="13"/><circle cx="116" cy="138" r="13"/>
-    <circle cx="94" cy="132" r="12"/><circle cx="107" cy="158" r="11"/>
-  </g>
-</svg><svg class="deco d-sandia s1" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <circle cx="100" cy="100" r="92" fill="#D9B117"/>
-  <circle cx="100" cy="100" r="82" fill="#F6F0DC"/>
-  <circle cx="100" cy="100" r="74" fill="url(#gLemon)"/>
-  <g stroke="#F8F2DC" stroke-width="6">
-    <path d="M100 100 L100 26 M100 100 L152 48 M100 100 L174 100 M100 100 L152 152
-             M100 100 L100 174 M100 100 L48 152 M100 100 L26 100 M100 100 L48 48"/>
-  </g>
-  <g fill="#EFC72E" opacity=".85">
-    <path d="M100 34 A66 66 0 0 1 146 54 L100 100Z"/><path d="M154 54 A66 66 0 0 1 166 100 L100 100Z"/>
-    <path d="M166 108 A66 66 0 0 1 146 146 L100 100Z"/><path d="M140 154 A66 66 0 0 1 100 166 L100 100Z"/>
-    <path d="M92 166 A66 66 0 0 1 54 146 L100 100Z"/><path d="M48 140 A66 66 0 0 1 34 100 L100 100Z"/>
-    <path d="M34 92 A66 66 0 0 1 54 54 L100 100Z"/><path d="M60 48 A66 66 0 0 1 92 34 L100 100Z"/>
-  </g>
-  <circle cx="100" cy="100" r="9" fill="#F8F2DC"/>
-</svg></div>
-    <div class="pd-2 deco-float-b"><svg class="deco d-uva s2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <circle cx="50" cy="56" r="34" fill="url(#gGrape)"/>
-  <circle cx="40" cy="45" r="11" fill="#F0D9FB" opacity=".6"/>
-  <path d="M50 22 C50 12 44 6 36 4" stroke="#5B3A1E" stroke-width="4" stroke-linecap="round"/>
-  <path d="M52 22 C64 14 78 16 84 26 C72 34 58 32 52 22Z" fill="#2F6B3C"/>
-</svg><svg class="deco d-sandia s2" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M60 136 L60 66" stroke="#2F6B3C" stroke-width="4" stroke-linecap="round"/>
-  <path d="M58 70 C26 66 8 44 12 18 C42 14 62 34 62 62 C62 66 60 70 58 70Z" fill="#3F7A48"/>
-  <path d="M62 70 C94 66 112 44 108 18 C78 14 58 34 58 62 C58 66 60 70 62 70Z" fill="#4E8F55"/>
-  <path d="M60 104 C36 102 22 86 26 66 C48 64 62 80 62 100 C62 103 61 104 60 104Z" fill="#3F7A48" opacity=".85"/>
-</svg></div>
+    <div class="pd-1 deco-float">
+      <svg class="deco d-uva" viewBox="0 0 100 132" aria-hidden="true"><use href="#sym-grapes"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 120 72" aria-hidden="true"><use href="#sym-melon"/></svg>
+    </div>
+    <div class="pd-2 deco-float-b">
+      <svg class="deco d-uva" viewBox="0 0 40 40" aria-hidden="true"><use href="#sym-grape"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 100 100" aria-hidden="true"><use href="#sym-lemon"/></svg>
+    </div>
   </div>
 
   <div class="product-grid">
