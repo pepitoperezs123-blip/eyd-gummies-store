@@ -8,22 +8,22 @@
   <link rel="icon" type="image/png" href="img/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --gold: #c9a84c; --gold-light: #e8c97a;
-      --grad-gold: linear-gradient(135deg, #e8c97a 0%, #c9a84c 45%, #a8842f 100%);
-      --dark: #0a0a0a; --dark-2: #131313; --dark-3: #1c1c1c;
-      --text: #ece6dc; --text-muted: #9c948a; --line: rgba(201,168,76,0.14);
-      --ok: #6abf8a; --err: #d46a6a; --pend: #c9a84c;
+      --bg: #EDE7D9; --surface: #FAF6EE; --cream: #FDF9F3;
+      --gold: #B8910E; --gold-light: #D4A820;
+      --dark: #2C1208; --dark-2: #140A03;
+      --text: #3A200E; --text-muted: #8A7260; --line: rgba(58,32,14,0.12);
+      --ok: #1A6B5A; --err: #B4483A; --pend: #B8910E;
     }
-    body { font-family: 'Montserrat', sans-serif; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,0.08), transparent 60%), var(--dark); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    body { font-family: 'DM Sans', sans-serif; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,145,14,0.07), transparent 60%), var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
     header { border-bottom: 1px solid var(--line); padding: 1.1rem 1.5rem; }
     .logo { display: flex; align-items: center; gap: 0.7rem; max-width: 1000px; margin: 0 auto; }
     .logo img { height: 42px; width: 42px; border-radius: 50%; object-fit: cover; }
-    .logo b { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold); font-weight: 600; }
+    .logo b { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; color: var(--dark); font-weight: 600; letter-spacing:.08em; }
 
     .view { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem; }
     .card { max-width: 520px; }
@@ -33,16 +33,16 @@
     .icon.err { border-color: var(--err); } .icon.err svg { stroke: var(--err); }
     .icon.pend { border-color: var(--pend); } .icon.pend svg { stroke: var(--pend); }
     .eyebrow { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
-    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 500; line-height: 1.1; margin-bottom: 1rem; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.1; margin-bottom: 1rem; }
     .msg { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.8rem; }
-    .ref { display: inline-block; font-size: 0.74rem; letter-spacing: 0.06em; color: var(--text-muted); background: var(--dark-2); border: 1px solid var(--line); border-radius: 4px; padding: 0.5rem 1rem; margin-bottom: 1.8rem; }
+    .ref { display: inline-block; font-size: 0.74rem; letter-spacing: 0.06em; color: var(--text-muted); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 1rem; margin-bottom: 1.8rem; }
     .ref b { color: var(--text); }
     .actions { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
-    .btn { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.95rem 2rem; border-radius: 3px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: all 0.25s; border: none; }
-    .btn-gold { background: var(--grad-gold); color: #1a1408; }
-    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.95rem 2.2rem; border-radius: 40px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; transition: all 0.25s; border: none; }
+    .btn-gold { background: var(--dark); color: var(--cream); }
+    .btn-gold:hover { background: var(--dark-2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(44,18,8,0.25); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--dark); background: rgba(58,32,14,.04); }
     .spinner { width: 44px; height: 44px; border: 3px solid var(--line); border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 1.5rem; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .hidden { display: none !important; }

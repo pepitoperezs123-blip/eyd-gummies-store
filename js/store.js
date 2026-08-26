@@ -6,19 +6,19 @@
 // ============================================================
 
 const EYD_PRODUCTS = {
-  femme: {
-    id: "femme",
-    name: "E&D Femme",
-    line: "Edición · 60 gomitas",
-    price: 120000,
-    image: "img/femme.png",
+  uva: {
+    id: "uva",
+    name: "E&D Gummies — Uva",
+    line: "60 gomitas · 30 porciones",
+    price: 89900,
+    image: "img/uva.jpg",
   },
-  homme: {
-    id: "homme",
-    name: "E&D Homme",
-    line: "Edición · 60 gomitas",
-    price: 120000,
-    image: "img/homme.png",
+  sandia: {
+    id: "sandia",
+    name: "E&D Gummies — Sandía Limón",
+    line: "60 gomitas · 30 porciones",
+    price: 89900,
+    image: "img/sandia.jpg",
   },
 };
 
