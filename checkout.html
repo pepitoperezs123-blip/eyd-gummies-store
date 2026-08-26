@@ -59,6 +59,15 @@
     .sum-item .q { font-size: 0.74rem; color: var(--text-muted); margin-top: 0.2rem; }
     .sum-item .p { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--dark); }
     .sum-line { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.5rem 0; color: var(--text-muted); }
+    .sum-disc { color: #1a7a4f; font-weight: 600; }
+    .co-code { display: flex; gap: .5rem; margin: 1rem 0 .5rem; }
+    .co-code input { flex: 1; min-width: 0; background: var(--cream); border: 1px solid var(--line); border-radius: 8px; padding: .7rem .8rem; font-family: 'DM Sans', sans-serif; font-size: .88rem; color: var(--text); }
+    .co-code input:focus { outline: none; border-color: var(--dark); }
+    .co-code button { background: var(--gold); color: #1c1409; border: none; border-radius: 8px; padding: .7rem 1.1rem; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .3s; }
+    .co-code button:hover { background: var(--gold-light); }
+    .co-code-msg { font-size: .78rem; min-height: .9rem; margin-bottom: .6rem; font-weight: 500; }
+    .co-code-msg.ok { color: #1a7a4f; }
+    .co-code-msg.err { color: #b4483a; }
     .sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid var(--line); }
     .sum-total .lbl { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
     .sum-total .amt { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight:300; color: var(--dark); }
@@ -154,7 +163,12 @@
         <div class="panel">
           <h2 data-i18n="sum_h">Tu pedido</h2>
           <div id="sumItems"></div>
-          <div class="sum-line"><span data-i18n="sum_subtotal">Subtotal</span><span id="sumSubtotal">$0</span></div>
+          <div class="co-code">
+            <input id="coCodeInput" type="text" placeholder="Código de descuento" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();applyCheckoutCode();}" />
+            <button type="button" onclick="applyCheckoutCode()" data-i18n="code_apply">Aplicar</button>
+          </div>
+          <div class="co-code-msg" id="coCodeMsg"></div>
+          <div id="sumBreakdown"></div>
           <div class="sum-line"><span data-i18n="sum_ship">Envío</span><span data-i18n="sum_ship_val">A coordinar</span></div>
           <div class="sum-total"><span class="lbl" data-i18n="sum_total">Total a pagar</span><span class="amt" id="sumTotal">$0</span></div>
 
@@ -260,9 +274,30 @@
         </div>`;
       }).join("");
 
-      const sub = eydSubtotal();
-      document.getElementById("sumSubtotal").textContent = eydFormatCOP(sub);
-      document.getElementById("sumTotal").textContent = eydFormatCOP(sub);
+      renderTotals();
+    }
+
+    function renderTotals() {
+      const t2 = eydTotals();
+      let h = '<div class="sum-line"><span>Subtotal</span><span>' + eydFormatCOP(t2.subtotal) + "</span></div>";
+      if (t2.qtyDiscount > 0)
+        h += '<div class="sum-line sum-disc"><span>−10% por llevar 2</span><span>−' + eydFormatCOP(t2.qtyDiscount) + "</span></div>";
+      if (t2.codeDiscount > 0)
+        h += '<div class="sum-line sum-disc"><span>−' + Math.round(t2.codePct * 100) + "% " + t2.codeLabel + "</span><span>−" + eydFormatCOP(t2.codeDiscount) + "</span></div>";
+      document.getElementById("sumBreakdown").innerHTML = h;
+      document.getElementById("sumTotal").textContent = eydFormatCOP(t2.total);
+      const info = eydCodeInfo();
+      const msg = document.getElementById("coCodeMsg");
+      if (msg && info) { msg.textContent = "¡Código aplicado! " + Math.round(info.pct * 100) + "% de descuento"; msg.className = "co-code-msg ok"; }
+    }
+
+    function applyCheckoutCode() {
+      const inp = document.getElementById("coCodeInput");
+      const res = eydApplyCode(inp ? inp.value : "");
+      renderTotals();
+      const msg = document.getElementById("coCodeMsg");
+      if (msg) { msg.textContent = res.msg; msg.className = "co-code-msg " + res.type; }
+      if (res.ok && inp) inp.value = "";
     }
 
     // ── Validación + pago ──
@@ -315,7 +350,7 @@
         const res = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items }),
+          body: JSON.stringify({ items, code: eydGetCode() }),
         });
 
         // Pasarela aún sin credenciales → 503 { configured:false }

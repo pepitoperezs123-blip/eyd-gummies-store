@@ -597,6 +597,32 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
 }
 .cookie-accept:hover{background:var(--gold2)}
 
+/* ═══ POPUP DESCUENTO ═══ */
+.promo-modal{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;background:rgba(20,10,3,.62);backdrop-filter:blur(5px);
+  opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.promo-modal.open{opacity:1;visibility:visible}
+.promo-box{position:relative;max-width:340px;width:100%;text-align:center;
+  background:linear-gradient(160deg,#5C3D2E,#3F2A1F);
+  border:1px solid rgba(212,165,116,.42);border-radius:22px;padding:2.5rem 1.8rem 2rem;
+  box-shadow:0 30px 70px rgba(20,10,3,.5);
+  transform:translateY(16px) scale(.97);transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.promo-modal.open .promo-box{transform:none}
+.promo-x{position:absolute;top:.85rem;right:1rem;background:none;border:none;color:rgba(245,230,211,.6);
+  font-size:1.05rem;cursor:pointer;line-height:1;transition:color .3s}
+.promo-x:hover{color:#F5E6D3}
+.promo-emoji{font-size:2.6rem;margin-bottom:.4rem;line-height:1}
+.promo-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;
+  color:#D4A574;margin-bottom:.5rem;line-height:1.1}
+.promo-text{color:#F5E6D3;font-size:.96rem;margin-bottom:1.6rem}
+.promo-text b{color:#D4A574;letter-spacing:.14em;font-weight:700;
+  background:rgba(212,165,116,.14);border:1px dashed rgba(212,165,116,.55);
+  border-radius:6px;padding:.12em .55em;margin-left:.15em}
+.promo-copy{background:#D4A574;color:#3F2A1F;border:none;border-radius:40px;
+  padding:.82em 2.1em;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  cursor:pointer;transition:background .3s,transform .2s}
+.promo-copy:hover{background:#E3B988;transform:translateY(-2px)}
+
 /* ═══ MODALS ═══ */
 .modal-ov{
   position:fixed;inset:0;background:rgba(20,10,3,.6);z-index:1000;
@@ -717,6 +743,28 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
 .cart-continue{display:block;width:100%;margin-top:.8rem;font-size:.72rem;
   letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .cart-continue:hover{color:var(--ink)}
+/* Descuentos en el carrito */
+.cart-promo{background:rgba(var(--accent-r),var(--accent-g),var(--accent-b),.13);
+  color:var(--accent);border:1px solid rgba(var(--accent-r),var(--accent-g),var(--accent-b),.32);
+  border-radius:10px;padding:.55rem .8rem;font-size:.76rem;font-weight:600;text-align:center;margin-bottom:.9rem}
+.cart-code{display:flex;gap:.5rem;margin-bottom:.45rem}
+.cart-code input{flex:1;min-width:0;background:var(--card);border:1px solid var(--border);
+  border-radius:9px;padding:.62rem .7rem;font:inherit;font-size:.84rem;color:var(--ink)}
+.cart-code input::placeholder{color:var(--muted)}
+.cart-code input:focus{outline:none;border-color:var(--gold)}
+.cart-code button{background:var(--gold);color:#1c1409;border:none;border-radius:9px;
+  padding:.62rem 1rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  cursor:pointer;transition:background .3s,transform .2s;white-space:nowrap}
+.cart-code button:hover{background:var(--gold2);transform:translateY(-1px)}
+.cart-code-msg{font-size:.75rem;min-height:.9rem;margin-bottom:.7rem;font-weight:500}
+.cart-code-msg.ok{color:#3f9d5a}
+.cart-code-msg.err{color:#d0674f}
+.cart-breakdown{margin-bottom:1rem}
+.bd-line{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);padding:.22rem 0}
+.bd-line.bd-disc{color:#3f9d5a;font-weight:600}
+.bd-total{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:var(--ink);
+  border-top:1px solid var(--border);margin-top:.45rem;padding-top:.55rem}
 
 </style>
 <script>
@@ -1058,7 +1106,7 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
         <li data-i18n="feat.4">Sin azúcar añadida · Con edulcorantes</li>
       </ul>
 
-      <p class="prod-price"><sup>$</sup>120.000 <span style="font-size:1.1rem;color:var(--muted)">COP</span></p>
+      <p class="prod-price"><sup>$</sup>89.900 <span style="font-size:1.1rem;color:var(--muted)">COP</span></p>
       <p class="prod-price-note" data-i18n="prod.price.note">Precio por frasco · 180 g · 30 porciones</p>
 
       <button class="cta" onclick="addToCart(currentFlavor)">
@@ -1335,7 +1383,13 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot" id="cartFooter" style="display:none">
-    <div class="cart-subtotal"><span data-i18n="cart.subtotal">Subtotal</span><span id="cartSubtotalAmount">$0</span></div>
+    <div class="cart-promo" id="cartPromo">🎁 ¡Llevá 2 y ahorrá 10%!</div>
+    <div class="cart-code">
+      <input id="cartCodeInput" type="text" placeholder="Código de descuento" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();applyCartCode();}" />
+      <button type="button" onclick="applyCartCode()">Aplicar</button>
+    </div>
+    <div class="cart-code-msg" id="cartCodeMsg"></div>
+    <div class="cart-breakdown" id="cartBreakdown"></div>
     <p class="cart-ship-note" data-i18n="cart.ship">Envío coordinado tras la compra.</p>
     <a href="checkout.html" class="cart-checkout" data-i18n="cart.checkout">Finalizar compra</a>
     <button class="cart-continue" onclick="closeCart()" data-i18n="cart.continue">Seguir comprando</button>
@@ -1346,6 +1400,17 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 <div class="cookie" id="cookieBar">
   <span data-i18n-html="cookie.text">Usamos cookies para mejorar tu experiencia. <a href="#" onclick="openModal('m-cookies');return false">Más información</a></span>
   <button class="cookie-accept" onclick="acceptCookies()" data-i18n="cookie.btn">Aceptar</button>
+</div>
+
+<!-- POPUP DESCUENTO -->
+<div class="promo-modal" id="promoModal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+  <div class="promo-box">
+    <button class="promo-x" onclick="closePromo()" aria-label="Cerrar">&#10005;</button>
+    <div class="promo-emoji">🎉</div>
+    <h3 class="promo-title" id="promoTitle">¡10% de descuento!</h3>
+    <p class="promo-text">Usa el código <b>EYD</b> en tu compra</p>
+    <button class="promo-copy" id="promoCopy" onclick="copyPromo()">Copiar código</button>
+  </div>
 </div>
 
 <!-- MODALS -->
@@ -1611,6 +1676,34 @@ try {
   const savedLang = localStorage.getItem('eyd_lang');
   if (savedLang && I18N[savedLang]) setLang(savedLang);
 } catch(e) {}
+
+/* ── Popup de descuento (código EYD) ── */
+function closePromo(){
+  var m=document.getElementById('promoModal');
+  if(m) m.classList.remove('open');
+  try{ localStorage.setItem('eyd_promo_seen','1'); }catch(e){}
+}
+function copyPromo(){
+  var done=function(){
+    var b=document.getElementById('promoCopy');
+    if(b){ var o=b.textContent; b.textContent='¡Copiado! ✓'; setTimeout(function(){b.textContent=o;},1800); }
+  };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText('EYD').then(done, done);
+    } else { throw 0; }
+  }catch(e){
+    try{ var ta=document.createElement('textarea'); ta.value='EYD';
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+    }catch(_){}
+  }
+}
+(function initPromo(){
+  var seen=false; try{ seen=!!localStorage.getItem('eyd_promo_seen'); }catch(e){}
+  if(seen) return;
+  setTimeout(function(){ var m=document.getElementById('promoModal'); if(m) m.classList.add('open'); }, 5000);
+})();
 
 /* ── Scroll reveal ── */
 const obs = new IntersectionObserver(entries => {

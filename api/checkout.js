@@ -24,8 +24,8 @@ const crypto = require("crypto");
 // Mantener sincronizado con js/store.js. El monto se recalcula
 // aquí para que nadie pueda manipular el precio desde el navegador.
 const PRICES = {
-  uva:    { name: "E&D Gummies — Uva · 60 gomitas", price: 120000 },
-  sandia: { name: "E&D Gummies — Sandía Limón · 60 gomitas", price: 120000 },
+  uva:    { name: "E&D Gummies — Uva · 60 gomitas", price: 89900 },
+  sandia: { name: "E&D Gummies — Sandía Limón · 60 gomitas", price: 89900 },
 };
 
 const CURRENCY = "COP";
@@ -33,6 +33,13 @@ const CURRENCY = "COP";
 // Costo de envío en COP. 0 = se coordina/incluido tras la compra.
 // Cambia este valor cuando definas tarifa de envío.
 const SHIPPING_COST = 0;
+
+// Códigos de descuento (deben coincidir con js/store.js).
+const EYD_CODES = {
+  eyd:     { pct: 0.10 },
+  alejo27: { pct: 0.50 },
+};
+const EYD_QTY_PCT = 0.10; // descuento por pares (2x)
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -54,24 +61,37 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { items } = req.body || {};
+    const { items, code } = req.body || {};
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: "El carrito está vacío" });
     }
 
     // Recalcular el monto en el servidor con precios de confianza.
-    let subtotal = 0;
+    let subtotal = 0, qty = 0;
     for (const it of items) {
       const product = PRICES[it && it.id];
-      const qty = parseInt(it && it.qty, 10);
-      if (!product || !Number.isInteger(qty) || qty < 1 || qty > 50) {
+      const q = parseInt(it && it.qty, 10);
+      if (!product || !Number.isInteger(q) || q < 1 || q > 50) {
         return res.status(400).json({ error: "Producto o cantidad inválida" });
       }
-      subtotal += product.price * qty;
+      subtotal += product.price * q;
+      qty += q;
     }
 
-    const totalCop = subtotal + SHIPPING_COST;
+    // Descuentos: el código tiene PRIORIDAD. Si no hay código válido y
+    // hay 2+ unidades, aplica 10% sobre los pares. No se acumulan.
+    const codeInfo = code ? EYD_CODES[String(code).trim().toLowerCase()] : null;
+    let discount = 0;
+    if (codeInfo) {
+      discount = Math.round(subtotal * codeInfo.pct);
+    } else if (qty >= 2) {
+      const pairedUnits = Math.floor(qty / 2) * 2;
+      const avgUnit = qty ? subtotal / qty : 0;
+      discount = Math.round(avgUnit * pairedUnits * EYD_QTY_PCT);
+    }
+
+    const totalCop = Math.max(0, subtotal - discount) + SHIPPING_COST;
     const amountInCents = totalCop * 100; // Wompi trabaja en centavos
 
     // Referencia única e irrepetible por intento de pago.
