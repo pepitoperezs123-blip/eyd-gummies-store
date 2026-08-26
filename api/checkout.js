@@ -24,8 +24,8 @@ const crypto = require("crypto");
 // Mantener sincronizado con js/store.js. El monto se recalcula
 // aquí para que nadie pueda manipular el precio desde el navegador.
 const PRICES = {
-  uva:    { name: "E&D Gummies — Uva · 60 gomitas", price: 89900 },
-  sandia: { name: "E&D Gummies — Sandía Limón · 60 gomitas", price: 89900 },
+  uva:    { name: "E&D Gummies — Uva · 60 gomitas", price: 120000 },
+  sandia: { name: "E&D Gummies — Sandía Limón · 60 gomitas", price: 120000 },
 };
 
 const CURRENCY = "COP";

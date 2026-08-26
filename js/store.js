@@ -10,14 +10,14 @@ const EYD_PRODUCTS = {
     id: "uva",
     name: "E&D Gummies — Uva",
     line: "60 gomitas · 30 porciones",
-    price: 89900,
+    price: 120000,
     image: "img/uva.jpg",
   },
   sandia: {
     id: "sandia",
     name: "E&D Gummies — Sandía Limón",
     line: "60 gomitas · 30 porciones",
-    price: 89900,
+    price: 120000,
     image: "img/sandia.jpg",
   },
 };
