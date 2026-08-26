@@ -76,6 +76,7 @@
   <script>
     var LANG = "es";
     try { LANG = (localStorage.getItem("eyd_lang") || "es").indexOf("en") === 0 ? "en" : "es"; } catch (e) {}
+    document.title = LANG === "en" ? "Payment status — E&D" : "Estado del pago — E&D";
 
     var STR = {
       es: {

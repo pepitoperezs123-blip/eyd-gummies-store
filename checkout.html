@@ -237,6 +237,7 @@
     };
     let LANG = "es";
     try { LANG = (localStorage.getItem("eyd_lang") || "es").startsWith("en") ? "en" : "es"; } catch (e) {}
+    document.title = LANG === "en" ? "Checkout — E&D" : "Finalizar compra — E&D";
     const t = (k) => (T[LANG] && T[LANG][k]) || T.es[k] || k;
 
     function applyI18n() {
