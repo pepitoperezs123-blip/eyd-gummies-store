@@ -118,7 +118,7 @@ h3{font-size:clamp(1.1rem,2vw,1.55rem);font-weight:400}
       color:var(--muted);border:1px solid var(--border);padding:.3em 1em;border-radius:40px}
 .divider{width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:1rem auto}
 section{position:relative;padding:7.5rem 5%}
-.inner{max-width:1160px;margin:0 auto}
+.inner{max-width:1160px;margin:0 auto;position:relative;z-index:1}
 
 /* ═══ REVEAL ANIMATIONS ═══ */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
@@ -616,7 +616,11 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
   filter:saturate(1.08) drop-shadow(0 7px 12px rgba(20,10,3,.26));
 }
 [data-flavor="uva"]   .deco.d-uva,
-[data-flavor="sandia"] .deco.d-sandia{opacity:.52;transform:scale(1) rotate(0deg)}
+[data-flavor="sandia"] .deco.d-sandia{opacity:.6;transform:scale(1) rotate(0deg)}
+/* frutas extra reutilizables (símbolos) */
+.deco-extra{position:absolute;inset:0;width:100%;height:auto}
+.fruit{position:absolute}
+@media(max-width:840px){.fruit.hide-sm{display:none}}
 /* staggered entrance */
 .deco.s1{transition-delay:.02s}.deco.s2{transition-delay:.12s}
 .deco.s3{transition-delay:.22s}.deco.s4{transition-delay:.32s}
@@ -704,8 +708,8 @@ footer{background:var(--dark2);padding:3.5rem 5%;border-top:1px solid rgba(253,2
 <script>
 /* aplica el tema antes de pintar para evitar parpadeo */
 (function(){try{var t=localStorage.getItem('eyd_theme');
-if(!t)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
-if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();
+if(!t)t='dark';/* modo oscuro por defecto */
+if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
 </head>
 <body>
@@ -732,6 +736,51 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
     <stop offset="55%" stop-color="#F2D34A"/>
     <stop offset="100%" stop-color="#C99A14"/>
   </radialGradient>
+  <radialGradient id="gBerry" cx="0.36" cy="0.3" r="0.85">
+    <stop offset="0%" stop-color="#7E9CDD"/>
+    <stop offset="50%" stop-color="#3A5391"/>
+    <stop offset="100%" stop-color="#1B2A55"/>
+  </radialGradient>
+  <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#63AE5F"/>
+    <stop offset="100%" stop-color="#2C5A28"/>
+  </linearGradient>
+  <!-- símbolos de frutas reutilizables -->
+  <symbol id="sym-grape" viewBox="0 0 40 40">
+    <path d="M20 10 C20 6 17 4 13 3" stroke="#5B3A1E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M21 10 C26 5 33 6 36 11 C30 15 24 15 21 10Z" fill="url(#gLeaf)"/>
+    <circle cx="20" cy="23" r="14" fill="url(#gGrape)"/>
+    <circle cx="15" cy="18" r="4.4" fill="#F0D9FB" opacity=".6"/>
+  </symbol>
+  <symbol id="sym-grapes" viewBox="0 0 100 132">
+    <path d="M52 42 C52 27 48 16 38 9" stroke="#5B3A1E" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M55 34 C65 22 84 20 95 29 C86 43 68 49 56 42Z" fill="url(#gLeaf)"/>
+    <g fill="url(#gGrape)"><circle cx="50" cy="52" r="12.5"/><circle cx="33" cy="60" r="12.5"/><circle cx="67" cy="60" r="12.5"/><circle cx="42" cy="77" r="12.5"/><circle cx="58" cy="77" r="12.5"/><circle cx="34" cy="93" r="11"/><circle cx="66" cy="93" r="11"/><circle cx="50" cy="95" r="12"/><circle cx="50" cy="115" r="10.5"/></g>
+    <g fill="#F0D9FB" opacity=".5"><circle cx="46" cy="48" r="3.6"/><circle cx="29" cy="56" r="3.3"/><circle cx="63" cy="56" r="3.3"/><circle cx="46" cy="91" r="3"/></g>
+  </symbol>
+  <symbol id="sym-melon" viewBox="0 0 120 72">
+    <path d="M2 8 A58 58 0 0 0 118 8 Z" fill="url(#gRind)"/>
+    <path d="M9 12 A52 52 0 0 0 111 12 Z" fill="#F2EDDD"/>
+    <path d="M15 18 A46 46 0 0 0 105 18 Z" fill="url(#gMelon)"/>
+    <g fill="#2A1206"><ellipse cx="44" cy="32" rx="2.6" ry="4.2" transform="rotate(-14 44 32)"/><ellipse cx="76" cy="32" rx="2.6" ry="4.2" transform="rotate(14 76 32)"/><ellipse cx="60" cy="27" rx="2.5" ry="4"/><ellipse cx="60" cy="48" rx="2.4" ry="3.8"/></g>
+  </symbol>
+  <symbol id="sym-lemon" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="#D9B117"/>
+    <circle cx="50" cy="50" r="41" fill="#F6F0DC"/>
+    <circle cx="50" cy="50" r="37" fill="url(#gLemon)"/>
+    <g stroke="#F8F2DC" stroke-width="3"><path d="M50 50 L50 13 M50 50 L76 24 M50 50 L87 50 M50 50 L76 76 M50 50 L50 87 M50 50 L24 76 M50 50 L13 50 M50 50 L24 24"/></g>
+    <circle cx="50" cy="50" r="4.5" fill="#F8F2DC"/>
+  </symbol>
+  <symbol id="sym-berry" viewBox="0 0 40 40">
+    <circle cx="20" cy="22" r="13.5" fill="url(#gBerry)"/>
+    <circle cx="15" cy="17" r="4" fill="#AFC6EE" opacity=".5"/>
+    <path d="M20 10 l1.8 3 3.2-1 -1.6 3 3.2 1.2 -3.4 .8 -1.4 3.2 -1.4-3.2 -3.4-.8 3.2-1.2 -1.6-3 3.2 1z" fill="#2C5A28"/>
+  </symbol>
+  <symbol id="sym-leaf" viewBox="0 0 60 60">
+    <path d="M52 8 C20 12 5 34 11 55 C43 51 57 30 52 8Z" fill="url(#gLeaf)"/>
+    <path d="M46 15 L17 49" stroke="#22522C" stroke-width="1.7" opacity=".5"/>
+    <path d="M40 20 L28 36 M49 30 L34 42" stroke="#22522C" stroke-width="1.2" opacity=".35"/>
+  </symbol>
 </defs></svg>
 
 <!-- ANNOUNCE -->
@@ -778,6 +827,18 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 <!-- HERO -->
 <section class="hero">
   <div class="deco-layer" aria-hidden="true">
+    <div class="fruit hide-sm deco-float" style="top:11%;left:38%;width:44px">
+      <svg class="deco d-uva" viewBox="0 0 40 40"><use href="#sym-berry"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 40 40"><use href="#sym-berry"/></svg>
+    </div>
+    <div class="fruit hide-sm deco-float-b" style="top:64%;right:13%;width:58px">
+      <svg class="deco d-uva" viewBox="0 0 40 40"><use href="#sym-grape"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 100 100"><use href="#sym-lemon"/></svg>
+    </div>
+    <div class="fruit deco-float-c" style="top:83%;left:5%;width:52px">
+      <svg class="deco d-uva" viewBox="0 0 60 60"><use href="#sym-leaf"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 60 60"><use href="#sym-leaf"/></svg>
+    </div>
     <div class="dp-1 deco-float"><svg class="deco d-uva s1" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path d="M104 74 C104 52 96 36 78 26" stroke="#5B3A1E" stroke-width="4.5" stroke-linecap="round"/>
   <path d="M78 27 C58 14 40 20 34 34 C30 45 38 54 47 52 C55 50 56 42 51 39" stroke="#5B3A1E" stroke-width="3.4" stroke-linecap="round" fill="none"/>
@@ -989,6 +1050,20 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 
 <!-- FORMULA -->
 <section class="formula" id="formula">
+  <div class="deco-layer" aria-hidden="true">
+    <div class="fruit hide-sm deco-float" style="top:8%;right:4%;width:72px">
+      <svg class="deco d-uva" viewBox="0 0 100 132"><use href="#sym-grapes"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 120 72"><use href="#sym-melon"/></svg>
+    </div>
+    <div class="fruit hide-sm deco-float-b" style="bottom:9%;left:3%;width:50px">
+      <svg class="deco d-uva" viewBox="0 0 40 40"><use href="#sym-grape"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 100 100"><use href="#sym-lemon"/></svg>
+    </div>
+    <div class="fruit deco-float-c" style="top:46%;right:7%;width:38px">
+      <svg class="deco d-uva" viewBox="0 0 40 40"><use href="#sym-berry"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 40 40"><use href="#sym-berry"/></svg>
+    </div>
+  </div>
   <svg class="botanical bot-3" viewBox="0 0 200 300" fill="none">
     <path d="M100 280 C100 280 20 200 30 100 C35 50 80 20 100 10 C120 20 165 50 170 100 C180 200 100 280 100 280Z" fill="#3A6030" opacity=".6"/>
     <path d="M100 270 L100 50" stroke="#2D5A28" stroke-width="2"/>
@@ -1037,6 +1112,16 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
 
 <!-- BENEFITS -->
 <section class="benefits" id="beneficios">
+  <div class="deco-layer" aria-hidden="true">
+    <div class="fruit hide-sm deco-float" style="top:12%;left:4%;width:60px">
+      <svg class="deco d-uva" viewBox="0 0 100 132"><use href="#sym-grapes"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 120 72"><use href="#sym-melon"/></svg>
+    </div>
+    <div class="fruit hide-sm deco-float-c" style="bottom:14%;right:6%;width:46px">
+      <svg class="deco d-uva" viewBox="0 0 40 40"><use href="#sym-grape"/></svg>
+      <svg class="deco d-sandia" viewBox="0 0 100 100"><use href="#sym-lemon"/></svg>
+    </div>
+  </div>
   <div class="inner">
     <div class="center reveal">
       <p class="tag" data-i18n="ben.tag">Por qué E&D</p>
