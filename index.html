@@ -1408,9 +1408,9 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
   <div class="promo-box">
     <button class="promo-x" onclick="closePromo()" aria-label="Cerrar">&#10005;</button>
     <div class="promo-emoji">🎉</div>
-    <h3 class="promo-title" id="promoTitle">¡10% de descuento!</h3>
-    <p class="promo-text">Usa el código <b>EYD</b> en tu compra</p>
-    <button class="promo-copy" id="promoCopy" onclick="copyPromo()">Copiar código</button>
+    <h3 class="promo-title" id="promoTitle" data-i18n="promo.title">¡10% de descuento!</h3>
+    <p class="promo-text" data-i18n-html="promo.text">Usa el código <b>EYD</b> en tu compra</p>
+    <button class="promo-copy" id="promoCopy" onclick="copyPromo()" data-i18n="promo.copy">Copiar código</button>
   </div>
 </div>
 
@@ -1509,6 +1509,7 @@ const I18N = {
     'foot.terms':'Términos','foot.privacy':'Privacidad','foot.cookies':'Cookies','foot.returns':'Cambios y Devoluciones',
     'cookie.text':'Usamos cookies para mejorar tu experiencia. <a href="#" onclick=&quot;openModal(\'m-cookies\');return false&quot;>Más información</a>',
     'cookie.btn':'Aceptar',
+    'promo.title':'¡10% de descuento!','promo.text':'Usa el código <b>EYD</b> en tu compra','promo.copy':'Copiar código','promo.copied':'¡Copiado! ✓',
   },
   en: {
     'announce': 'Free shipping on orders +$140,000 · <span>Colombia</span>',
@@ -1573,6 +1574,7 @@ const I18N = {
     'foot.terms':'Terms','foot.privacy':'Privacy','foot.cookies':'Cookies','foot.returns':'Returns',
     'cookie.text':'We use cookies to improve your experience. <a href="#" onclick=&quot;openModal(\'m-cookies\');return false&quot;>Learn more</a>',
     'cookie.btn':'Accept',
+    'promo.title':'10% off!','promo.text':'Use code <b>EYD</b> at checkout','promo.copy':'Copy code','promo.copied':'Copied! ✓',
   }
 };
 
@@ -1599,6 +1601,7 @@ function applyLang(lang) {
   });
   document.documentElement.lang = lang;
   try { localStorage.setItem('eyd_lang', lang); } catch(e) {}
+  if (typeof eydRenderCart === 'function') eydRenderCart();
 }
 
 function setLang(lang) {
@@ -1687,7 +1690,9 @@ function closePromo(){
 function copyPromo(){
   var done=function(){
     var b=document.getElementById('promoCopy');
-    if(b){ var o=b.textContent; b.textContent='¡Copiado! ✓'; setTimeout(function(){b.textContent=o;},1800); }
+    if(b){ var lg=document.documentElement.lang||'es'; var dd=I18N[lg]||I18N.es;
+      b.textContent=dd['promo.copied']||'¡Copiado! ✓';
+      setTimeout(function(){ b.textContent=dd['promo.copy']||'Copiar código'; },1800); }
   };
   try{
     if(navigator.clipboard && navigator.clipboard.writeText){

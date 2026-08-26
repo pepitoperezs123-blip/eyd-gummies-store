@@ -1,5 +1,5 @@
 // ============================================================
-// store.js — Carrito E&D (localStorage) + descuentos
+// store.js — Carrito E&D (localStorage) + descuentos + i18n
 // Compartido por index.html (cajón lateral) y checkout.html.
 // Los precios/lógica aquí deben coincidir con api/checkout.js
 // (el servidor SIEMPRE recalcula el monto real al pagar).
@@ -28,11 +28,44 @@ const EYD_CODE_KEY = "eyd_code";
 // Códigos válidos (case-insensitive). "alejo27" es SECRETO: no se
 // muestra ni menciona en la interfaz; su etiqueta visible es genérica.
 const EYD_CODES = {
-  eyd:     { pct: 0.10, label: "código EYD" },
-  alejo27: { pct: 0.50, label: "código especial" },
+  eyd:     { pct: 0.10, labelKey: "code_eyd" },
+  alejo27: { pct: 0.50, labelKey: "code_special" },
 };
 const EYD_QTY_PCT = 0.10;   // descuento por llevar pares (2x)
 const EYD_FREESHIP = 140000; // envío gratis desde este total (COP)
+
+// ── i18n para todo el texto dinámico del carrito/checkout ──
+const EYD_STRINGS = {
+  es: {
+    subtotal: "Subtotal", total: "Total",
+    qty2: "−10% por llevar 2",
+    code_eyd: "código EYD", code_special: "código especial",
+    applied: function (p) { return "¡Código aplicado! " + p + "% de descuento"; },
+    invalid: "Código no válido",
+    promo2: "🎁 ¡Llevá 2 y ahorrá 10%!",
+    ship_free: "🚚 ¡Tienes envío gratis!",
+    ship_left: function (a) { return "🚚 Te faltan " + a + " para envío gratis"; },
+    placeholder: "Código de descuento", apply: "Aplicar",
+    empty: "Tu carrito está vacío.",
+  },
+  en: {
+    subtotal: "Subtotal", total: "Total",
+    qty2: "−10% for buying 2",
+    code_eyd: "EYD code", code_special: "special code",
+    applied: function (p) { return "Code applied! " + p + "% off"; },
+    invalid: "Invalid code",
+    promo2: "🎁 Buy 2 and save 10%!",
+    ship_free: "🚚 You've got free shipping!",
+    ship_left: function (a) { return "🚚 " + a + " away from free shipping"; },
+    placeholder: "Discount code", apply: "Apply",
+    empty: "Your cart is empty.",
+  },
+};
+function eydLang() {
+  try { return (localStorage.getItem("eyd_lang") || "es").indexOf("en") === 0 ? "en" : "es"; }
+  catch (e) { return "es"; }
+}
+function eydStr(k) { const d = EYD_STRINGS[eydLang()] || EYD_STRINGS.es; return d[k]; }
 
 // ── Carrito ──
 function eydGetCart() {
@@ -93,9 +126,9 @@ function eydApplyCode(raw) {
   const c = (raw || "").trim().toLowerCase();
   if (c && EYD_CODES[c]) {
     eydSetCode(c);
-    return { ok: true, type: "ok", msg: "¡Código aplicado! " + Math.round(EYD_CODES[c].pct * 100) + "% de descuento" };
+    return { ok: true, type: "ok", msg: eydStr("applied")(Math.round(EYD_CODES[c].pct * 100)) };
   }
-  return { ok: false, type: "err", msg: "Código no válido" };
+  return { ok: false, type: "err", msg: eydStr("invalid") };
 }
 function eydClearCode() { eydSetCode(""); }
 
@@ -121,22 +154,22 @@ function eydTotals() {
     subtotal, qty, total,
     codeDiscount, qtyDiscount,
     code: info ? info.code : "",
-    codeLabel: info ? info.label : "",
+    codeLabel: info ? eydStr(info.labelKey) : "",
     codePct: info ? info.pct : 0,
     freeShip: total >= EYD_FREESHIP,
     freeShipRemaining: Math.max(0, EYD_FREESHIP - total),
   };
 }
 
-// Desglose HTML reutilizable (carrito y checkout)
+// Desglose HTML reutilizable (carrito)
 function eydBreakdownHTML() {
   const t = eydTotals();
-  let h = '<div class="bd-line"><span>Subtotal</span><span>' + eydFormatCOP(t.subtotal) + "</span></div>";
+  let h = '<div class="bd-line"><span>' + eydStr("subtotal") + "</span><span>" + eydFormatCOP(t.subtotal) + "</span></div>";
   if (t.qtyDiscount > 0)
-    h += '<div class="bd-line bd-disc"><span>−10% por llevar 2</span><span>−' + eydFormatCOP(t.qtyDiscount) + "</span></div>";
+    h += '<div class="bd-line bd-disc"><span>' + eydStr("qty2") + "</span><span>−" + eydFormatCOP(t.qtyDiscount) + "</span></div>";
   if (t.codeDiscount > 0)
     h += '<div class="bd-line bd-disc"><span>−' + Math.round(t.codePct * 100) + "% " + t.codeLabel + "</span><span>−" + eydFormatCOP(t.codeDiscount) + "</span></div>";
-  h += '<div class="bd-total"><span>Total</span><span>' + eydFormatCOP(t.total) + "</span></div>";
+  h += '<div class="bd-total"><span>' + eydStr("total") + "</span><span>" + eydFormatCOP(t.total) + "</span></div>";
   return h;
 }
 
@@ -180,9 +213,8 @@ function eydRenderCart() {
   const cart = eydGetCart();
 
   if (cart.length === 0) {
-    itemsEl.innerHTML = '<div class="cart-empty" data-i18n="cart_empty">Tu carrito está vacío.</div>';
+    itemsEl.innerHTML = '<div class="cart-empty">' + eydStr("empty") + "</div>";
     if (footerEl) footerEl.style.display = "none";
-    if (typeof applyLang === "function") applyLang(document.documentElement.lang || "es");
     return;
   }
   if (footerEl) footerEl.style.display = "block";
@@ -197,19 +229,25 @@ function eydRenderCart() {
           <div class="ci-name">${p.name}</div>
           <div class="ci-line">${p.line}</div>
           <div class="ci-qty">
-            <button onclick="updateQty('${p.id}', -1)" aria-label="Restar">−</button>
+            <button onclick="updateQty('${p.id}', -1)" aria-label="−">−</button>
             <span>${item.qty}</span>
-            <button onclick="updateQty('${p.id}', 1)" aria-label="Sumar">+</button>
+            <button onclick="updateQty('${p.id}', 1)" aria-label="+">+</button>
           </div>
-          <button class="ci-remove" onclick="removeFromCart('${p.id}')">Eliminar</button>
+          <button class="ci-remove" onclick="removeFromCart('${p.id}')">${eydLang() === "en" ? "Remove" : "Eliminar"}</button>
         </div>
         <div class="ci-price">${eydFormatCOP(p.price * item.qty)}</div>
       </div>`;
   }).join("");
 
-  // Badge de promoción 2x (solo si no hay código aplicado)
+  // Textos localizados del bloque de descuento
+  const codeInput = document.getElementById("cartCodeInput");
+  if (codeInput) codeInput.placeholder = eydStr("placeholder");
+  const applyBtn = document.querySelector(".cart-code button");
+  if (applyBtn) applyBtn.textContent = eydStr("apply");
+
+  // Badge de promoción 2x (se oculta al llegar a 2+)
   const promo = document.getElementById("cartPromo");
-  if (promo) promo.style.display = eydCartCount() >= 2 ? "none" : "";
+  if (promo) { promo.textContent = eydStr("promo2"); promo.style.display = count >= 2 ? "none" : ""; }
 
   // Desglose de precios
   const bd = document.getElementById("cartBreakdown");
@@ -219,13 +257,8 @@ function eydRenderCart() {
   const ship = document.getElementById("cartShipNote");
   if (ship) {
     const tot = eydTotals();
-    if (tot.freeShip) {
-      ship.textContent = "🚚 ¡Tienes envío gratis!";
-      ship.className = "cart-ship-note free";
-    } else {
-      ship.textContent = "🚚 Te faltan " + eydFormatCOP(tot.freeShipRemaining) + " para envío gratis";
-      ship.className = "cart-ship-note";
-    }
+    if (tot.freeShip) { ship.textContent = eydStr("ship_free"); ship.className = "cart-ship-note free"; }
+    else { ship.textContent = eydStr("ship_left")(eydFormatCOP(tot.freeShipRemaining)); ship.className = "cart-ship-note"; }
   }
 
   // Mensaje del código según estado aplicado
@@ -233,7 +266,7 @@ function eydRenderCart() {
   if (msgEl) {
     const info = eydCodeInfo();
     if (info) {
-      msgEl.textContent = "¡Código aplicado! " + Math.round(info.pct * 100) + "% de descuento";
+      msgEl.textContent = eydStr("applied")(Math.round(info.pct * 100));
       msgEl.className = "cart-code-msg ok";
     } else if (!msgEl.textContent) {
       msgEl.className = "cart-code-msg";

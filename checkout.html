@@ -279,18 +279,22 @@
 
     function renderTotals() {
       const t2 = eydTotals();
-      let h = '<div class="sum-line"><span>Subtotal</span><span>' + eydFormatCOP(t2.subtotal) + "</span></div>";
+      let h = '<div class="sum-line"><span>' + eydStr("subtotal") + "</span><span>" + eydFormatCOP(t2.subtotal) + "</span></div>";
       if (t2.qtyDiscount > 0)
-        h += '<div class="sum-line sum-disc"><span>−10% por llevar 2</span><span>−' + eydFormatCOP(t2.qtyDiscount) + "</span></div>";
+        h += '<div class="sum-line sum-disc"><span>' + eydStr("qty2") + "</span><span>−" + eydFormatCOP(t2.qtyDiscount) + "</span></div>";
       if (t2.codeDiscount > 0)
         h += '<div class="sum-line sum-disc"><span>−' + Math.round(t2.codePct * 100) + "% " + t2.codeLabel + "</span><span>−" + eydFormatCOP(t2.codeDiscount) + "</span></div>";
       document.getElementById("sumBreakdown").innerHTML = h;
       document.getElementById("sumTotal").textContent = eydFormatCOP(t2.total);
       const shipEl = document.getElementById("sumShipVal");
       if (shipEl) shipEl.textContent = t2.freeShip ? t("sum_free") : t("sum_ship_val");
+      const ci = document.getElementById("coCodeInput");
+      if (ci) ci.placeholder = eydStr("placeholder");
+      const ab = document.querySelector(".co-code button");
+      if (ab) ab.textContent = eydStr("apply");
       const info = eydCodeInfo();
       const msg = document.getElementById("coCodeMsg");
-      if (msg && info) { msg.textContent = "¡Código aplicado! " + Math.round(info.pct * 100) + "% de descuento"; msg.className = "co-code-msg ok"; }
+      if (msg && info) { msg.textContent = eydStr("applied")(Math.round(info.pct * 100)); msg.className = "co-code-msg ok"; }
     }
 
     function applyCheckoutCode() {
