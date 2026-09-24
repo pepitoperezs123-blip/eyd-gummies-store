@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>E&amp;D Libro Vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f4ef;--card:#fff;--ink:#1f1b16;--muted:#7a7066;--line:#e7e0d6;--acc:#6b4e9b;--acc2:#e98a3a;--ok:#2f8f5b;--bad:#c2413b;--warn:#c98a12;--soft:#f1ecf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15131a;--card:#1f1c25;--ink:#f1ede6;--muted:#a79ea8;--line:#34303c;--acc:#b79cf0;--acc2:#f2a45f;--ok:#5fcf8f;--bad:#f07a73;--warn:#e9b44c;--soft:#2a2533}}
+:root[data-theme="dark"]{--bg:#15131a;--card:#1f1c25;--ink:#f1ede6;--muted:#a79ea8;--line:#34303c;--acc:#b79cf0;--acc2:#f2a45f;--ok:#5fcf8f;--bad:#f07a73;--warn:#e9b44c;--soft:#2a2533}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;margin:0}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:5;flex-wrap:wrap}
+header h1{font-size:1.6rem}header .sub{color:var(--muted);font-size:.8rem}
+.spacer{flex:1}
+nav{display:flex;gap:4px;overflow-x:auto;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--card)}
+nav button{border:0;background:none;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font:inherit;white-space:nowrap}
+nav button.on{background:var(--soft);color:var(--acc);font-weight:600}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 80px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.kpi .l{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}.kpi .v{font-size:1.6rem;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}.kpi .d{font-size:.8rem;margin-top:2px}
+.pos{color:var(--ok)}.neg{color:var(--bad)}.mut{color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+label{font-size:.75rem;color:var(--muted);display:block;margin-bottom:3px}
+.btn{border:0;background:var(--acc);color:#fff;padding:9px 14px;border-radius:8px;cursor:pointer;font:inherit;font-weight:600;white-space:nowrap}
+.btn.g{background:var(--soft);color:var(--acc)}.btn.r{background:none;color:var(--bad);padding:4px 8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.row>div{flex:1;min-width:130px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}th{text-align:left;color:var(--muted);font-weight:500;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line);padding:6px}
+td{padding:7px 6px;border-bottom:1px solid var(--line)}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.72rem;background:var(--soft);color:var(--acc)}
+.tag.ingreso{background:#2f8f5b22;color:var(--ok)}.tag.gasto{background:#c2413b22;color:var(--bad)}.tag.inversion{background:#e98a3a22;color:var(--acc2)}
+.quick{display:flex;gap:8px}.quick input{font-size:1rem;padding:12px 14px}
+.ins{padding:10px 12px;border-left:3px solid var(--acc);background:var(--soft);border-radius:6px;margin-bottom:8px;font-size:.88rem}
+.ins.bad{border-color:var(--bad)}.ins.ok{border-color:var(--ok)}.ins.warn{border-color:var(--warn)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+.hide{display:none}
+svg text{fill:var(--muted);font-size:10px}
+.health{font-size:3rem;font-weight:600;font-family:'Cormorant Garamond',serif}
+#lock{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:50}
+#lock .card{width:min(340px,90vw);text-align:center}
+@media print{header,nav,.noprint{display:none!important}body{background:#fff;color:#000}main{padding:0}.card{border:0}}
+#invPrint{display:none}
+body.printing main>*:not(#invPrint){display:none}body.printing #invPrint{display:block}
+.inv{max-width:760px;margin:auto;background:#fff;color:#111;padding:40px;border-radius:12px}
+.inv table td,.inv table th{border-color:#ddd;color:#111}
+</style>
+</head>
+<body>
+<div id="lock" class="hide"><div class="card"><h2>E&amp;D · Libro Vivo</h2><p class="mut">Ingresa tu PIN</p><input id="pinIn" type="password" inputmode="numeric" maxlength="8" style="text-align:center;font-size:1.4rem"><p id="pinErr" class="neg"></p><button class="btn" id="pinBtn" style="width:100%">Entrar</button></div></div>
+
+<header>
+  <div><h1>E&amp;D · Libro Vivo</h1><div class="sub">Contabilidad de E&amp;D Energía y Bienestar S.A.S.</div></div>
+  <div class="spacer"></div>
+  <select id="period" style="width:auto"></select>
+  <button class="btn g" id="themeBtn" title="Tema">◐</button>
+</header>
+<nav id="tabs"></nav>
+<main>
+  <!-- DASHBOARD -->
+  <section data-tab="panel">
+    <div class="card" style="margin-bottom:14px">
+      <label>Registro rápido — escribe como hablas</label>
+      <div class="quick"><input id="quick" placeholder='Ej: "vendí 3 frascos a Laura por nequi" · "pagué 250000 de publicidad meta" · "invertí 2 millones en maquinaria"'><button class="btn" id="quickBtn">Registrar</button></div>
+      <div id="quickPrev" class="mut" style="font-size:.8rem;margin-top:6px"></div>
+    </div>
+    <div class="grid g4" id="kpis"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Flujo mensual</h3><div id="chartFlow"></div></div>
+      <div class="card"><h3>Pulso financiero</h3><div style="display:flex;gap:18px;align-items:center"><div class="health" id="health"></div><div id="healthTxt" class="mut"></div></div><div id="insights" style="margin-top:10px"></div></div>
+      <div class="card"><h3>Gastos por categoría</h3><div id="chartCat"></div></div>
+      <div class="card"><h3>Proyección de caja (6 meses)</h3><div id="chartProj"></div><div id="runway" class="mut"></div></div>
+    </div>
+  </section>
+
+  <!-- MOVIMIENTOS -->
+  <section data-tab="movs" class="hide">
+    <div class="card">
+      <h3>Nuevo movimiento</h3>
+      <div class="row" style="margin-top:10px">
+        <div><label>Tipo</label><select id="mTipo"><option value="ingreso">Ingreso</option><option value="gasto">Gasto</option><option value="inversion">Inversión</option><option value="aporte">Aporte de socios</option><option value="retiro">Retiro / dividendo</option></select></div>
+        <div><label>Fecha</label><input id="mFecha" type="date"></div>
+        <div><label>Categoría</label><input id="mCat" list="cats"></div>
+        <div><label>Monto (COP)</label><input id="mMonto" type="number" min="0"></div>
+        <div><label>Método</label><select id="mMet"><option>Nequi</option><option>Bancolombia</option><option>Wompi</option><option>Efectivo</option><option>Daviplata</option><option>Tarjeta</option></select></div>
+        <div style="flex:2"><label>Descripción / tercero</label><input id="mDesc"></div>
+        <div><label>¿Deducible? (factura)</label><select id="mDed"><option value="1">Sí</option><option value="0">No</option></select></div>
+        <button class="btn" id="mAdd">Agregar</button>
+      </div>
+      <datalist id="cats"></datalist>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="row"><div><input id="mSearch" placeholder="Buscar…"></div><div><select id="mFilter"><option value="">Todos</option><option>ingreso</option><option>gasto</option><option>inversion</option><option>aporte</option><option>retiro</option></select></div><button class="btn g" id="csvBtn">Exportar CSV</button></div>
+      <div class="tw" style="margin-top:10px"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Descripción</th><th>Método</th><th class="n">Monto</th><th></th></tr></thead><tbody id="mBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- FACTURAS -->
+  <section data-tab="facturas" class="hide">
+    <div class="card">
+      <h3>Nueva factura de venta</h3>
+      <div class="row" style="margin-top:10px">
+        <div><label>Cliente</label><input id="fCli"></div>
+        <div><label>NIT / CC</label><input id="fDoc"></div>
+        <div><label>Correo / ciudad</label><input id="fDir"></div>
+        <div><label>Fecha</label><input id="fFecha" type="date"></div>
+        <div><label>Vence (días)</label><input id="fDias" type="number" value="0"></div>
+      </div>
+      <div id="fItems" style="margin-top:10px"></div>
+      <div class="row" style="margin-top:8px"><button class="btn g" id="fAddItem">+ Ítem</button><div class="spacer"></div><div><label>IVA %</label><input id="fIva" type="number" value="19"></div><div><label>Descuento %</label><input id="fDesc" type="number" value="0"></div><div><label>Envío</label><input id="fEnv" type="number" value="0"></div></div>
+      <div class="row" style="margin-top:10px"><div class="mut" id="fTot"></div><button class="btn" id="fSave">Emitir factura</button></div>
+      <p class="mut" style="font-size:.75rem">Nota: esta es una factura interna/pre-factura. Para validez fiscal ante la DIAN debe emitirse también como factura electrónica con un proveedor autorizado.</p>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Facturas emitidas</h3>
+      <div class="tw"><table><thead><tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Estado</th><th class="n">Total</th><th></th></tr></thead><tbody id="fBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- CXC / CXP -->
+  <section data-tab="cuentas" class="hide">
+    <div class="card"><h3>Cuentas por pagar (proveedores, obligaciones)</h3>
+      <div class="row" style="margin-top:10px"><div><label>Acreedor</label><input id="pNom"></div><div><label>Concepto</label><input id="pCon"></div><div><label>Monto</label><input id="pMon" type="number"></div><div><label>Vence</label><input id="pVen" type="date"></div><button class="btn" id="pAdd">Agregar</button></div>
+      <div class="tw" style="margin-top:10px"><table><thead><tr><th>Vence</th><th>Acreedor</th><th>Concepto</th><th class="n">Monto</th><th>Estado</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Cuentas por cobrar</h3><p class="mut">Se alimentan automáticamente de facturas pendientes.</p>
+      <div class="tw"><table><thead><tr><th>Vence</th><th>Cliente</th><th>Factura</th><th class="n">Monto</th><th>Antigüedad</th><th></th></tr></thead><tbody id="cBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- INVERSIONES -->
+  <section data-tab="inversiones" class="hide">
+    <div class="grid g4" id="invK"></div>
+    <div class="card" style="margin-top:14px"><h3>Rendimiento de inversiones</h3><p class="mut">Cada gasto tipo "Inversión" aparece aquí. Asigna qué ingresos atribuyes a cada una para ver su ROI y recuperación.</p>
+      <div class="tw"><table><thead><tr><th>Fecha</th><th>Inversión</th><th class="n">Monto</th><th class="n">Retorno atribuido</th><th class="n">ROI</th><th>Recuperación</th><th></th></tr></thead><tbody id="iBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- UNIT ECONOMICS -->
+  <section data-tab="unidad" class="hide">
+    <div class="grid g2">
+      <div class="card"><h3>Economía por frasco</h3>
+        <div class="row" style="margin-top:10px">
+          <div><label>Precio venta (IVA incl.)</label><input id="uPrecio" type="number"></div>
+          <div><label>Costo producto</label><input id="uCosto" type="number"></div>
+          <div><label>Empaque + etiqueta</label><input id="uEmp" type="number"></div>
+          <div><label>Envío promedio asumido</label><input id="uEnv" type="number"></div>
+          <div><label>Comisión pasarela %</label><input id="uCom" type="number" step=".01"></div>
+          <div><label>IVA %</label><input id="uIva" type="number"></div>
+          <div><label>Costo adquisición (CAC)</label><input id="uCac" type="number"></div>
+          <div><label>Gastos fijos / mes</label><input id="uFijos" type="number"></div>
+        </div>
+        <div id="uOut" style="margin-top:14px"></div>
+      </div>
+      <div class="card"><h3>Simulador "¿Y si…?"</h3>
+        <label>Cambio de precio: <b id="sPl"></b></label><input id="sP" type="range" min="-30" max="30" value="0">
+        <label style="margin-top:10px">Cambio de costo: <b id="sCl"></b></label><input id="sC" type="range" min="-30" max="30" value="0">
+        <label style="margin-top:10px">Frascos vendidos / mes: <b id="sVl"></b></label><input id="sV" type="range" min="0" max="2000" step="10" value="200">
+        <div id="sOut" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESUPUESTO -->
+  <section data-tab="presupuesto" class="hide">
+    <div class="card"><h3>Presupuesto mensual por categoría</h3>
+      <div class="row" style="margin-top:10px"><div><label>Categoría</label><input id="bCat" list="cats"></div><div><label>Tope mensual</label><input id="bMon" type="number"></div><button class="btn" id="bAdd">Guardar</button></div>
+      <div id="bList" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- ESTADOS -->
+  <section data-tab="estados" class="hide">
+    <div class="grid g2">
+      <div class="card"><h3>Estado de resultados</h3><div id="pyg"></div></div>
+      <div class="card"><h3>Balance simplificado</h3><div id="bal"></div></div>
+      <div class="card"><h3>Impuestos estimados</h3><div id="tax"></div></div>
+      <div class="card"><h3>Socios y capital</h3><div id="socios"></div></div>
+    </div>
+  </section>
+
+  <!-- AJUSTES -->
+  <section data-tab="ajustes" class="hide">
+    <div class="grid g2">
+      <div class="card"><h3>Empresa</h3>
+        <label>Razón social</label><input id="cfNom"><label style="margin-top:8px">NIT</label><input id="cfNit"><label style="margin-top:8px">Dirección / contacto</label><input id="cfDir">
+        <label style="margin-top:8px">Saldo inicial de caja</label><input id="cfCaja" type="number">
+        <label style="margin-top:8px">Tarifa estimada de renta %</label><input id="cfRenta" type="number">
+        <label style="margin-top:8px">PIN de acceso (vacío = sin PIN)</label><input id="cfPin" type="password" maxlength="8">
+        <button class="btn" id="cfSave" style="margin-top:12px">Guardar</button>
+      </div>
+      <div class="card"><h3>Datos y respaldo</h3>
+        <p class="mut">Los datos viven en este navegador. Descarga respaldos con frecuencia y restáuralos en otro equipo.</p>
+        <div class="row"><button class="btn" id="bkBtn">Descargar respaldo</button><label class="btn g" style="margin:0;color:var(--acc);font-size:inherit">Restaurar respaldo<input type="file" id="bkIn" accept=".json" class="hide"></label></div>
+        <div class="row" style="margin-top:14px"><button class="btn g" id="demoBtn">Cargar datos de ejemplo</button><button class="btn r" id="wipeBtn">Borrar todo</button></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="invPrint"></div>
+</main>
+
+<script>
+(()=>{
+const KEY='eyd_libro_v1';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>(n<0?'-':'')+'$'+Math.round(Math.abs(n)).toLocaleString('es-CO');
+const today=()=>new Date().toISOString().slice(0,10);
+const uid=()=>Math.random().toString(36).slice(2,10);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CATS={ingreso:['Ventas tienda web','Ventas directas','Mayoristas','Otros ingresos'],gasto:['Producto / maquila','Empaque','Envíos','Publicidad','Comisiones pasarela','Software y web','Nómina / honorarios','Arriendo','Legal y contable','Impuestos','Servicios','Otros gastos'],inversion:['Inventario inicial','Maquinaria','Desarrollo de marca','Registro INVIMA','Tecnología'],aporte:['Aporte de capital'],retiro:['Dividendos','Retiro de socio']};
+const def=()=>({movs:[],facturas:[],cxp:[],budget:{},cfg:{nom:'E&D Energía y Bienestar S.A.S.',nit:'',dir:'edbienestar.com',caja:0,renta:35,pin:''},unit:{precio:89900,costo:22000,emp:3500,env:12000,com:2.99,iva:19,cac:18000,fijos:1500000},invRet:{},nextF:1});
+let D; try{D=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){D=def()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}render()};
+
+/* ---------- Tabs & period ---------- */
+const TABS=[['panel','Panel'],['movs','Movimientos'],['facturas','Facturas'],['cuentas','Cobrar / Pagar'],['inversiones','Inversiones'],['unidad','Por frasco'],['presupuesto','Presupuesto'],['estados','Estados'],['ajustes','Ajustes']];
+$('#tabs').innerHTML=TABS.map(([k,l])=>`<button data-k="${k}">${l}</button>`).join('');
+const go=k=>{$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$$('main>section').forEach(s=>s.classList.toggle('hide',s.dataset.tab!==k));try{localStorage.setItem(KEY+'_tab',k)}catch(e){}};
+$('#tabs').onclick=e=>{if(e.target.dataset.k)go(e.target.dataset.k)};
+let tab='panel';try{tab=localStorage.getItem(KEY+'_tab')||'panel'}catch(e){} go(tab);
+const PER=[['mes','Este mes'],['trim','Este trimestre'],['anio','Este año'],['todo','Todo el histórico']];
+$('#period').innerHTML=PER.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');$('#period').value='anio';
+$('#period').onchange=render;
+function inPer(d){const p=$('#period').value,t=new Date(),x=new Date(d+'T00:00');if(p==='todo')return true;if(x.getFullYear()!==t.getFullYear())return false;if(p==='anio')return true;if(p==='mes')return x.getMonth()===t.getMonth();return Math.floor(x.getMonth()/3)===Math.floor(t.getMonth()/3)}
+
+/* theme */
+$('#themeBtn').onclick=()=>{const r=document.documentElement,c=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.dataset.theme=c==='dark'?'light':'dark';try{localStorage.setItem(KEY+'_th',r.dataset.theme)}catch(e){}};
+try{const th=localStorage.getItem(KEY+'_th');if(th)document.documentElement.dataset.theme=th}catch(e){}
+
+/* lock */
+if(D.cfg.pin){$('#lock').classList.remove('hide');const tryPin=()=>{if($('#pinIn').value===D.cfg.pin)$('#lock').classList.add('hide');else $('#pinErr').textContent='PIN incorrecto'};$('#pinBtn').onclick=tryPin;$('#pinIn').onkeydown=e=>{if(e.key==='Enter')tryPin()}}
+
+/* ---------- Quick natural-language entry ---------- */
+function parseQuick(t){
+  const s=t.toLowerCase();if(!s.trim())return null;
+  let monto=0;const m=s.match(/(\d[\d.,]*)\s*(millones|millón|millon|mil|k|m)?/);
+  let frascos=0;const fm=s.match(/(\d+)\s*(frascos?|unidades|und|potes?)/);
+  if(m){monto=parseFloat(m[1].replace(/\./g,'').replace(',','.'));const u=m[2]||'';if(/mill|^m$/.test(u))monto*=1e6;else if(/mil|k/.test(u))monto*=1e3}
+  let tipo='gasto';
+  if(/vend|cobr|recib|ingres|me pagaron|venta/.test(s))tipo='ingreso';
+  if(/invert|inversi|compr[eé] (una |un )?(máquina|maquina|equipo)/.test(s))tipo='inversion';
+  if(/aport/.test(s))tipo='aporte';if(/retir|dividend/.test(s))tipo='retiro';
+  if(tipo==='ingreso'&&fm&&(!m||m.index===fm.index)){frascos=+fm[1];monto=frascos*D.unit.precio}
+  const map=[[/publicidad|meta|facebook|instagram|google ads|tiktok|ads|influenc/,'Publicidad'],[/empaque|caja|etiqueta|bolsa/,'Empaque'],[/env[ií]o|servientrega|interrapid|coordinadora|domicilio/,'Envíos'],[/maquila|producci|gomita|insumo|materia/,'Producto / maquila'],[/wompi|comisi/,'Comisiones pasarela'],[/vercel|dominio|software|shopify|hosting|app/,'Software y web'],[/arriendo|local|bodega/,'Arriendo'],[/contador|abogado|legal|c[aá]mara de comercio/,'Legal y contable'],[/sueldo|n[oó]mina|honorario|pago a /,'Nómina / honorarios'],[/impuesto|iva|dian|ica|retenci/,'Impuestos'],[/luz|agua|internet|celular|servicio/,'Servicios'],[/invima/,'Registro INVIMA'],[/maquinaria|m[aá]quina|equipo/,'Maquinaria'],[/marca|dise[nñ]o|logo/,'Desarrollo de marca'],[/inventario/,'Inventario inicial'],[/mayorista|distribuidor/,'Mayoristas'],[/web|tienda|wompi/,'Ventas tienda web']];
+  let cat=(CATS[tipo]||[])[0];for(const [r,c] of map)if(r.test(s)&&CATS[tipo]?.includes(c)){cat=c;break}
+  if(tipo==='ingreso'&&cat==='Ventas tienda web'&&!/web|tienda|wompi|online/.test(s))cat='Ventas directas';
+  let met='Nequi';for(const k of ['nequi','bancolombia','wompi','efectivo','daviplata','tarjeta'])if(s.includes(k))met=k[0].toUpperCase()+k.slice(1);
+  let fecha=today();if(/ayer/.test(s)){const d=new Date();d.setDate(d.getDate()-1);fecha=d.toISOString().slice(0,10)}
+  return monto>0?{id:uid(),tipo,fecha,cat,monto,met,desc:t.trim(),ded:1,frascos}:null;
+}
+$('#quick').oninput=()=>{const p=parseQuick($('#quick').value);$('#quickPrev').innerHTML=p?`→ <span class="tag ${p.tipo}">${p.tipo}</span> ${esc(p.cat)} · <b>${fmt(p.monto)}</b> · ${p.met} · ${p.fecha}${p.frascos?` · ${p.frascos} frascos`:''}`:''};
+const doQuick=()=>{const p=parseQuick($('#quick').value);if(!p)return;D.movs.push(p);$('#quick').value='';$('#quickPrev').textContent='✓ Registrado';save()};
+$('#quickBtn').onclick=doQuick;$('#quick').onkeydown=e=>{if(e.key==='Enter')doQuick()};
+
+/* ---------- Movements ---------- */
+$('#mFecha').value=today();
+const fillCats=()=>{$('#cats').innerHTML=[...new Set([...(CATS[$('#mTipo').value]||[]),...Object.values(CATS).flat()])].map(c=>`<option value="${esc(c)}">`).join('')};
+$('#mTipo').onchange=()=>{fillCats();$('#mCat').value=CATS[$('#mTipo').value][0]};fillCats();$('#mCat').value=CATS.ingreso[0];
+$('#mAdd').onclick=()=>{const monto=+$('#mMonto').value;if(!monto)return alert('Ingresa un monto');D.movs.push({id:uid(),tipo:$('#mTipo').value,fecha:$('#mFecha').value||today(),cat:$('#mCat').value||'Otros',monto,met:$('#mMet').value,desc:$('#mDesc').value,ded:+$('#mDed').value});$('#mMonto').value='';$('#mDesc').value='';save()};
+$('#mSearch').oninput=renderMovs;$('#mFilter').onchange=renderMovs;
+$('#mBody').onclick=e=>{const id=e.target.dataset.del;if(id&&confirm('¿Eliminar movimiento?')){D.movs=D.movs.filter(m=>m.id!==id);save()}};
+$('#csvBtn').onclick=()=>{const rows=[['fecha','tipo','categoria','descripcion','metodo','monto']].concat(D.movs.map(m=>[m.fecha,m.tipo,m.cat,m.desc,m.met,m.monto]));dl('movimientos-eyd.csv',rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n'),'text/csv')};
+function renderMovs(){const q=$('#mSearch').value.toLowerCase(),f=$('#mFilter').value;
+  $('#mBody').innerHTML=D.movs.filter(m=>inPer(m.fecha)&&(!f||m.tipo===f)&&(!q||(m.cat+m.desc+m.met).toLowerCase().includes(q))).sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(m=>`<tr><td>${m.fecha}</td><td><span class="tag ${m.tipo}">${m.tipo}</span></td><td>${esc(m.cat)}</td><td>${esc(m.desc)}</td><td>${esc(m.met)}</td><td class="n ${m.tipo==='ingreso'||m.tipo==='aporte'?'pos':'neg'}">${fmt(m.monto)}</td><td><button class="btn r" data-del="${m.id}">✕</button></td></tr>`).join('')||'<tr><td colspan=7 class="mut">Sin movimientos en este periodo.</td></tr>'}
+
+/* ---------- Invoices ---------- */
+$('#fFecha').value=today();let items=[{d:'Gomitas funcionales E&D · 60 gummies',q:1,p:Math.round(D.unit.precio/1.19)}];
+function renderItems(){$('#fItems').innerHTML=items.map((it,i)=>`<div class="row" style="margin-bottom:6px"><div style="flex:3"><input data-i="${i}" data-f="d" value="${esc(it.d)}"></div><div><input data-i="${i}" data-f="q" type="number" value="${it.q}"></div><div><input data-i="${i}" data-f="p" type="number" value="${it.p}" title="Precio unitario sin IVA"></div><button class="btn r" data-rm="${i}">✕</button></div>`).join('');calcF()}
+$('#fItems').oninput=e=>{const {i,f}=e.target.dataset;if(i!=null){items[i][f]=f==='d'?e.target.value:+e.target.value;calcF()}};
+$('#fItems').onclick=e=>{if(e.target.dataset.rm!=null){items.splice(+e.target.dataset.rm,1);renderItems()}};
+$('#fAddItem').onclick=()=>{items.push({d:'',q:1,p:0});renderItems()};
+['#fIva','#fDesc','#fEnv'].forEach(s=>$(s).oninput=calcF);
+function totF(it,iva,desc,env){const sub=it.reduce((a,x)=>a+x.q*x.p,0),dsc=sub*desc/100,base=sub-dsc,iv=base*iva/100;return{sub,dsc,base,iv,env,total:base+iv+env}}
+function calcF(){const t=totF(items,+$('#fIva').value,+$('#fDesc').value,+$('#fEnv').value);$('#fTot').innerHTML=`Subtotal ${fmt(t.sub)} · Desc ${fmt(t.dsc)} · IVA ${fmt(t.iv)} · Envío ${fmt(t.env)} · <b style="color:var(--ink)">Total ${fmt(t.total)}</b>`}
+$('#fSave').onclick=()=>{if(!$('#fCli').value||!items.length)return alert('Falta cliente o ítems');const fecha=$('#fFecha').value||today(),v=new Date(fecha);v.setDate(v.getDate()+(+$('#fDias').value||0));
+  const f={id:uid(),num:D.nextF++,fecha,vence:v.toISOString().slice(0,10),cli:$('#fCli').value,doc:$('#fDoc').value,dir:$('#fDir').value,items:JSON.parse(JSON.stringify(items)),iva:+$('#fIva').value,desc:+$('#fDesc').value,env:+$('#fEnv').value,estado:(+$('#fDias').value?'pendiente':'pagada')};
+  f.total=totF(f.items,f.iva,f.desc,f.env).total;D.facturas.push(f);
+  if(f.estado==='pagada')D.movs.push({id:uid(),tipo:'ingreso',fecha,cat:'Ventas directas',monto:f.total,met:'Nequi',desc:`Factura ED-${String(f.num).padStart(4,'0')} · ${f.cli}`,ded:1,fid:f.id,frascos:f.items.reduce((a,x)=>a+(/gomit|frasc|gumm/i.test(x.d)?x.q:0),0)});
+  $('#fCli').value=$('#fDoc').value=$('#fDir').value='';save();printInv(f)};
+function payInv(id){const f=D.facturas.find(x=>x.id===id);if(!f)return;f.estado='pagada';D.movs.push({id:uid(),tipo:'ingreso',fecha:today(),cat:'Ventas directas',monto:f.total,met:'Bancolombia',desc:`Pago factura ED-${String(f.num).padStart(4,'0')} · ${f.cli}`,ded:1,fid:f.id});save()}
+$('#fBody').onclick=e=>{const d=e.target.dataset;if(d.print)printInv(D.facturas.find(x=>x.id===d.print));if(d.pay)payInv(d.pay);if(d.anular&&confirm('¿Anular factura?')){const f=D.facturas.find(x=>x.id===d.anular);f.estado='anulada';D.movs=D.movs.filter(m=>m.fid!==f.id);save()}};
+function printInv(f){const t=totF(f.items,f.iva,f.desc,f.env),c=D.cfg;
+  $('#invPrint').innerHTML=`<div class="inv"><div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap"><div><h1 style="font-size:2rem">${esc(c.nom)}</h1><div>NIT ${esc(c.nit||'—')}</div><div>${esc(c.dir)}</div></div><div style="text-align:right"><h2>Factura de venta</h2><div style="font-size:1.3rem"><b>ED-${String(f.num).padStart(4,'0')}</b></div><div>Fecha: ${f.fecha}</div><div>Vence: ${f.vence}</div></div></div><hr style="border-color:#ddd;margin:20px 0"><div><b>Cliente:</b> ${esc(f.cli)} · ${esc(f.doc)}<br>${esc(f.dir)}</div>
+  <table style="margin-top:20px"><thead><tr><th>Descripción</th><th class="n">Cant.</th><th class="n">V. unit</th><th class="n">Total</th></tr></thead><tbody>${f.items.map(x=>`<tr><td>${esc(x.d)}</td><td class="n">${x.q}</td><td class="n">${fmt(x.p)}</td><td class="n">${fmt(x.q*x.p)}</td></tr>`).join('')}</tbody></table>
+  <table style="width:280px;margin:16px 0 0 auto"><tr><td>Subtotal</td><td class="n">${fmt(t.sub)}</td></tr>${t.dsc?`<tr><td>Descuento</td><td class="n">-${fmt(t.dsc)}</td></tr>`:''}<tr><td>IVA ${f.iva}%</td><td class="n">${fmt(t.iv)}</td></tr>${t.env?`<tr><td>Envío</td><td class="n">${fmt(t.env)}</td></tr>`:''}<tr><td><b>Total</b></td><td class="n"><b>${fmt(t.total)}</b></td></tr></table>
+  <p style="font-size:.75rem;color:#666;margin-top:30px">Documento interno de soporte. Gracias por elegir E&amp;D.</p>
+  <div class="noprint" style="margin-top:20px;display:flex;gap:8px"><button class="btn" onclick="window.print()">Imprimir / PDF</button><button class="btn g" id="invClose">Cerrar</button></div></div>`;
+  document.body.classList.add('printing');$('#invClose').onclick=()=>document.body.classList.remove('printing')}
+function renderFact(){$('#fBody').innerHTML=D.facturas.slice().reverse().map(f=>`<tr><td>ED-${String(f.num).padStart(4,'0')}</td><td>${f.fecha}</td><td>${esc(f.cli)}</td><td><span class="tag ${f.estado==='pagada'?'ingreso':f.estado==='anulada'?'':'gasto'}">${f.estado}</span></td><td class="n">${fmt(f.total)}</td><td style="white-space:nowrap"><button class="btn g" data-print="${f.id}">Ver</button> ${f.estado==='pendiente'?`<button class="btn g" data-pay="${f.id}">Cobrada</button>`:''} ${f.estado!=='anulada'?`<button class="btn r" data-anular="${f.id}">Anular</button>`:''}</td></tr>`).join('')||'<tr><td colspan=6 class="mut">Aún no hay facturas.</td></tr>'}
+
+/* ---------- CxP / CxC ---------- */
+$('#pAdd').onclick=()=>{if(!+$('#pMon').value)return;D.cxp.push({id:uid(),nom:$('#pNom').value,con:$('#pCon').value,mon:+$('#pMon').value,ven:$('#pVen').value||today(),pag:false});['#pNom','#pCon','#pMon'].forEach(s=>$(s).value='');save()};
+$('#pBody').onclick=e=>{const d=e.target.dataset;if(d.pp){const p=D.cxp.find(x=>x.id===d.pp);p.pag=true;D.movs.push({id:uid(),tipo:'gasto',fecha:today(),cat:'Otros gastos',monto:p.mon,met:'Bancolombia',desc:`${p.nom} · ${p.con}`,ded:1});save()}if(d.pd){D.cxp=D.cxp.filter(x=>x.id!==d.pd);save()}};
+$('#cBody').onclick=e=>{if(e.target.dataset.pay)payInv(e.target.dataset.pay)};
+const days=d=>Math.round((new Date(today())-new Date(d))/864e5);
+function renderCuentas(){
+  $('#pBody').innerHTML=D.cxp.slice().sort((a,b)=>a.ven.localeCompare(b.ven)).map(p=>{const dd=days(p.ven);return`<tr><td>${p.ven}</td><td>${esc(p.nom)}</td><td>${esc(p.con)}</td><td class="n">${fmt(p.mon)}</td><td>${p.pag?'<span class="tag ingreso">pagada</span>':dd>0?`<span class="tag gasto">vencida ${dd}d</span>`:`<span class="tag">en ${-dd}d</span>`}</td><td style="white-space:nowrap">${p.pag?'':`<button class="btn g" data-pp="${p.id}">Pagar</button>`} <button class="btn r" data-pd="${p.id}">✕</button></td></tr>`}).join('')||'<tr><td colspan=6 class="mut">Sin obligaciones.</td></tr>';
+  $('#cBody').innerHTML=D.facturas.filter(f=>f.estado==='pendiente').map(f=>{const dd=days(f.vence);return`<tr><td>${f.vence}</td><td>${esc(f.cli)}</td><td>ED-${String(f.num).padStart(4,'0')}</td><td class="n">${fmt(f.total)}</td><td>${dd>30?`<span class="tag gasto">+30 días</span>`:dd>0?`<span class="tag inversion">vencida ${dd}d</span>`:'al día'}</td><td><button class="btn g" data-pay="${f.id}">Cobrada</button></td></tr>`}).join('')||'<tr><td colspan=6 class="mut">Nadie te debe. 🎉</td></tr>'}
+
+/* ---------- Investments ---------- */
+$('#iBody').oninput=e=>{if(e.target.dataset.ret){D.invRet[e.target.dataset.ret]=+e.target.value;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(x){}}};
+$('#iBody').onchange=()=>render();
+function renderInv(){const inv=D.movs.filter(m=>m.tipo==='inversion');const tot=inv.reduce((a,m)=>a+m.monto,0),ret=inv.reduce((a,m)=>a+(D.invRet[m.id]||0),0);
+  const s=stats(D.movs),mUtil=s.monthlyProfit;
+  $('#invK').innerHTML=kpi('Capital invertido',fmt(tot))+kpi('Retorno atribuido',fmt(ret))+kpi('ROI global',tot?Math.round((ret-tot)/tot*100)+'%':'—',ret>=tot?'pos':'neg')+kpi('Recuperación estimada',mUtil>0?Math.max(0,Math.ceil((tot-ret)/mUtil))+' meses':'Sin utilidad aún','','con la utilidad operativa mensual promedio');
+  $('#iBody').innerHTML=inv.map(m=>{const r=D.invRet[m.id]||0,roi=Math.round((r-m.monto)/m.monto*100),p=Math.min(100,r/m.monto*100);return`<tr><td>${m.fecha}</td><td>${esc(m.cat)}<div class="mut" style="font-size:.75rem">${esc(m.desc)}</div></td><td class="n">${fmt(m.monto)}</td><td class="n"><input type="number" data-ret="${m.id}" value="${r}" style="width:130px;text-align:right"></td><td class="n ${roi>=0?'pos':'neg'}">${roi}%</td><td style="min-width:120px"><div class="bar"><i style="width:${p}%;background:${p>=100?'var(--ok)':'var(--acc2)'}"></i></div></td><td></td></tr>`}).join('')||'<tr><td colspan=7 class="mut">Registra movimientos tipo "Inversión".</td></tr>'}
+
+/* ---------- Unit economics ---------- */
+const UF=['precio','costo','emp','env','com','iva','cac','fijos'];
+UF.forEach(k=>{const el=$('#u'+k[0].toUpperCase()+k.slice(1));el.value=D.unit[k];el.oninput=()=>{D.unit[k]=+el.value;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}renderUnit()}});
+['#sP','#sC','#sV'].forEach(s=>$(s).oninput=renderUnit);
+function unitCalc(u,dp=0,dc=0){const precio=u.precio*(1+dp/100),neto=precio/(1+u.iva/100),com=precio*u.com/100,cv=(u.costo+u.emp)*(1+dc/100)+u.env+com,mc=neto-cv,mcCac=mc-u.cac;return{precio,neto,com,cv,mc,mcCac,mPct:mc/neto*100,be:mcCac>0?Math.ceil(u.fijos/mcCac):Infinity}}
+function renderUnit(){const u=D.unit,r=unitCalc(u);
+  $('#uOut').innerHTML=`<table><tr><td>Precio sin IVA</td><td class="n">${fmt(r.neto)}</td></tr><tr><td>Costo variable total (prod+emp+envío+comisión)</td><td class="n neg">-${fmt(r.cv)}</td></tr><tr><td><b>Margen de contribución</b></td><td class="n"><b>${fmt(r.mc)}</b> <span class="mut">(${r.mPct.toFixed(1)}%)</span></td></tr><tr><td>Margen tras CAC</td><td class="n ${r.mcCac>0?'pos':'neg'}">${fmt(r.mcCac)}</td></tr><tr><td><b>Punto de equilibrio</b></td><td class="n"><b>${isFinite(r.be)?r.be+' frascos/mes':'No alcanzable'}</b></td></tr></table>`;
+  const dp=+$('#sP').value,dc=+$('#sC').value,v=+$('#sV').value,s=unitCalc(u,dp,dc),util=s.mcCac*v-u.fijos,base=r.mcCac*v-u.fijos;
+  $('#sPl').textContent=(dp>0?'+':'')+dp+'% → '+fmt(s.precio);$('#sCl').textContent=(dc>0?'+':'')+dc+'%';$('#sVl').textContent=v;
+  $('#sOut').innerHTML=`<div class="kpi"><div class="l">Utilidad mensual simulada</div><div class="v ${util>=0?'pos':'neg'}">${fmt(util)}</div><div class="d mut">vs. escenario base ${fmt(base)} (${util>=base?'+':''}${fmt(util-base)})</div></div><p class="mut" style="margin-top:8px">Ventas ${fmt(s.precio*v)} · Equilibrio en ${isFinite(s.be)?s.be:'∞'} frascos · Utilidad anual ${fmt(util*12)}</p>`}
+
+/* ---------- Budget ---------- */
+$('#bAdd').onclick=()=>{if(!$('#bCat').value)return;D.budget[$('#bCat').value]=+$('#bMon').value;$('#bCat').value=$('#bMon').value='';save()};
+$('#bList').onclick=e=>{if(e.target.dataset.bd){delete D.budget[e.target.dataset.bd];save()}};
+function renderBudget(){const ym=today().slice(0,7);$('#bList').innerHTML=Object.entries(D.budget).map(([c,tope])=>{const used=D.movs.filter(m=>m.tipo==='gasto'&&m.cat===c&&m.fecha.startsWith(ym)).reduce((a,m)=>a+m.monto,0),p=tope?used/tope*100:0;return`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between"><b>${esc(c)}</b><span>${fmt(used)} / ${fmt(tope)} <button class="btn r" data-bd="${esc(c)}">✕</button></span></div><div class="bar"><i style="width:${Math.min(100,p)}%;background:${p>100?'var(--bad)':p>80?'var(--warn)':'var(--ok)'}"></i></div></div>`}).join('')||'<p class="mut">Define topes para recibir alertas en el Panel.</p>'}
+
+/* ---------- Stats ---------- */
+function stats(movs){const sum=t=>movs.filter(m=>m.tipo===t).reduce((a,m)=>a+m.monto,0);
+  const ing=sum('ingreso'),gas=sum('gasto'),inv=sum('inversion'),apo=sum('aporte'),ret=sum('retiro');
+  const byM={};D.movs.forEach(m=>{const k=m.fecha.slice(0,7);byM[k]=byM[k]||{i:0,g:0,v:0};if(m.tipo==='ingreso')byM[k].i+=m.monto;if(m.tipo==='gasto')byM[k].g+=m.monto;if(m.tipo==='inversion')byM[k].v+=m.monto});
+  const months=Object.keys(byM).sort(),last3=months.slice(-3);
+  const monthlyProfit=last3.length?last3.reduce((a,k)=>a+byM[k].i-byM[k].g,0)/last3.length:0;
+  const monthlyBurn=last3.length?last3.reduce((a,k)=>a+byM[k].g,0)/last3.length:0;
+  const caja=D.cfg.caja+D.movs.reduce((a,m)=>a+(m.tipo==='ingreso'||m.tipo==='aporte'?m.monto:-m.monto),0);
+  const frascos=movs.reduce((a,m)=>a+(m.frascos||0),0);
+  return{ing,gas,inv,apo,ret,util:ing-gas,margen:ing?(ing-gas)/ing*100:0,byM,months,monthlyProfit,monthlyBurn,caja,frascos}}
+const kpi=(l,v,c='',d='')=>`<div class="card kpi"><div class="l">${l}</div><div class="v ${c}">${v}</div>${d?`<div class="d mut">${d}</div>`:''}</div>`;
+
+/* ---------- Charts (inline SVG) ---------- */
+function barChart(months,byM){if(!months.length)return'<p class="mut">Sin datos todavía.</p>';const ms=months.slice(-12),W=520,H=200,max=Math.max(1,...ms.map(k=>Math.max(byM[k].i,byM[k].g+byM[k].v))),bw=(W-40)/ms.length;
+  let s=`<svg viewBox="0 0 ${W} ${H+24}" width="100%">`;ms.forEach((k,i)=>{const x=30+i*bw,hi=byM[k].i/max*H,hg=byM[k].g/max*H,hv=byM[k].v/max*H;s+=`<rect x="${x+2}" y="${H-hi}" width="${bw/2-3}" height="${hi}" rx="3" fill="var(--ok)"><title>${k} ingresos ${fmt(byM[k].i)}</title></rect><rect x="${x+bw/2}" y="${H-hg}" width="${bw/2-3}" height="${hg}" rx="3" fill="var(--bad)"><title>gastos ${fmt(byM[k].g)}</title></rect>${hv?`<rect x="${x+bw/2}" y="${H-hg-hv}" width="${bw/2-3}" height="${hv}" rx="3" fill="var(--acc2)"><title>inversión ${fmt(byM[k].v)}</title></rect>`:''}<text x="${x+bw/2}" y="${H+14}" text-anchor="middle">${k.slice(5)}/${k.slice(2,4)}</text>`});
+  return s+`</svg><div class="mut" style="font-size:.75rem"><span class="pos">■</span> Ingresos <span class="neg">■</span> Gastos <span style="color:var(--acc2)">■</span> Inversión</div>`}
+function catChart(movs){const c={};movs.filter(m=>m.tipo==='gasto').forEach(m=>c[m.cat]=(c[m.cat]||0)+m.monto);const e=Object.entries(c).sort((a,b)=>b[1]-a[1]),t=e.reduce((a,x)=>a+x[1],0);
+  return e.map(([k,v])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>${esc(k)}</span><span>${fmt(v)} <span class="mut">${Math.round(v/t*100)}%</span></span></div><div class="bar"><i style="width:${v/t*100}%"></i></div></div>`).join('')||'<p class="mut">Sin gastos en el periodo.</p>'}
+function projChart(s){const pts=[s.caja];for(let i=1;i<=6;i++)pts.push(pts[i-1]+s.monthlyProfit+ (D.cxp.filter(p=>!p.pag).reduce((a,p)=>a+p.mon,0)*(i===1?-1:0)) + (i===1?D.facturas.filter(f=>f.estado==='pendiente').reduce((a,f)=>a+f.total,0):0));
+  const W=520,H=160,mn=Math.min(0,...pts),mx=Math.max(1,...pts),y=v=>H-(v-mn)/(mx-mn)*H+10,x=i=>30+i*(W-50)/6;
+  let s=`<svg viewBox="0 0 ${W} ${H+30}" width="100%"><line x1="30" x2="${W-20}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/><polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="${pts.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`;
+  pts.forEach((v,i)=>{s+=`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${v<0?'var(--bad)':'var(--acc)'}"><title>${fmt(v)}</title></circle><text x="${x(i)}" y="${H+26}" text-anchor="middle">${i?'+'+i+'m':'hoy'}</text>`});return s+'</svg>'}
+
+/* ---------- Health score & insights ---------- */
+function insights(s,movs){const L=[];const ym=today().slice(0,7);let score=50;
+  if(s.util>0){score+=15;L.push(['ok',`Utilidad operativa positiva de ${fmt(s.util)} (margen ${s.margen.toFixed(1)}%).`])}else if(s.ing||s.gas){score-=15;L.push(['bad',`Estás operando en pérdida: ${fmt(s.util)}. Revisa los gastos más grandes.`])}
+  if(s.monthlyProfit<0&&s.caja>0){const r=Math.floor(s.caja/-s.monthlyProfit);L.push([r<4?'bad':'warn',`Al ritmo actual tu caja alcanza para ~${r} meses.`]);score+=r<4?-15:-5}
+  if(s.caja<0){score-=20;L.push(['bad','Caja negativa: hay más salidas registradas que entradas. ¿Falta registrar un aporte o saldo inicial?'])}
+  const pub=movs.filter(m=>m.cat==='Publicidad').reduce((a,m)=>a+m.monto,0);if(s.ing&&pub){const roas=s.ing/pub;L.push([roas<3?'warn':'ok',`ROAS aproximado: ${roas.toFixed(1)}x (ventas / publicidad). ${roas<3?'Por debajo de 3x conviene optimizar campañas.':'Buen retorno publicitario.'}`]);score+=roas>=3?10:-5}
+  Object.entries(D.budget).forEach(([c,t])=>{const u=D.movs.filter(m=>m.tipo==='gasto'&&m.cat===c&&m.fecha.startsWith(ym)).reduce((a,m)=>a+m.monto,0);if(t&&u>t){score-=5;L.push(['bad',`Presupuesto de "${c}" superado: ${fmt(u)} de ${fmt(t)}.`])}else if(t&&u>t*.8)L.push(['warn',`"${c}" va en ${Math.round(u/t*100)}% del presupuesto del mes.`])});
+  const venc=D.facturas.filter(f=>f.estado==='pendiente'&&days(f.vence)>0);if(venc.length){score-=5;L.push(['warn',`${venc.length} factura(s) vencida(s) por ${fmt(venc.reduce((a,f)=>a+f.total,0))}. Toca cobrar.`])}
+  const pv=D.cxp.filter(p=>!p.pag&&days(p.ven)>=-7);if(pv.length)L.push(['warn',`${pv.length} pago(s) a proveedores vencen esta semana: ${fmt(pv.reduce((a,p)=>a+p.mon,0))}.`]);
+  const nd=movs.filter(m=>m.tipo==='gasto'&&!+m.ded).reduce((a,m)=>a+m.monto,0);if(nd>0)L.push(['warn',`${fmt(nd)} en gastos sin factura: pide factura electrónica para poder deducirlos.`]);
+  const ms=s.months;if(ms.length>=2){const a=s.byM[ms.at(-1)].i,b=s.byM[ms.at(-2)].i;if(b){const g=(a-b)/b*100;L.push([g>=0?'ok':'warn',`Ingresos ${g>=0?'crecieron':'cayeron'} ${Math.abs(g).toFixed(0)}% vs el mes anterior.`]);score+=g>=0?5:-5}}
+  const be=unitCalc(D.unit).be;if(isFinite(be)&&s.byM[ym]){const vend=D.movs.filter(m=>m.fecha.startsWith(ym)).reduce((a,m)=>a+(m.frascos||0),0);if(vend)L.push([vend>=be?'ok':'warn',`Este mes van ${vend} frascos de ${be} necesarios para el punto de equilibrio.`])}
+  if(!L.length)L.push(['','Registra tus primeros movimientos (o carga datos de ejemplo en Ajustes) para ver recomendaciones.']);
+  return{score:Math.max(0,Math.min(100,score)),L}}
+
+/* ---------- Statements ---------- */
+function renderEstados(s,movs){const byCat=t=>{const c={};movs.filter(m=>m.tipo===t).forEach(m=>c[m.cat]=(c[m.cat]||0)+m.monto);return Object.entries(c)};
+  const cogs=movs.filter(m=>m.tipo==='gasto'&&/Producto|Empaque|Envíos|Comisiones/.test(m.cat)).reduce((a,m)=>a+m.monto,0),bruta=s.ing-cogs,opex=s.gas-cogs,imp=Math.max(0,s.util)*D.cfg.renta/100;
+  const r=(l,v,b)=>`<tr><td>${b?'<b>'+l+'</b>':l}</td><td class="n ${v<0?'neg':''}">${b?'<b>'+fmt(v)+'</b>':fmt(v)}</td></tr>`;
+  $('#pyg').innerHTML=`<table>${byCat('ingreso').map(([k,v])=>r(k,v)).join('')}${r('Ingresos totales',s.ing,1)}${r('Costo de ventas',-cogs)}${r('Utilidad bruta',bruta,1)}${r('Gastos operativos',-opex)}${r('Utilidad operativa',s.util,1)}${r('Provisión renta ('+D.cfg.renta+'%)',-imp)}${r('Utilidad neta estimada',s.util-imp,1)}</table>`;
+  const allInv=D.movs.filter(m=>m.tipo==='inversion').reduce((a,m)=>a+m.monto,0),cxc=D.facturas.filter(f=>f.estado==='pendiente').reduce((a,f)=>a+f.total,0),cxp=D.cxp.filter(p=>!p.pag).reduce((a,p)=>a+p.mon,0),activos=s.caja+cxc+allInv;
+  $('#bal').innerHTML=`<table>${r('Caja y bancos',s.caja)}${r('Cuentas por cobrar',cxc)}${r('Activos por inversión',allInv)}${r('Total activos',activos,1)}${r('Cuentas por pagar',cxp)}${r('Patrimonio',activos-cxp,1)}</table><p class="mut" style="font-size:.75rem">Balance simplificado a hoy, sin depreciación.</p>`;
+  const ivaG=movs.filter(m=>m.tipo==='ingreso').reduce((a,m)=>a+m.monto-m.monto/1.19,0),ivaD=movs.filter(m=>m.tipo==='gasto'&&+m.ded&&!/Nómina|Impuestos/.test(m.cat)).reduce((a,m)=>a+m.monto-m.monto/1.19,0);
+  $('#tax').innerHTML=`<table>${r('IVA generado (ventas)',ivaG)}${r('IVA descontable (compras con factura)',-ivaD)}${r('IVA estimado a pagar',ivaG-ivaD,1)}${r('Renta estimada',imp,1)}</table><p class="mut" style="font-size:.75rem">Estimaciones asumiendo IVA 19% incluido en los montos. Valida con tu contador antes de declarar.</p>`;
+  $('#socios').innerHTML=`<table>${r('Aportes de capital',s.apo)}${r('Retiros / dividendos',-s.ret)}${r('Capital neto de socios',s.apo-s.ret,1)}${r('Frascos vendidos (registrados)',s.frascos).replace('$','')}</table>`}
+
+/* ---------- Render ---------- */
+function render(){const movs=D.movs.filter(m=>inPer(m.fecha)),s=stats(movs);
+  $('#kpis').innerHTML=kpi('Ingresos',fmt(s.ing),'pos',s.frascos?s.frascos+' frascos':'')+kpi('Gastos',fmt(s.gas),'neg')+kpi('Utilidad',fmt(s.util),s.util>=0?'pos':'neg','Margen '+s.margen.toFixed(1)+'%')+kpi('Inversiones',fmt(s.inv))+kpi('Caja disponible',fmt(s.caja),s.caja>=0?'':'neg','Saldo real acumulado');
+  $('#chartFlow').innerHTML=barChart(s.months,s.byM);$('#chartCat').innerHTML=catChart(movs);$('#chartProj').innerHTML=projChart(s);
+  $('#runway').textContent=s.monthlyProfit>=0?`Ritmo promedio: +${fmt(s.monthlyProfit)}/mes (últimos 3 meses). Incluye cobros y pagos pendientes en el mes 1.`:`Consumo neto ${fmt(-s.monthlyProfit)}/mes → caja para ~${Math.max(0,Math.floor(s.caja/-s.monthlyProfit))} meses.`;
+  const I=insights(s,movs);$('#health').textContent=I.score;$('#health').style.color=I.score>=70?'var(--ok)':I.score>=45?'var(--warn)':'var(--bad)';$('#healthTxt').innerHTML=`<b>${I.score>=70?'Saludable':I.score>=45?'Atención':'Riesgo'}</b><br>Índice de salud financiera 0–100, calculado de rentabilidad, caja, ROAS, presupuesto y cartera.`;
+  $('#insights').innerHTML=I.L.map(([c,t])=>`<div class="ins ${c}">${t}</div>`).join('');
+  renderMovs();renderFact();renderCuentas();renderInv();renderUnit();renderBudget();renderEstados(s,movs);
+  const c=D.cfg;$('#cfNom').value=c.nom;$('#cfNit').value=c.nit;$('#cfDir').value=c.dir;$('#cfCaja').value=c.caja;$('#cfRenta').value=c.renta;$('#cfPin').value=c.pin}
+
+/* ---------- Settings & backup ---------- */
+$('#cfSave').onclick=()=>{Object.assign(D.cfg,{nom:$('#cfNom').value,nit:$('#cfNit').value,dir:$('#cfDir').value,caja:+$('#cfCaja').value,renta:+$('#cfRenta').value,pin:$('#cfPin').value});save();alert('Guardado')};
+function dl(n,c,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click()}
+$('#bkBtn').onclick=()=>dl(`eyd-contabilidad-${today()}.json`,JSON.stringify(D,null,1),'application/json');
+$('#bkIn').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const n=JSON.parse(t);if(!Array.isArray(n.movs))throw 0;if(confirm('¿Reemplazar los datos actuales con el respaldo?')){D=Object.assign(def(),n);save()}}catch(x){alert('Archivo inválido')}})};
+$('#wipeBtn').onclick=()=>{if(confirm('¿Borrar TODOS los datos? Descarga un respaldo primero.')&&confirm('¿Seguro? No se puede deshacer.')){D=def();save()}};
+$('#demoBtn').onclick=()=>{if(D.movs.length&&!confirm('Esto agregará datos de ejemplo a los actuales. ¿Continuar?'))return;
+  const t=new Date(),add=(mb,d,tipo,cat,monto,desc,frascos=0)=>{const x=new Date(t.getFullYear(),t.getMonth()-mb,d);D.movs.push({id:uid(),tipo,fecha:x.toISOString().slice(0,10),cat,monto,met:'Nequi',desc,ded:1,frascos,demo:1})};
+  add(5,2,'aporte','Aporte de capital',20000000,'Capital inicial socios');add(5,5,'inversion','Registro INVIMA',4500000,'Trámite sanitario');add(5,10,'inversion','Inventario inicial',6000000,'Primer lote 300 frascos');add(4,3,'inversion','Desarrollo de marca',2500000,'Branding y fotos');
+  for(let i=4;i>=0;i--){const v=40+(4-i)*25;add(i,28,'ingreso','Ventas tienda web',v*89900,'Ventas Wompi',v);add(i,15,'ingreso','Ventas directas',Math.round(v*.3)*89900,'Ventas directas',Math.round(v*.3));add(i,6,'gasto','Publicidad',900000+(4-i)*250000,'Meta Ads');add(i,9,'gasto','Envíos',v*1.3*12000,'Servientrega');add(i,12,'gasto','Empaque',v*1.3*3500,'Cajas y etiquetas');add(i,20,'gasto','Producto / maquila',v*1.3*22000,'Maquila gomitas');add(i,1,'gasto','Software y web',180000,'Vercel + dominio');add(i,25,'gasto','Comisiones pasarela',v*89900*.03,'Wompi');add(i,1,'gasto','Legal y contable',400000,'Contador')}
+  D.budget={'Publicidad':2000000,'Envíos':2500000};D.cxp.push({id:uid(),nom:'Maquilador',con:'Lote próximo',mon:5000000,ven:new Date(Date.now()+4*864e5).toISOString().slice(0,10),pag:false});save()};
+
+renderItems();render();
+})();
+</script>
+</body>
+</html>
