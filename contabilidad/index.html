@@ -345,8 +345,8 @@ function catChart(movs){const c={};movs.filter(m=>m.tipo==='gasto').forEach(m=>c
   return e.map(([k,v])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>${esc(k)}</span><span>${fmt(v)} <span class="mut">${Math.round(v/t*100)}%</span></span></div><div class="bar"><i style="width:${v/t*100}%"></i></div></div>`).join('')||'<p class="mut">Sin gastos en el periodo.</p>'}
 function projChart(s){const pts=[s.caja];for(let i=1;i<=6;i++)pts.push(pts[i-1]+s.monthlyProfit+ (D.cxp.filter(p=>!p.pag).reduce((a,p)=>a+p.mon,0)*(i===1?-1:0)) + (i===1?D.facturas.filter(f=>f.estado==='pendiente').reduce((a,f)=>a+f.total,0):0));
   const W=520,H=160,mn=Math.min(0,...pts),mx=Math.max(1,...pts),y=v=>H-(v-mn)/(mx-mn)*H+10,x=i=>30+i*(W-50)/6;
-  let s=`<svg viewBox="0 0 ${W} ${H+30}" width="100%"><line x1="30" x2="${W-20}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/><polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="${pts.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`;
-  pts.forEach((v,i)=>{s+=`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${v<0?'var(--bad)':'var(--acc)'}"><title>${fmt(v)}</title></circle><text x="${x(i)}" y="${H+26}" text-anchor="middle">${i?'+'+i+'m':'hoy'}</text>`});return s+'</svg>'}
+  let svg=`<svg viewBox="0 0 ${W} ${H+30}" width="100%"><line x1="30" x2="${W-20}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/><polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="${pts.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`;
+  pts.forEach((v,i)=>{svg+=`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${v<0?'var(--bad)':'var(--acc)'}"><title>${fmt(v)}</title></circle><text x="${x(i)}" y="${H+26}" text-anchor="middle">${i?'+'+i+'m':'hoy'}</text>`});return svg+'</svg>'}
 
 /* ---------- Health score & insights ---------- */
 function insights(s,movs){const L=[];const ym=today().slice(0,7);let score=50;
