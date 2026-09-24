@@ -33,7 +33,8 @@ table{width:100%;border-collapse:collapse;font-size:.85rem}th{text-align:left;co
 td{padding:7px 6px;border-bottom:1px solid var(--line)}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .tw{overflow-x:auto}
 .tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.72rem;background:var(--soft);color:var(--acc)}
-.tag.ingreso{background:#2f8f5b22;color:var(--ok)}.tag.gasto{background:#c2413b22;color:var(--bad)}.tag.inversion{background:#e98a3a22;color:var(--acc2)}
+.tag.ingreso{background:#2f8f5b22;color:var(--ok)}.tag.gasto{background:#c2413b22;color:var(--bad)}.tag.inversion{background:#e98a3a22;color:var(--acc2)}.tag.regalo{background:#b79cf022;color:var(--acc)}.tag.uso{background:#c98a1222;color:var(--warn)}
+.stock-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:.82rem;font-weight:600}.stock-ok{background:#2f8f5b22;color:var(--ok)}.stock-low{background:#c98a1222;color:var(--warn)}.stock-crit{background:#c2413b22;color:var(--bad)}
 .quick{display:flex;gap:8px}.quick input{font-size:1rem;padding:12px 14px}
 .ins{padding:10px 12px;border-left:3px solid var(--acc);background:var(--soft);border-radius:6px;margin-bottom:8px;font-size:.88rem}
 .ins.bad{border-color:var(--bad)}.ins.ok{border-color:var(--ok)}.ins.warn{border-color:var(--warn)}
@@ -65,7 +66,7 @@ body.printing main>*:not(#invPrint){display:none}body.printing #invPrint{display
   <section data-tab="panel">
     <div class="card" style="margin-bottom:14px">
       <label>Registro rápido — escribe como hablas</label>
-      <div class="quick"><input id="quick" placeholder='Ej: "vendí 3 frascos a Laura por nequi" · "pagué 250000 de publicidad meta" · "invertí 2 millones en maquinaria"'><button class="btn" id="quickBtn">Registrar</button></div>
+      <div class="quick"><input id="quick" placeholder='Ej: "vendí 3 frascos a 80mil" · "regalé 2 frascos" · "usé uno personalmente" · "pagué 250mil de publicidad"'><button class="btn" id="quickBtn">Registrar</button></div>
       <div id="quickPrev" class="mut" style="font-size:.8rem;margin-top:6px"></div>
     </div>
     <div class="grid g4" id="kpis"></div>
@@ -136,6 +137,32 @@ body.printing main>*:not(#invPrint){display:none}body.printing #invPrint{display
     <div class="grid g4" id="invK"></div>
     <div class="card" style="margin-top:14px"><h3>Rendimiento de inversiones</h3><p class="mut">Cada gasto tipo "Inversión" aparece aquí. Asigna qué ingresos atribuyes a cada una para ver su ROI y recuperación.</p>
       <div class="tw"><table><thead><tr><th>Fecha</th><th>Inversión</th><th class="n">Monto</th><th class="n">Retorno atribuido</th><th class="n">ROI</th><th>Recuperación</th><th></th></tr></thead><tbody id="iBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- INVENTARIO -->
+  <section data-tab="inventario" class="hide">
+    <div class="grid g4" id="stkK"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Configuración de producto</h3>
+        <div class="row" style="margin-top:10px">
+          <div><label>Stock inicial (ajustar)</label><input id="skInit" type="number"></div>
+          <div><label>Costo por frasco</label><input id="skCosto" type="number"></div>
+        </div>
+        <div style="margin-top:10px"><label>Precios de venta (separados por coma)</label><input id="skPrecios" placeholder="80000, 60000, 120000"></div>
+        <button class="btn" id="skSave" style="margin-top:10px">Guardar</button>
+      </div>
+      <div class="card"><h3>Entrada de inventario (restock)</h3>
+        <div class="row" style="margin-top:10px">
+          <div><label>Cantidad</label><input id="skQty" type="number"></div>
+          <div><label>Costo unitario</label><input id="skCU" type="number"></div>
+          <div><label>Proveedor / nota</label><input id="skNota"></div>
+          <button class="btn" id="skAdd">Ingresar al stock</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Movimientos de inventario</h3>
+      <div class="tw"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Descripción</th><th class="n">Cantidad</th><th class="n">Costo unit.</th><th class="n">Valor</th></tr></thead><tbody id="skBody"></tbody></table></div>
     </div>
   </section>
 
@@ -211,13 +238,13 @@ const fmt=n=>(n<0?'-':'')+'$'+Math.round(Math.abs(n)).toLocaleString('es-CO');
 const today=()=>new Date().toISOString().slice(0,10);
 const uid=()=>Math.random().toString(36).slice(2,10);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const CATS={ingreso:['Ventas tienda web','Ventas directas','Mayoristas','Otros ingresos'],gasto:['Producto / maquila','Empaque','Envíos','Publicidad','Comisiones pasarela','Software y web','Nómina / honorarios','Arriendo','Legal y contable','Impuestos','Servicios','Otros gastos'],inversion:['Inventario inicial','Maquinaria','Desarrollo de marca','Registro INVIMA','Tecnología'],aporte:['Aporte de capital'],retiro:['Dividendos','Retiro de socio']};
-const def=()=>({movs:[],facturas:[],cxp:[],budget:{},cfg:{nom:'E&D Energía y Bienestar S.A.S.',nit:'',dir:'edbienestar.com',caja:0,renta:35,pin:''},unit:{precio:89900,costo:22000,emp:3500,env:12000,com:2.99,iva:19,cac:18000,fijos:1500000},invRet:{},nextF:1});
+const CATS={ingreso:['Ventas tienda web','Ventas directas','Mayoristas','Otros ingresos'],gasto:['Producto / maquila','Empaque','Envíos','Publicidad','Comisiones pasarela','Software y web','Nómina / honorarios','Arriendo','Legal y contable','Impuestos','Servicios','Muestras y regalos','Uso personal','Otros gastos'],inversion:['Inventario inicial','Maquinaria','Desarrollo de marca','Registro INVIMA','Tecnología'],aporte:['Aporte de capital'],retiro:['Dividendos','Retiro de socio']};
+const def=()=>({movs:[],facturas:[],cxp:[],budget:{},cfg:{nom:'E&D Energía y Bienestar S.A.S.',nit:'',dir:'edbienestar.com',caja:0,renta:35,pin:'4303'},unit:{precio:89900,costo:47500,emp:0,env:12000,com:2.99,iva:19,cac:18000,fijos:1500000},inv:{stockInicial:600,costoUnit:47500,precios:[80000,60000,120000]},invRet:{},nextF:1});
 let D; try{D=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){D=def()}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}render()};
 
 /* ---------- Tabs & period ---------- */
-const TABS=[['panel','Panel'],['movs','Movimientos'],['facturas','Facturas'],['cuentas','Cobrar / Pagar'],['inversiones','Inversiones'],['unidad','Por frasco'],['presupuesto','Presupuesto'],['estados','Estados'],['ajustes','Ajustes']];
+const TABS=[['panel','Panel'],['movs','Movimientos'],['facturas','Facturas'],['inventario','Inventario'],['cuentas','Cobrar / Pagar'],['inversiones','Inversiones'],['unidad','Por frasco'],['presupuesto','Presupuesto'],['estados','Estados'],['ajustes','Ajustes']];
 $('#tabs').innerHTML=TABS.map(([k,l])=>`<button data-k="${k}">${l}</button>`).join('');
 const go=k=>{$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$$('main>section').forEach(s=>s.classList.toggle('hide',s.dataset.tab!==k));try{localStorage.setItem(KEY+'_tab',k)}catch(e){}};
 $('#tabs').onclick=e=>{if(e.target.dataset.k)go(e.target.dataset.k)};
@@ -234,26 +261,44 @@ try{const th=localStorage.getItem(KEY+'_th');if(th)document.documentElement.data
 /* lock */
 if(D.cfg.pin){$('#lock').classList.remove('hide');const tryPin=()=>{if($('#pinIn').value===D.cfg.pin)$('#lock').classList.add('hide');else $('#pinErr').textContent='PIN incorrecto'};$('#pinBtn').onclick=tryPin;$('#pinIn').onkeydown=e=>{if(e.key==='Enter')tryPin()}}
 
+/* ---------- Stock helpers ---------- */
+if(!D.inv)D.inv={stockInicial:600,costoUnit:47500,precios:[80000,60000,120000]};
+function calcStock(){let s=D.inv.stockInicial;D.movs.forEach(m=>{if(m.frascos){if(m.tipo==='ingreso'||m.cat==='Muestras y regalos'||m.cat==='Uso personal')s-=m.frascos;if(m.stockIn)s+=m.frascos}});return s}
+function bestPrice(s){const pr=D.inv.precios||[];for(const p of pr)if(s.includes(String(p).replace(/000$/,'mil').toLowerCase())||s.includes(String(p).replace(/000$/,'k').toLowerCase()))return p;const pm=s.match(/(?:a|por|en|de)\s+(\d[\d.,]*)/);if(pm){const v=parseFloat(pm[1].replace(/\./g,'').replace(',','.'));if(v>=10000)return v}return pr[0]||D.inv.costoUnit}
+
 /* ---------- Quick natural-language entry ---------- */
 function parseQuick(t){
   const s=t.toLowerCase();if(!s.trim())return null;
   let monto=0;const m=s.match(/(\d[\d.,]*)\s*(millones|millón|millon|mil|k|m)?/);
   let frascos=0;const fm=s.match(/(\d+)\s*(frascos?|unidades|und|potes?)/);
   if(m){monto=parseFloat(m[1].replace(/\./g,'').replace(',','.'));const u=m[2]||'';if(/mill|^m$/.test(u))monto*=1e6;else if(/mil|k/.test(u))monto*=1e3}
-  let tipo='gasto';
-  if(/vend|cobr|recib|ingres|me pagaron|venta/.test(s))tipo='ingreso';
-  if(/invert|inversi|compr[eé] (una |un )?(máquina|maquina|equipo)/.test(s))tipo='inversion';
+  let tipo='gasto',isGift=false,isPersonal=false;
+  /* Regalos y uso personal → gasto a precio costo, descuenta stock */
+  if(/regal[eéo]|obsequi[eéo]|di gratis|di de muestra|doné|muestra/.test(s)){isGift=true;tipo='gasto'}
+  else if(/us[eé] personal|uso personal|consum[ií]|me com[ií]|probé|probar|para m[ií]/.test(s)){isPersonal=true;tipo='gasto'}
+  else if(/vend[ií]|cobr[eé]|recib[ií]|ingres|me pagaron|venta/.test(s))tipo='ingreso';
+  else if(/invert|inversi|compr[eé] (una |un )?(máquina|maquina|equipo)/.test(s))tipo='inversion';
   if(/aport/.test(s))tipo='aporte';if(/retir|dividend/.test(s))tipo='retiro';
-  if(tipo==='ingreso'&&fm&&(!m||m.index===fm.index)){frascos=+fm[1];monto=frascos*D.unit.precio}
+  /* Frascos: regalos/uso personal → costo; ventas → precio venta */
+  if(fm)frascos=+fm[1]; else if(/\bun[oa]?\b|\b1\b/.test(s)&&(isGift||isPersonal))frascos=1;
+  if(isGift&&frascos){monto=frascos*D.inv.costoUnit;tipo='gasto'}
+  if(isPersonal&&frascos){monto=frascos*D.inv.costoUnit;tipo='gasto'}
+  if(tipo==='ingreso'&&frascos&&!monto){const pv=bestPrice(s);monto=frascos*pv}
+  if(tipo==='ingreso'&&frascos&&monto===0)monto=frascos*(D.inv.precios[0]||D.inv.costoUnit);
   const map=[[/publicidad|meta|facebook|instagram|google ads|tiktok|ads|influenc/,'Publicidad'],[/empaque|caja|etiqueta|bolsa/,'Empaque'],[/env[ií]o|servientrega|interrapid|coordinadora|domicilio/,'Envíos'],[/maquila|producci|gomita|insumo|materia/,'Producto / maquila'],[/wompi|comisi/,'Comisiones pasarela'],[/vercel|dominio|software|shopify|hosting|app/,'Software y web'],[/arriendo|local|bodega/,'Arriendo'],[/contador|abogado|legal|c[aá]mara de comercio/,'Legal y contable'],[/sueldo|n[oó]mina|honorario|pago a /,'Nómina / honorarios'],[/impuesto|iva|dian|ica|retenci/,'Impuestos'],[/luz|agua|internet|celular|servicio/,'Servicios'],[/invima/,'Registro INVIMA'],[/maquinaria|m[aá]quina|equipo/,'Maquinaria'],[/marca|dise[nñ]o|logo/,'Desarrollo de marca'],[/inventario/,'Inventario inicial'],[/mayorista|distribuidor/,'Mayoristas'],[/web|tienda|wompi/,'Ventas tienda web']];
-  let cat=(CATS[tipo]||[])[0];for(const [r,c] of map)if(r.test(s)&&CATS[tipo]?.includes(c)){cat=c;break}
+  let cat=isGift?'Muestras y regalos':isPersonal?'Uso personal':(CATS[tipo]||[])[0];
+  if(!isGift&&!isPersonal)for(const [r,c] of map)if(r.test(s)&&CATS[tipo]?.includes(c)){cat=c;break}
   if(tipo==='ingreso'&&cat==='Ventas tienda web'&&!/web|tienda|wompi|online/.test(s))cat='Ventas directas';
-  let met='Nequi';for(const k of ['nequi','bancolombia','wompi','efectivo','daviplata','tarjeta'])if(s.includes(k))met=k[0].toUpperCase()+k.slice(1);
+  let met=isGift||isPersonal?'N/A':'Nequi';for(const k of ['nequi','bancolombia','wompi','efectivo','daviplata','tarjeta'])if(s.includes(k))met=k[0].toUpperCase()+k.slice(1);
   let fecha=today();if(/ayer/.test(s)){const d=new Date();d.setDate(d.getDate()-1);fecha=d.toISOString().slice(0,10)}
-  return monto>0?{id:uid(),tipo,fecha,cat,monto,met,desc:t.trim(),ded:1,frascos}:null;
+  /* Check stock before allowing sale/gift/personal */
+  const stockNow=calcStock();
+  let stockWarn='';if(frascos&&(tipo==='ingreso'||isGift||isPersonal)&&frascos>stockNow)stockWarn=` ⚠️ Solo quedan ${stockNow} en stock`;
+  const tagClass=isGift?'regalo':isPersonal?'uso':tipo;
+  return monto>0||frascos>0?{id:uid(),tipo,fecha,cat,monto:monto||frascos*D.inv.costoUnit,met,desc:t.trim(),ded:isGift||isPersonal?0:1,frascos,isGift,isPersonal,stockWarn,tagClass}:null;
 }
-$('#quick').oninput=()=>{const p=parseQuick($('#quick').value);$('#quickPrev').innerHTML=p?`→ <span class="tag ${p.tipo}">${p.tipo}</span> ${esc(p.cat)} · <b>${fmt(p.monto)}</b> · ${p.met} · ${p.fecha}${p.frascos?` · ${p.frascos} frascos`:''}`:''};
-const doQuick=()=>{const p=parseQuick($('#quick').value);if(!p)return;D.movs.push(p);$('#quick').value='';$('#quickPrev').textContent='✓ Registrado';save()};
+$('#quick').oninput=()=>{const p=parseQuick($('#quick').value);$('#quickPrev').innerHTML=p?`→ <span class="tag ${p.tagClass}">${p.isGift?'🎁 regalo':p.isPersonal?'👤 uso personal':p.tipo}</span> ${esc(p.cat)} · <b>${fmt(p.monto)}</b>${p.frascos?` · ${p.frascos} frascos`:''}${p.isGift||p.isPersonal?' · <b>al costo</b> (no es ingreso, descuenta stock)':` · ${p.met}`} · ${p.fecha}${p.stockWarn||''}`:''};
+const doQuick=()=>{const p=parseQuick($('#quick').value);if(!p)return;if(p.stockWarn&&!confirm(`Stock insuficiente (${calcStock()} disponibles). ¿Registrar de todas formas?`))return;D.movs.push(p);$('#quick').value='';$('#quickPrev').textContent='✓ Registrado'+(p.frascos?' · Stock actualizado: '+calcStock()+' → '+(calcStock()-0)+' und':'');save()};
 $('#quickBtn').onclick=doQuick;$('#quick').onkeydown=e=>{if(e.key==='Enter')doQuick()};
 
 /* ---------- Movements ---------- */
@@ -325,6 +370,17 @@ $('#bAdd').onclick=()=>{if(!$('#bCat').value)return;D.budget[$('#bCat').value]=+
 $('#bList').onclick=e=>{if(e.target.dataset.bd){delete D.budget[e.target.dataset.bd];save()}};
 function renderBudget(){const ym=today().slice(0,7);$('#bList').innerHTML=Object.entries(D.budget).map(([c,tope])=>{const used=D.movs.filter(m=>m.tipo==='gasto'&&m.cat===c&&m.fecha.startsWith(ym)).reduce((a,m)=>a+m.monto,0),p=tope?used/tope*100:0;return`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between"><b>${esc(c)}</b><span>${fmt(used)} / ${fmt(tope)} <button class="btn r" data-bd="${esc(c)}">✕</button></span></div><div class="bar"><i style="width:${Math.min(100,p)}%;background:${p>100?'var(--bad)':p>80?'var(--warn)':'var(--ok)'}"></i></div></div>`}).join('')||'<p class="mut">Define topes para recibir alertas en el Panel.</p>'}
 
+/* ---------- Inventario ---------- */
+$('#skInit').value=D.inv.stockInicial;$('#skCosto').value=D.inv.costoUnit;$('#skPrecios').value=(D.inv.precios||[]).join(', ');
+$('#skSave').onclick=()=>{D.inv.stockInicial=+$('#skInit').value;D.inv.costoUnit=+$('#skCosto').value;D.inv.precios=$('#skPrecios').value.split(',').map(x=>+x.trim()).filter(Boolean);save();alert('Inventario guardado')};
+$('#skCU').value=D.inv.costoUnit;
+$('#skAdd').onclick=()=>{const q=+$('#skQty').value;if(!q)return;D.movs.push({id:uid(),tipo:'inversion',fecha:today(),cat:'Inventario inicial',monto:q*(+$('#skCU').value||D.inv.costoUnit),met:'Bancolombia',desc:$('#skNota').value||'Restock',ded:1,frascos:q,stockIn:true});$('#skQty').value='';$('#skNota').value='';save()};
+function renderStock(){const stock=calcStock(),val=stock*D.inv.costoUnit,cls=stock<=20?'stock-crit':stock<=80?'stock-low':'stock-ok';
+  const salidas=D.movs.filter(m=>m.frascos&&!m.stockIn&&(m.tipo==='ingreso'||m.cat==='Muestras y regalos'||m.cat==='Uso personal')),vendidos=salidas.filter(m=>m.tipo==='ingreso').reduce((a,m)=>a+m.frascos,0),regalados=salidas.filter(m=>m.cat==='Muestras y regalos').reduce((a,m)=>a+m.frascos,0),usados=salidas.filter(m=>m.cat==='Uso personal').reduce((a,m)=>a+m.frascos,0);
+  $('#stkK').innerHTML=`<div class="card kpi"><div class="l">Stock disponible</div><div class="v"><span class="stock-pill ${cls}">${stock} und</span></div><div class="d mut">Valor: ${fmt(val)}</div></div>`+kpi('Vendidos',vendidos+' und','pos')+kpi('Regalados',regalados+' und','','🎁 Muestras')+kpi('Uso personal',usados+' und','','👤')+kpi('Costo unitario',fmt(D.inv.costoUnit),'','Precios venta: '+((D.inv.precios||[]).map(p=>fmt(p)).join(' · ')||'—'));
+  const stkMovs=D.movs.filter(m=>m.frascos).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  $('#skBody').innerHTML=stkMovs.map(m=>{const isIn=m.stockIn,isGift=m.cat==='Muestras y regalos',isPers=m.cat==='Uso personal',label=isIn?'📦 Entrada':m.tipo==='ingreso'?'🛒 Venta':isGift?'🎁 Regalo':isPers?'👤 Uso personal':'Otro';return`<tr><td>${m.fecha}</td><td>${label}</td><td>${esc(m.desc)}</td><td class="n ${isIn?'pos':'neg'}">${isIn?'+':'-'}${m.frascos}</td><td class="n">${fmt(D.inv.costoUnit)}</td><td class="n">${fmt(m.frascos*D.inv.costoUnit)}</td></tr>`}).join('')||'<tr><td colspan=6 class="mut">Sin movimientos de inventario.</td></tr>'}
+
 /* ---------- Stats ---------- */
 function stats(movs){const sum=t=>movs.filter(m=>m.tipo===t).reduce((a,m)=>a+m.monto,0);
   const ing=sum('ingreso'),gas=sum('gasto'),inv=sum('inversion'),apo=sum('aporte'),ret=sum('retiro');
@@ -360,6 +416,9 @@ function insights(s,movs){const L=[];const ym=today().slice(0,7);let score=50;
   const nd=movs.filter(m=>m.tipo==='gasto'&&!+m.ded).reduce((a,m)=>a+m.monto,0);if(nd>0)L.push(['warn',`${fmt(nd)} en gastos sin factura: pide factura electrónica para poder deducirlos.`]);
   const ms=s.months;if(ms.length>=2){const a=s.byM[ms.at(-1)].i,b=s.byM[ms.at(-2)].i;if(b){const g=(a-b)/b*100;L.push([g>=0?'ok':'warn',`Ingresos ${g>=0?'crecieron':'cayeron'} ${Math.abs(g).toFixed(0)}% vs el mes anterior.`]);score+=g>=0?5:-5}}
   const be=unitCalc(D.unit).be;if(isFinite(be)&&s.byM[ym]){const vend=D.movs.filter(m=>m.fecha.startsWith(ym)).reduce((a,m)=>a+(m.frascos||0),0);if(vend)L.push([vend>=be?'ok':'warn',`Este mes van ${vend} frascos de ${be} necesarios para el punto de equilibrio.`])}
+  const stk=calcStock();if(stk<=20){score-=15;L.push(['bad',`⚠️ Stock crítico: solo quedan ${stk} frascos. ¡Hora de reabastecer!`])}else if(stk<=80){score-=5;L.push(['warn',`Stock bajo: ${stk} frascos disponibles. Considera hacer restock pronto.`])}
+  const regalados=movs.filter(m=>m.cat==='Muestras y regalos').reduce((a,m)=>a+(m.frascos||0),0),usados=movs.filter(m=>m.cat==='Uso personal').reduce((a,m)=>a+(m.frascos||0),0);
+  if(regalados>0||usados>0)L.push(['',`${regalados} frasco(s) regalados y ${usados} de uso personal en el periodo → ${fmt((regalados+usados)*D.inv.costoUnit)} al costo.`]);
   if(!L.length)L.push(['','Registra tus primeros movimientos (o carga datos de ejemplo en Ajustes) para ver recomendaciones.']);
   return{score:Math.max(0,Math.min(100,score)),L}}
 
@@ -376,12 +435,13 @@ function renderEstados(s,movs){const byCat=t=>{const c={};movs.filter(m=>m.tipo=
 
 /* ---------- Render ---------- */
 function render(){const movs=D.movs.filter(m=>inPer(m.fecha)),s=stats(movs);
-  $('#kpis').innerHTML=kpi('Ingresos',fmt(s.ing),'pos',s.frascos?s.frascos+' frascos':'')+kpi('Gastos',fmt(s.gas),'neg')+kpi('Utilidad',fmt(s.util),s.util>=0?'pos':'neg','Margen '+s.margen.toFixed(1)+'%')+kpi('Inversiones',fmt(s.inv))+kpi('Caja disponible',fmt(s.caja),s.caja>=0?'':'neg','Saldo real acumulado');
+  const stock=calcStock(),stkCls=stock<=20?'neg':stock<=80?'':'pos';
+  $('#kpis').innerHTML=kpi('Ingresos',fmt(s.ing),'pos',s.frascos?s.frascos+' frascos':'')+kpi('Gastos',fmt(s.gas),'neg')+kpi('Utilidad',fmt(s.util),s.util>=0?'pos':'neg','Margen '+s.margen.toFixed(1)+'%')+kpi('Stock',stock+' und',stkCls,'Costo: '+fmt(D.inv.costoUnit)+'/u')+kpi('Caja disponible',fmt(s.caja),s.caja>=0?'':'neg','Saldo real acumulado');
   $('#chartFlow').innerHTML=barChart(s.months,s.byM);$('#chartCat').innerHTML=catChart(movs);$('#chartProj').innerHTML=projChart(s);
   $('#runway').textContent=s.monthlyProfit>=0?`Ritmo promedio: +${fmt(s.monthlyProfit)}/mes (últimos 3 meses). Incluye cobros y pagos pendientes en el mes 1.`:`Consumo neto ${fmt(-s.monthlyProfit)}/mes → caja para ~${Math.max(0,Math.floor(s.caja/-s.monthlyProfit))} meses.`;
   const I=insights(s,movs);$('#health').textContent=I.score;$('#health').style.color=I.score>=70?'var(--ok)':I.score>=45?'var(--warn)':'var(--bad)';$('#healthTxt').innerHTML=`<b>${I.score>=70?'Saludable':I.score>=45?'Atención':'Riesgo'}</b><br>Índice de salud financiera 0–100, calculado de rentabilidad, caja, ROAS, presupuesto y cartera.`;
   $('#insights').innerHTML=I.L.map(([c,t])=>`<div class="ins ${c}">${t}</div>`).join('');
-  renderMovs();renderFact();renderCuentas();renderInv();renderUnit();renderBudget();renderEstados(s,movs);
+  renderMovs();renderFact();renderCuentas();renderInv();renderStock();renderUnit();renderBudget();renderEstados(s,movs);
   const c=D.cfg;$('#cfNom').value=c.nom;$('#cfNit').value=c.nit;$('#cfDir').value=c.dir;$('#cfCaja').value=c.caja;$('#cfRenta').value=c.renta;$('#cfPin').value=c.pin}
 
 /* ---------- Settings & backup ---------- */
