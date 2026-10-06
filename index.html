@@ -537,6 +537,9 @@ nav#nav.scrolled{
              font-weight:600;color:var(--gold);line-height:1;margin-bottom:.2rem}
 .vit-name{font-size:.77rem;color:rgba(253,249,243,.85);margin-bottom:.2rem}
 .vit-role{font-size:.7rem;color:rgba(253,249,243,.42)}
+.ing-closing{text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(253,249,243,.1)}
+.ing-closing-text{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--cream);margin-bottom:1.2rem}
+@media(max-width:600px){.ing-closing-text{font-size:1.4rem}}
 
 /* ═══ BENEFITS ═══ */
 .benefits{background:var(--dark);padding:7.5rem 5%;position:relative;overflow:hidden}
@@ -1269,33 +1272,38 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
         <span class="ing-icon">🫐</span>
         <p class="ing-name" data-i18n="ing.1.name">Arándanos</p>
         <p class="ing-role" data-i18n="ing.1.role">Antioxidante</p>
-        <p class="ing-text" data-i18n="ing.1.text">Rico en antocianinas que protegen las células del estrés oxidativo y apoyan la salud vascular.</p>
+        <p class="ing-text" data-i18n="ing.1.text">Te ayuda a proteger tu cuerpo del desgaste diario y a mantener una piel más sana desde adentro.</p>
       </div>
       <div class="ing reveal" style="transition-delay:.1s">
         <span class="ing-icon">🌿</span>
         <p class="ing-name" data-i18n="ing.2.name">Maca</p>
         <p class="ing-role" data-i18n="ing.2.role">Energía & Vitalidad</p>
-        <p class="ing-text" data-i18n="ing.2.text">Raíz adaptógena andina que apoya la energía natural, la resistencia y el equilibrio hormonal.</p>
+        <p class="ing-text" data-i18n="ing.2.text">Más energía real sin el bajón del café. Te ayuda a rendir mejor y sentirte activo todo el día.</p>
       </div>
       <div class="ing reveal" style="transition-delay:.15s">
         <span class="ing-icon">🍄</span>
         <p class="ing-name" data-i18n="ing.3.name">Melena de León</p>
         <p class="ing-role" data-i18n="ing.3.role">Función cognitiva</p>
-        <p class="ing-text" data-i18n="ing.3.text">Hongo funcional con compuestos neuroprotectores que favorecen la concentración y claridad mental.</p>
+        <p class="ing-text" data-i18n="ing.3.text">Más enfoque y claridad mental para tus días de trabajo o estudio. Tu cerebro te lo agradece.</p>
       </div>
       <div class="ing reveal" style="transition-delay:.2s">
         <span class="ing-icon">🍵</span>
         <p class="ing-name" data-i18n="ing.4.name">Té Verde</p>
         <p class="ing-role" data-i18n="ing.4.role">Metabolismo</p>
-        <p class="ing-text" data-i18n="ing.4.text">Fuente de EGCG y catequinas que potencian el metabolismo y aportan antioxidantes de alta biodisponibilidad.</p>
+        <p class="ing-text" data-i18n="ing.4.text">Activa tu metabolismo de forma natural y ayuda a tu cuerpo a quemar mejor lo que comes.</p>
       </div>
     </div>
 
     <div class="vit-grid reveal" style="transition-delay:.22s">
-      <div class="vit"><p class="vit-letter">C</p><p class="vit-name" data-i18n="vit.c.name">Vitamina C</p><p class="vit-role" data-i18n="vit.c.role">Inmunidad</p></div>
-      <div class="vit"><p class="vit-letter">B6</p><p class="vit-name" data-i18n="vit.b6.name">Vitamina B6</p><p class="vit-role" data-i18n="vit.b6.role">Energía</p></div>
-      <div class="vit"><p class="vit-letter">B9</p><p class="vit-name" data-i18n="vit.b9.name">Ácido Fólico</p><p class="vit-role" data-i18n="vit.b9.role">Formación celular</p></div>
-      <div class="vit"><p class="vit-letter">B12</p><p class="vit-name" data-i18n="vit.b12.name">Vitamina B12</p><p class="vit-role" data-i18n="vit.b12.role">Sistema nervioso</p></div>
+      <div class="vit"><p class="vit-letter">C</p><p class="vit-name" data-i18n="vit.c.name">Vitamina C</p><p class="vit-role" data-i18n="vit.c.role">Refuerza tus defensas</p></div>
+      <div class="vit"><p class="vit-letter">B6</p><p class="vit-name" data-i18n="vit.b6.name">Vitamina B6</p><p class="vit-role" data-i18n="vit.b6.role">Convierte tu comida en energía</p></div>
+      <div class="vit"><p class="vit-letter">B9</p><p class="vit-name" data-i18n="vit.b9.name">Ácido Fólico</p><p class="vit-role" data-i18n="vit.b9.role">Renueva tus células</p></div>
+      <div class="vit"><p class="vit-letter">B12</p><p class="vit-name" data-i18n="vit.b12.name">Vitamina B12</p><p class="vit-role" data-i18n="vit.b12.role">Cuida tu mente y nervios</p></div>
+    </div>
+
+    <div class="ing-closing reveal" style="transition-delay:.28s">
+      <p class="ing-closing-text" data-i18n="form.closing">Y todo esto en solo 2 gomitas al día.</p>
+      <a href="#combos" class="btn-primary" data-i18n="combo.cta">Pedir ahora</a>
     </div>
   </div>
 </section>
@@ -1570,17 +1578,18 @@ const I18N = {
     'form.tag':'La fórmula','form.h2':'Ingredientes <em>clave</em>',
     'form.lead':'Una sinergia de botánicos adaptógenos y micronutrientes esenciales.',
     'ing.1.name':'Arándanos','ing.1.role':'Antioxidante',
-    'ing.1.text':'Rico en antocianinas que protegen las células del estrés oxidativo y apoyan la salud vascular.',
+    'ing.1.text':'Te ayuda a proteger tu cuerpo del desgaste diario y a mantener una piel más sana desde adentro.',
     'ing.2.name':'Maca','ing.2.role':'Energía & Vitalidad',
-    'ing.2.text':'Raíz adaptógena andina que apoya la energía natural, la resistencia y el equilibrio hormonal.',
+    'ing.2.text':'Más energía real sin el bajón del café. Te ayuda a rendir mejor y sentirte activo todo el día.',
     'ing.3.name':'Melena de León','ing.3.role':'Función cognitiva',
-    'ing.3.text':'Hongo funcional con compuestos neuroprotectores que favorecen la concentración y claridad mental.',
+    'ing.3.text':'Más enfoque y claridad mental para tus días de trabajo o estudio. Tu cerebro te lo agradece.',
     'ing.4.name':'Té Verde','ing.4.role':'Metabolismo',
-    'ing.4.text':'Fuente de EGCG y catequinas que potencian el metabolismo y aportan antioxidantes de alta biodisponibilidad.',
-    'vit.c.name':'Vitamina C','vit.c.role':'Inmunidad',
-    'vit.b6.name':'Vitamina B6','vit.b6.role':'Energía',
-    'vit.b9.name':'Ácido Fólico','vit.b9.role':'Formación celular',
-    'vit.b12.name':'Vitamina B12','vit.b12.role':'Sistema nervioso',
+    'ing.4.text':'Activa tu metabolismo de forma natural y ayuda a tu cuerpo a quemar mejor lo que comes.',
+    'vit.c.name':'Vitamina C','vit.c.role':'Refuerza tus defensas',
+    'vit.b6.name':'Vitamina B6','vit.b6.role':'Convierte tu comida en energía',
+    'vit.b9.name':'Ácido Fólico','vit.b9.role':'Renueva tus células',
+    'vit.b12.name':'Vitamina B12','vit.b12.role':'Cuida tu mente y nervios',
+    'form.closing':'Y todo esto en solo 2 gomitas al día.',
     'cl.1':'Sin azúcar añadida','cl.2':'2 gomas al día','cl.3':'60 gomas por frasco','cl.4':'Opción pago contraentrega',
     'cp.tag':'Así de fácil','cp.h2':'Pagas <em>al recibir</em>','cp.lead':'Envío gratis en packs Dúo y Trío. Puedes pagar al recibir.',
     'cp.1.h':'Elige tu rutina','cp.1.p':'1 frasco, Dúo o Trío, en uva o sandía limón.',
@@ -1630,17 +1639,18 @@ const I18N = {
     'form.tag':'The formula','form.h2':'Key <em>ingredients</em>',
     'form.lead':'A synergy of adaptogenic botanicals and essential micronutrients.',
     'ing.1.name':'Blueberries','ing.1.role':'Antioxidant',
-    'ing.1.text':'Rich in anthocyanins that protect cells from oxidative stress and support vascular health.',
+    'ing.1.text':'Helps protect your body from daily wear and keeps your skin healthier from within.',
     'ing.2.name':'Maca','ing.2.role':'Energy & Vitality',
-    'ing.2.text':'Andean adaptogenic root that supports natural energy, endurance and hormonal balance.',
+    'ing.2.text':'Real energy without the coffee crash. Helps you perform better and stay active all day.',
     'ing.3.name':'Lion\'s Mane','ing.3.role':'Cognitive function',
-    'ing.3.text':'Functional mushroom with neuroprotective compounds that support concentration and mental clarity.',
+    'ing.3.text':'More focus and mental clarity for your work or study days. Your brain will thank you.',
     'ing.4.name':'Green Tea','ing.4.role':'Metabolism',
-    'ing.4.text':'Source of EGCG and catechins that boost metabolism and deliver highly bioavailable antioxidants.',
-    'vit.c.name':'Vitamin C','vit.c.role':'Immunity',
-    'vit.b6.name':'Vitamin B6','vit.b6.role':'Energy',
-    'vit.b9.name':'Folic Acid','vit.b9.role':'Cell formation',
-    'vit.b12.name':'Vitamin B12','vit.b12.role':'Nervous system',
+    'ing.4.text':'Naturally activates your metabolism and helps your body burn what you eat more efficiently.',
+    'vit.c.name':'Vitamin C','vit.c.role':'Boosts your defenses',
+    'vit.b6.name':'Vitamin B6','vit.b6.role':'Turns food into energy',
+    'vit.b9.name':'Folic Acid','vit.b9.role':'Renews your cells',
+    'vit.b12.name':'Vitamin B12','vit.b12.role':'Protects mind & nerves',
+    'form.closing':'And all of this in just 2 gummies a day.',
     'cl.1':'No added sugar','cl.2':'2 gummies a day','cl.3':'60 gummies per jar','cl.4':'Pay on delivery option',
     'cp.tag':'Easy as 1-2-3','cp.h2':'Pay <em>on delivery</em>','cp.lead':'Free shipping on Duo & Trio packs. You can pay when it arrives.',
     'cp.1.h':'Choose your routine','cp.1.p':'1 jar, Duo or Trio, in grape or watermelon lemon.',
