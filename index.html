@@ -168,6 +168,14 @@ section{position:relative;padding:7.5rem 5%}
 .sabor-btn:hover{background:#fff;color:var(--dark)}
 @media(max-width:640px){.sabores-grid{grid-template-columns:1fr}.sabor-card{aspect-ratio:4/5}}
 
+/* ═══ PACK BRIDGE ═══ */
+.pack-bridge{padding:1.5rem 5%;text-align:center}
+.pack-bridge-inner{display:inline-flex;align-items:center;gap:.6rem;background:var(--dark);color:var(--cream);padding:.8rem 1.6rem;border-radius:50px;text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.02em;transition:transform .2s,box-shadow .2s}
+.pack-bridge-inner:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(44,18,8,.2)}
+.pack-bridge-icon{font-size:1.1rem}
+.pack-bridge-arrow{font-size:1rem;opacity:.6}
+@media(max-width:480px){.pack-bridge-inner{font-size:.78rem;padding:.7rem 1.2rem}}
+
 /* ═══ COMBOS ═══ */
 .combos-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
 .combos-header h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;margin:0}
@@ -1182,6 +1190,15 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
   </div>
 </section>
 
+<!-- PACK BRIDGE -->
+<div class="pack-bridge reveal">
+  <a href="#combos" class="pack-bridge-inner">
+    <span class="pack-bridge-icon">🚚</span>
+    <span class="pack-bridge-text" data-i18n="bridge.text">Combina sabores desde $2.665/día con envío gratis</span>
+    <span class="pack-bridge-arrow">→</span>
+  </a>
+</div>
+
 <!-- COMBOS -->
 <section class="product" id="combos" style="padding-top:0">
   <div class="inner">
@@ -1194,28 +1211,8 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
     </div>
   </div>
   <div class="combos-grid-v2">
-    <!-- Uva single -->
-    <div class="cg-card reveal" style="transition-delay:.05s">
-      <div class="cg-img"><img src="img/uva.jpg" alt="E&D Uva"/></div>
-      <div class="cg-info">
-        <h3 data-i18n="cg.uva.name">E&D Uva</h3>
-        <p class="cg-meta" data-i18n="cg.uva.meta">60 gomas · 30 días · $2.997 al día</p>
-        <p class="cg-price">$89.900</p>
-      </div>
-      <a href="#" class="cg-btn wa-link" data-wa="uva" data-i18n="combo.cta">Pedir ahora</a>
-    </div>
-    <!-- Sandía single -->
-    <div class="cg-card reveal" style="transition-delay:.1s">
-      <div class="cg-img"><img src="img/sandia.jpg" alt="E&D Sandía Limón"/></div>
-      <div class="cg-info">
-        <h3 data-i18n="cg.sandia.name">E&D Sandía limón</h3>
-        <p class="cg-meta" data-i18n="cg.sandia.meta">60 gomas · 30 días · $2.997 al día</p>
-        <p class="cg-price">$89.900</p>
-      </div>
-      <a href="#" class="cg-btn wa-link" data-wa="sandia" data-i18n="combo.cta">Pedir ahora</a>
-    </div>
     <!-- Dúo -->
-    <div class="cg-card cg-dark reveal" style="transition-delay:.15s">
+    <div class="cg-card cg-dark reveal" style="transition-delay:.05s">
       <span class="cg-badge" data-i18n="combo.2.badge">El más elegido</span>
       <div class="cg-multi"><span class="cg-x">×2</span><p class="cg-multi-label" data-i18n="cg.duo.label">Dúo · 60 días</p></div>
       <div class="cg-info">
@@ -1227,7 +1224,7 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
       <a href="#" class="cg-btn wa-link" data-wa="duo" data-i18n="combo.cta">Pedir ahora</a>
     </div>
     <!-- Trío -->
-    <div class="cg-card cg-dark reveal" style="transition-delay:.2s">
+    <div class="cg-card cg-dark reveal" style="transition-delay:.1s">
       <span class="cg-badge" style="background:var(--gold)" data-i18n="combo.3.badge">Mejor precio</span>
       <div class="cg-multi"><span class="cg-x">×3</span><p class="cg-multi-label" data-i18n="cg.trio.label">Trío · 90 días</p></div>
       <div class="cg-info">
@@ -1237,6 +1234,26 @@ if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(
         <p class="combo-envio" data-i18n="combo.3.envio">🚚 ¡Envío gratis! Te ahorras $15.000 extra</p>
       </div>
       <a href="#" class="cg-btn wa-link" data-wa="trio" data-i18n="combo.cta">Pedir ahora</a>
+    </div>
+    <!-- Uva single -->
+    <div class="cg-card reveal" style="transition-delay:.15s">
+      <div class="cg-img"><img src="img/uva.jpg" alt="E&D Uva"/></div>
+      <div class="cg-info">
+        <h3 data-i18n="cg.uva.name">E&D Uva</h3>
+        <p class="cg-meta" data-i18n="cg.uva.meta">60 gomas · 30 días · $2.997 al día</p>
+        <p class="cg-price">$89.900</p>
+      </div>
+      <a href="#" class="cg-btn wa-link" data-wa="uva" data-i18n="combo.cta">Pedir ahora</a>
+    </div>
+    <!-- Sandía single -->
+    <div class="cg-card reveal" style="transition-delay:.2s">
+      <div class="cg-img"><img src="img/sandia.jpg" alt="E&D Sandía Limón"/></div>
+      <div class="cg-info">
+        <h3 data-i18n="cg.sandia.name">E&D Sandía limón</h3>
+        <p class="cg-meta" data-i18n="cg.sandia.meta">60 gomas · 30 días · $2.997 al día</p>
+        <p class="cg-price">$89.900</p>
+      </div>
+      <a href="#" class="cg-btn wa-link" data-wa="sandia" data-i18n="combo.cta">Pedir ahora</a>
     </div>
   </div>
 </section>
@@ -1590,6 +1607,7 @@ const I18N = {
     'vit.b9.name':'Ácido Fólico','vit.b9.role':'Renueva tus células',
     'vit.b12.name':'Vitamina B12','vit.b12.role':'Cuida tu mente y nervios',
     'form.closing':'Y todo esto en solo 2 gomitas al día.',
+    'bridge.text':'Combina sabores desde $2.665/día con envío gratis',
     'cl.1':'Sin azúcar añadida','cl.2':'2 gomas al día','cl.3':'60 gomas por frasco','cl.4':'Opción pago contraentrega',
     'cp.tag':'Así de fácil','cp.h2':'Pagas <em>al recibir</em>','cp.lead':'Envío gratis en packs Dúo y Trío. Puedes pagar al recibir.',
     'cp.1.h':'Elige tu rutina','cp.1.p':'1 frasco, Dúo o Trío, en uva o sandía limón.',
@@ -1651,6 +1669,7 @@ const I18N = {
     'vit.b9.name':'Folic Acid','vit.b9.role':'Renews your cells',
     'vit.b12.name':'Vitamin B12','vit.b12.role':'Protects mind & nerves',
     'form.closing':'And all of this in just 2 gummies a day.',
+    'bridge.text':'Mix flavors from $2,665/day with free shipping',
     'cl.1':'No added sugar','cl.2':'2 gummies a day','cl.3':'60 gummies per jar','cl.4':'Pay on delivery option',
     'cp.tag':'Easy as 1-2-3','cp.h2':'Pay <em>on delivery</em>','cp.lead':'Free shipping on Duo & Trio packs. You can pay when it arrives.',
     'cp.1.h':'Choose your routine','cp.1.p':'1 jar, Duo or Trio, in grape or watermelon lemon.',
